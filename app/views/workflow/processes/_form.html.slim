@@ -1,0 +1,18 @@
+= form_for @process do |f|
+  - if @process.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@process.errors.count, "error")} prohibited this wf_process from being saved:"
+      ul
+        - @process.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :status
+    = f.text_field :status
+  .field
+    = f.label :async
+    = f.check_box :async
+  .field
+    = f.label :title
+    = f.text_field :title
+  .actions = f.submit

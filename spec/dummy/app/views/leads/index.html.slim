@@ -1,0 +1,25 @@
+h1 Listing leads
+
+table
+  thead
+    tr
+      th Sales contact
+      th Offer
+      th Name
+      th
+      th
+      th
+
+  tbody
+    - @leads.each do |lead|
+      tr
+        td = lead.sales_contact_id
+        td = lead.offer
+        td = lead.name
+        td = link_to 'Show', lead
+        td = link_to 'Edit', edit_lead_path(lead)
+        td = link_to 'Destroy', lead, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Lead', new_lead_path

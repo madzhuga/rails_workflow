@@ -1,0 +1,21 @@
+= render partial: "flash", locals: {notice: notice}
+
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Configuration", process_templates_path
+  li.active
+    = "Template: #{resource.title}"
+
+.row
+  .col-md-10
+    .panel
+      .panel-heading
+        h1.panel-title
+          = "Template: #{resource.title}"
+      .panel-body
+        = form_for resource, html: { class: "form-horizontal clearfix" } do |f|
+          = render partial: 'form', locals: {f: f}
+          .btn-toolbar.pull-right
+            = link_to 'Show', resource, class: "btn btn-default"
+            = link_to 'Back', process_templates_path, class: "btn btn-default"
+            = f.submit value: 'Save', class: "btn btn-success"

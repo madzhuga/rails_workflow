@@ -1,0 +1,16 @@
+- if current_operation.present?
+  h1= current_operation.title
+
+  - if current_operation.instruction
+    div
+      p= current_operation.instruction
+
+
+h1 Editing sales_contact
+
+== render 'form'
+
+= link_to 'Show', @sales_contact
+'|
+= link_to 'Back', sales_contacts_path
+

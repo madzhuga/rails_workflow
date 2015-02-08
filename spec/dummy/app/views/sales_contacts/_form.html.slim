@@ -1,0 +1,20 @@
+= form_for @sales_contact do |f|
+  - if @sales_contact.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@sales_contact.errors.count, "error")} prohibited this sales_contact from being saved:"
+      ul
+        - @sales_contact.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :message
+    = f.text_area :message
+  .field
+    = f.label :email
+    = f.text_field :email
+  - if current_operation.present?
+    .operations = f.submit value="Complete"
+    .operations = f.submit value="Skip"
+    .operations = f.submit value="Cancel"
+  - else
+    .actions = f.submit

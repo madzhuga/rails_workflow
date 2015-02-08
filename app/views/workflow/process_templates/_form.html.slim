@@ -1,0 +1,24 @@
+- if resource.errors.any?
+  #error_explanation
+    h2 = "#{pluralize(resource.errors.count, "error")} prohibited this process template from being saved:"
+    ul
+      - resource.errors.full_messages.each do |message|
+        li = message
+
+.form-group
+  = f.label :title, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :title, class: "form-control"
+.form-group
+  = f.label :manager_class, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :manager_class, class: "form-control", placeholder: f.object.default_manager
+.form-group
+  = f.label :process_class, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :process_class, class: "form-control", placeholder: f.object.default_class
+
+  .form-group
+  = f.label :type, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :type, class: "form-control", placeholder: f.object.default_type

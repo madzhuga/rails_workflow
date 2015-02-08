@@ -1,0 +1,197 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require bootstrap/bootstrap
+ *= require_tree .
+ *= require_self
+
+ */
+
+.nav-pills > li > a {
+    margin-right: 15px;
+}
+
+
+.navbar-default {
+    background-color: #5c0700;
+    border-color: #901100;
+}
+.navbar-default .navbar-brand {
+    color: #ecf0f1;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #ffffff;
+}
+.navbar-default .navbar-text {
+    color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu {
+    background-color: #5c0700;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+    color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+    color: #ffffff;
+    background-color: #901100;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > .divider {
+    background-color: #5c0700;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color: #901100;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #ffffff;
+    background-color: #901100;
+}
+.navbar-default .navbar-toggle {
+    border-color: #901100;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #901100;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ecf0f1;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+    border-color: #ecf0f1;
+}
+.navbar-default .navbar-link {
+    color: #ecf0f1;
+}
+.navbar-default .navbar-link:hover {
+    color: #ffffff;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #ecf0f1;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #ffffff;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #ffffff;
+        background-color: #901100;
+    }
+}
+
+body {
+    background-color: #e7ebee;
+}
+
+[class^="col-"]:not(.pad-no) {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+::selection {
+    background-color: rgba(46,165,204,0.41);
+}
+
+
+body {
+    background-color: #e7ebee;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    color: #515151;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.panel {
+    box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 24px;
+}
+
+.panel>.panel-heading:after, .panel.panel-colorful>.panel-heading:after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 0;
+    left: 20px;
+    right: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+.panel-heading {
+    position: relative;
+    height: 20px;
+    padding: 0;
+}
+
+.panel-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.panel .panel-heading, .panel>:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.btn {
+    border-radius: 0;
+    min-width: 100px;
+}
+
+.label {
+    border-radius: 0px;
+}
+
+
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+
+.panel-title span.label {
+    float:right
+}
+
+.panel>.panel-heading:after, .panel.panel-colorful>.panel-heading:after {
+    border-bottom: 0px  !important;
+}
+
+.form-control {
+    border-radius: 0px;
+}
+
+.panel-warning .panel-heading {
+    min-height: 40px;
+    padding-top: 5px;
+    padding-left:10px;
+}
+
+.breadcrumb {
+    border-radius: 0px;
+}
+.alert {
+    border-radius: 4px;
+}

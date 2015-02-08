@@ -1,0 +1,141 @@
+ruby:
+  child_process = resource.child_process
+
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Processes", processes_path
+  li
+    = link_to "Process: #{parent.title}", parent
+  li.active
+    = "Operation: #{resource.title} "
+
+= render partial: "flash", locals: { notice: notice }
+
+.row
+  .col-md-10
+    .panel
+      .panel-heading
+        h1.panel-title
+          = "Operation: #{resource.title} "
+          span.label.more-info-label class=(resource.status[:class])
+            = resource.status[:text]
+      .panel-body
+        .col-md-6
+          table.table.table-striped.table-hover
+            tbody
+
+              tr
+                td Created At
+                td = resource.created_at
+
+              tr
+                td Completed At
+                td = resource.completed_at
+
+              - if resource.assigned_to.present?
+                tr
+                  td Assigned To
+                  td = resource.assigned_to
+              tr
+                td Operation Template
+                td = link_to resource.template.title,
+                             process_template_operation_template_path(resource.template.process_template,
+                                                                      resource.template)
+
+              - if child_process.present?
+                tr
+                  td Child Process
+                  td
+                    = link_to child_process
+                      = child_process.title
+                    span.label<> class=(child_process.status[:class])
+                      = child_process.status[:text]
+              tr
+                td Asynchronous
+                td = resource.async
+
+              tr
+                td Background
+                td = resource.is_background
+
+
+        .col-md-6
+
+          - if resource.show_dependencies.empty?
+            .col-md-12
+              strong
+                | No dependencies
+          - else
+            table.table.table-striped.table-hover
+              tbody
+                tr
+                  td
+                    strong Satisfied Dependencies
+                - resource.show_dependencies.each do |dependency|
+                  tr
+                    td
+                      = link_to process_operation_path(dependency.process, dependency)
+                        = dependency.title
+
+                      span.label<> class=(dependency.status[:class])
+                        = dependency.status[:text]
+
+                tr
+                  td
+                    strong Template Dependencies
+                - resource.show_template_dependencies.each do |dependency|
+                  tr
+                    td
+                      = dependency.shift
+                      - dependency.each do |dependency_status|
+                        span.label.label-default<> = dependency_status
+
+
+  .col-md-2
+    .pull-right
+      .btn-toolbar
+        ul.nav.nav-pills
+          li role="presentation" class="active"
+            = link_to "Back to Process", process_path(resource.process)
+
+
+.row
+  .col-md-10
+    .panel
+      .panel-heading
+        h1.panel-title Operation Context
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Key
+              th Value
+          tbody
+            - resource.context.each_pair do |key, value|
+              tr
+                td = key
+                td = value
+
+- if resource.workflow_errors.unresolved.present?
+  - resource.workflow_errors.unresolved.each do |error|
+    .row
+      .col-md-10
+        .panel
+          .panel-heading
+            h1.panel-title Error
+          .panel-body
+            table.table.table-striped.table-hover
+              tbody
+                tr
+                  td width="100"
+                    strong Created at
+                  td
+                    .pull-right
+                      = button_to "Retry", retry_process_operation_error_path(resource.process, resource, error), class: "btn btn-warning", method: :put
+                    = error.created_at
+                tr
+                  td
+                  td
+                    strong= error.message
+                    br
+                    = error.stack_trace

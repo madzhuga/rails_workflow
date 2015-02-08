@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Message:
+  = @sales_contact.message
+p
+  strong Email:
+  = @sales_contact.email
+
+= link_to 'Edit', edit_sales_contact_path(@sales_contact)
+'|
+= link_to 'Back', sales_contacts_path

@@ -1,0 +1,134 @@
+ruby:
+  parent_operation = resource.parent_operation
+  parent_process = parent_operation.process if parent_operation.present?
+
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Processes", processes_path
+  li.active
+    = "Process: #{resource.title}"
+
+= render partial: "flash", locals: { notice: notice }
+
+.row
+  .col-sm-8
+    .panel
+      .panel-heading
+        h1.panel-title
+          = "Process: #{resource.title} "
+          span.label class=(resource.status[:class])
+            = resource.status[:text]
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Status
+              th Assigned To
+              th Created At
+              th Completed At
+
+
+          tbody
+            - resource.operations.each do |operation|
+              tr
+                td = link_to operation.title, process_operation_path(resource, operation)
+                td
+                  span.label class=(operation.status[:class])
+                    = operation.status[:text]
+                td = operation.assigned_to
+                td = operation.created_at
+                td = operation.completed_at
+
+    .panel
+      .panel-heading
+        h1.panel-title Template Operation (not yet created)
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Dependencies
+              th Operation Assignment
+              th Sub process
+          tbody
+            - resource.future_operations.each do |operation|
+              tr
+                td = link_to operation.title, process_template_operation_template_path(resource.template, operation)
+                td
+                  ul.list-unstyled
+                    - operation.show_dependencies.each do |dependency|
+                      li
+                        = dependency.shift
+                        - dependency.each do |dependency_status|
+                          span.label.label-default<> = dependency_status
+                td
+                  = operation.assignment
+                td
+                  - if operation.child_process.present?
+                    = operation.child_process.title
+                    span.label.label-default<> = (operation.async || false) ? "async" : "sync"
+
+    - if resource.workflow_errors.unresolved.present?
+      - resource.workflow_errors.unresolved.each do |error|
+        .panel
+          .panel-heading
+            h1.panel-title Error
+          .panel-body
+            table.table.table-striped.table-hover
+              tbody
+                tr
+                  td width="100"
+                    strong Created at
+                  td
+                    .pull-right
+                      = button_to "Retry", retry_process_error_path(resource, error), class: "btn btn-warning", method: :put
+
+                    = error.created_at
+                tr
+                  td
+                  td
+                    strong= error.message
+                    br
+                    = error.stack_trace
+
+
+  .col-sm-4
+    .panel
+      .panel-body
+        table.table.table-striped.table-hover
+          tbody
+            tr
+              td
+                strong Created at
+              td
+                = resource.created_at
+            tr
+              td
+                strong Process Template
+              td
+                = link_to resource.template.title, process_template_path(resource.template)
+
+            - if parent_operation.present?
+              tr
+                td
+                  strong Parent Process
+                td = link_to parent_operation.title, parent_process
+              tr
+                td
+                  strong Parent Operation
+                td = link_to parent_operation.title, process_operation_path(parent_process, parent_operation)
+    .panel
+      .panel-heading
+        h1.panel-title Process Context
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Key
+              th Value
+          tbody
+            - resource.context.data.each_pair do |key, value|
+              tr
+                td = key
+                td = value

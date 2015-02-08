@@ -1,0 +1,77 @@
+ruby:
+  new_template_path = -> (type) do
+    new_process_template_operation_template_path(operation_template: {kind: type} )
+  end
+
+
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Configuration", process_templates_path
+  li.active
+    = "Template: #{parent.title}"
+
+
+
+= render partial: "flash", locals: {notice: notice}
+
+
+.row
+  .col-md-10
+    .panel
+      .panel-heading
+        h1.panel-title
+          = "Template: #{parent.title}"
+      .panel-body
+
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Operation Assignment
+              th Dependencies
+              th Sub Process
+              th
+              th
+
+
+
+          tbody
+            - collection.each do |operation|
+              tr
+                td = link_to operation.title, process_template_operation_template_path(parent, operation)
+                td = operation.assignment
+                td
+                  ul.list-unstyled
+                    - operation.show_dependencies.each do |dependency|
+                      li
+                        = dependency.shift
+                        - dependency.each do |dependency_status|
+                          span.label.label-default<> = dependency_status
+                td
+                  - if operation.child_process.present?
+                    = operation.child_process.title
+                    span.label.label-default<> = (operation.async || false) ? "async" : "sync"
+                td = link_to 'Edit', edit_process_template_operation_template_path(parent, operation)
+                td = link_to 'Destroy', process_template_operation_template_path(parent, operation), data: {:confirm => 'Are you sure?'}, :method => :delete
+
+  .col-md-2
+    .row
+      .btn-group
+        = button_to "Create Process", {  controller: "processes", action: "create", process: { template_id: parent.id } }, method: :post, class: "btn btn-lg btn-success"
+      br
+      br
+      .btn-group
+        button.btn.btn-primary.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="false"
+          | Add Operation
+          span.caret<>
+        ul.dropdown-menu role="menu"
+          - Workflow::OperationTemplate.types.each do |type, value|
+            li
+              = link_to value[:title], new_template_path.call(type)
+
+      br
+      br
+      .btn-group
+        = link_to 'Edit', edit_process_template_path(parent), class: "btn btn-primary"
+
+

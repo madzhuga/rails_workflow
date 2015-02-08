@@ -1,0 +1,63 @@
+
+ruby:
+  new_template_path = -> (type) do
+    new_process_template_operation_template_path(resource.id, operation_template: {kind: type} )
+  end
+
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Configuration", process_templates_path
+  li.active
+    = "Template: #{resource.title}"
+
+= render partial: "flash", locals: { notice: notice }
+
+.row
+  .col-sm-10
+    .panel
+      .panel-heading
+        h1.panel-title Templates Configuration
+
+      .panel-body
+
+        table.table.table-striped.table-hover
+          tbody
+            tr
+              td
+                strong Process manager
+              td = resource.manager_class
+
+            tr
+              td
+                strong Process class
+              td = resource.process_class
+
+            tr
+              td
+                strong Process Template class
+              td = resource.type
+
+  .col-sm-2
+    .row
+      .btn-group
+        = button_to "Create Process", {controller: "processes", action: "create", process: {template_id: resource.id}}, method: :post, class: "btn btn-lg btn-success"
+      br
+      br
+      .btn-group
+        button.btn.btn-primary.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="false"
+          | Add Operation
+          span.caret<>
+        ul.dropdown-menu role="menu"
+          - Workflow::OperationTemplate.types.each do |type, value|
+            li
+              = link_to value[:title], new_template_path.call(type)
+
+      br
+      br
+      .btn-group
+        = link_to 'Edit', edit_process_template_path(resource), class: "btn btn-primary"
+      br
+      br
+      .btn-group
+        = link_to 'Operations', process_template_operation_templates_path(resource), class: "btn btn-primary"
+

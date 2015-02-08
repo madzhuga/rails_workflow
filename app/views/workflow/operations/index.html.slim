@@ -1,0 +1,27 @@
+ol.breadcrumb.alert-warning
+  li.active Operations
+
+.row
+  .col-sm-12
+    .panel
+      .panel-heading
+        h1.panel-title Operations
+
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Status
+              th Assignment
+              th Created At
+
+          tbody
+            - collection.each do |operation|
+              tr
+                td = link_to operation.title, process_operation_path(operation.process, operation)
+                td
+                  span.label<> class=(operation.status[:class])
+                    = operation.status[:text]
+                td = operation.assigned_to
+                td = operation.created_at

@@ -1,0 +1,94 @@
+ol.breadcrumb.alert-warning
+  li.active Processes
+
+.row
+  .col-sm-8
+    .panel
+      .panel-heading
+        h1.panel-title Processes
+
+      .panel-body
+        .btn-toolbar
+          = link_to processes_path, class: "btn btn-primary" do
+            | All
+            span.badge< = @statistic[:all]
+          = link_to processes_path(filter: {status: "in_progress"}), class: "btn btn-primary" do
+            | In progress
+            span.badge< = @statistic[:statuses][Workflow::Process::IN_PROGRESS]
+          = link_to processes_path(filter: {status: "done"}), class: "btn btn-success" do
+            | Done
+            span.badge< = @statistic[:statuses][Workflow::Process::DONE]
+          = link_to processes_path(filter: {status: "waiting"}), class: "btn btn-info" do
+            | Waiting
+            span.badge< = @statistic[:statuses][Workflow::Process::WAITING]
+          = link_to processes_path(filter: {status: "not_started"}), class: "btn btn-warning" do
+            | Not Started
+            span.badge< = @statistic[:statuses][Workflow::Process::NOT_STARTED]
+          = link_to processes_path(filter: {status: "error"}), class: "btn btn-danger" do
+            | Error
+            span.badge< = @statistic[:statuses][Workflow::Process::ERROR]
+
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Status
+              th Created At
+              th Parent/Child
+          tbody
+            - collection.each do |process|
+              tr
+                td = link_to process.title, process
+                td
+                  span.label class=(process.status[:class])
+                    = process.status[:text]
+                td = process.created_at
+                td
+                  - process.parents.each do |parent|
+                    span.label.label-default<> parent
+                    = link_to parent.title, parent
+                    span.label<> class=(parent.status[:class])
+                      = parent.status[:text]
+                  br
+
+                  - process.children.each do |child|
+                    span.label.label-default<> child
+                    = link_to child.title, child
+                    span.label<> class=(child.status[:class])
+                      = child.status[:text]
+        = will_paginate collection
+
+  .col-sm-4
+
+    .panel
+      .panel-heading
+        h1.panel-title Errors
+
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Message
+          tbody
+            - @errors.each do |error|
+              tr
+                - if error.parent.is_a? Workflow::Operation
+                  td = link_to error.message, process_operation_path(error.parent.process, error.parent)
+                - else
+                  td = link_to error.message, process_path(error.parent)
+
+    .panel
+      .panel-heading
+        h1.panel-title Open User Operations
+
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Assignment
+          tbody
+            - @open_user_operations.each do |operation|
+              tr
+                td = link_to operation.title, operation_path(operation)
+                td = operation.assigned_to

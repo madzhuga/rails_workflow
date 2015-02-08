@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Sales contact:
+  = @lead.sales_contact_id
+p
+  strong Offer:
+  = @lead.offer
+p
+  strong Name:
+  = @lead.name
+
+= link_to 'Edit', edit_lead_path(@lead)
+'|
+= link_to 'Back', leads_path

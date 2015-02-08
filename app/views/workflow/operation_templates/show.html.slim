@@ -1,0 +1,55 @@
+ol.breadcrumb.alert-warning
+  li
+    = link_to "Configuration", process_templates_path
+  li
+    = link_to "Template: #{parent.title}", process_template_path(parent)
+  li.active
+    = "Operation Template: #{resource.title}"
+= render partial: "flash", locals: { notice: notice }
+
+.row
+  .col-md-10
+    .panel
+      .panel-heading
+        h1.panel-title
+          = "Operation: #{resource.title}"
+      .panel-body
+        table.table.table-striped.table-hover
+          tr
+            td Operation Class
+            td = resource.operation_class
+          tr
+            td Operation Template Class
+            td = resource.type
+
+          - if resource.assignment.present?
+            tr
+              td Assigned To
+              td = resource.assignment
+
+
+          tr
+            td Asynchronous
+            td = resource.async_text
+
+          tr
+            td Background:
+            td = resource.is_background_text
+
+
+    .panel
+      .panel-heading
+        h1.panel-title Dependencies
+      .panel-body
+        table.table.table-striped.table-hover
+          - resource.show_dependencies.each do |dependency|
+            tr
+              td
+                = dependency.shift
+                - dependency.each do |dependency_status|
+
+                  span.label.label-default< = dependency_status
+  .col-md-2
+    .btn-toolbar
+      = link_to 'Edit', edit_process_template_operation_template_path(parent, resource), class: "btn btn-primary"
+

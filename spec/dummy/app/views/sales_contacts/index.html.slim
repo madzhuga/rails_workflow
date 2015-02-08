@@ -1,0 +1,23 @@
+h1 Listing sales_contacts
+
+table
+  thead
+    tr
+      th Message
+      th Email
+      th
+      th
+      th
+
+  tbody
+    - @sales_contacts.each do |sales_contact|
+      tr
+        td = sales_contact.message
+        td = sales_contact.email
+        td = link_to 'Show', sales_contact
+        td = link_to 'Edit', edit_sales_contact_path(sales_contact)
+        td = link_to 'Destroy', sales_contact, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Sales contact', new_sales_contact_path
