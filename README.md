@@ -50,7 +50,7 @@ TBD
 Add to your application's Gemfile:
 
 ```ruby
-gem 'rails_workflow', :git => 'git://github.com/madzhuga/rails_workflow.git'
+gem 'rails_workflow', '0.2.0'
 ```
 
 And then execute:
@@ -77,6 +77,9 @@ Generate all models:
 $ rails generate workflow:install
 $ bundle exec rake db:migrate
 ```
+Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
+'inherited_resources', 'jquery-rails', 'jquery-ui-rails', 'draper'. Later I will remove some of that dependencies.
+I will provide installation tutorial shortly.
 
 ## Configuration
 TBD
