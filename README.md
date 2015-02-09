@@ -2,7 +2,14 @@
 
 ## Overview
 
-Rails Workflow engine allows to configure and manage workflow processes in Rails applications. All processes, configurations, operations and their data is persisted for processing and supporting purposes. Engine has UI to configure process templates and manage existing processes. This engine can be used to build OSS, CRM etc system building process, containing users and auto- operations.
+Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
+configure, create and manage processes to easily build project management systems, sales / product provisioning systems,
+ERP, CMS, etc.
+
+Rails Workflow is mountable Rails engine and can be mounted to any Rails application.
+
+All processes, configurations, operations and their data is persisted for processing and supporting purposes.
+Engine has UI to configure process templates and manage existing processes.
 
 ![Rails Workflow Engine](https://dl.dropboxusercontent.com/u/192451/rails_workflow_screenshot.png)
 ### Main features:
@@ -92,5 +99,8 @@ TBD
 ## Process monitoring
 
 ## Errors monigoring and managing
-Any operation that happening during operation building or execution is saved. Operation and / or process is set to 'Error'
+Any error that happened during operation building or execution is saved. Operation and / or process is set to 'Error'
 status. Administrator / support user can retry failed operation after fixing root cause of error.
+
+[Here](http://madzhuga.tumblr.com/post/110449183244/rails-workflow-engine-exceptions-handling) you can read more about
+exception handling in Rails Workflow.
