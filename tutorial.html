@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rails workflow : Small and flexible engine to build business processes in Rails applications.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rails workflow</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/madzhuga/rails_workflow">View on GitHub</a>
+
+          <h1 id="project_title">Rails workflow</h1>
+          <h2 id="project_tagline">Small and flexible engine to build business processes in Rails applications.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/madzhuga/rails_workflow/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/madzhuga/rails_workflow/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+            <a id="rails-workflow-engine" class="anchor" href="#rails-workflow-engine" aria-hidden="true">
+                <span class="octicon octicon-link"></span>
+            </a>Tutorial: Creating process workflow in Rails application</h1>
+
+
+            <p>Here I am going to explain how to use rails_workflow gem to build complex business logic in
+                your Rails application. I wanted to create one big tutorial but then decided to split it to
+                several posts describing one demo application.</p>
+
+            <p>You can download demo application <a href="http://github.com/madzhuga/rails_workflow_demo/">here</a>.
+                Please note that there is database dump (db/dump.sql). I will update this application according to
+                tutorial updates. Installation is described
+                <a href="http://madzhuga.github.io/rails_workflow/installation.html">here</a>.</p>
+
+            <p>I scaffolded Product, Order and OrderLine for that demo application. I am not trying to create real
+                world application so those scaffolds is just to allow us to configure and create processes. I will
+                not describe product and order in details - you can check commit
+                <a href="https://github.com/madzhuga/rails_workflow_demo/commit/77283e3aa5439169971f603cd782f373fcac07db">
+                    'Order and Product scaffolds'</a> if you need to check anything but this is just dummy models
+                to demonstrate workflow.</p>
+
+            <p>
+
+            <p>Create few products so that customers will be able to creat orders. You just need to specify name,
+                stock quantity and minimum quantity for any product. We will use minimum quantity later when we will
+                add stock provisioning process. Or you can use dump I added to commit.</p>
+
+            <p>When everything is installed, navigate to http://localhost:3000/workflow/ and click 'Processes'.
+                You should see something like that:</p>
+
+            <p><img src="images/blank_processes.png" width="640"></p>
+
+            <p>Click 'Configuration' You will see empty list of process templates.</p>
+
+            <p>Click on 'Add Process Template' and create new one. Only thing you need to fill in
+                'New Process Template' form is it's title. Fill it with 'Processing Order' and click 'Save'.</p>
+
+            <p><img src="images/new_process_template.png" width="640"></p>
+
+
+            <p>When customer creates new order, system starts process for it. First it validates order positions
+                to check if they are valid (since this is example application we will fail that validation).
+                If order validation fails, system creates user operation for sales team to correct order
+                (for example contact customer and update order lines).</p>
+
+            <p>Click 'Add Operation' and select 'Default Operation' from operations list. Fill new operation
+                title with 'Order Validation' and set operation class to 'OrderValidation'.</p>
+
+            <p><img src="images/OrderValidation.png" width="640"></p>
+
+            <p>Each operation has context which we can use to store and propagate some variables between operations.
+                I will describe context in details in separate post but here just let's say that we added
+                orderValid = false to operation context. We will use it in next operation.</p>
+
+            <div>
+                <pre>class OrderValidation < RailsWorkflow::Operation
+  def execute
+    self.data[:orderValid] = false
+    save
+  end
+end
+</pre></div>
+
+          <p>The only thing this operation doing is setting orderValid to false.</p>
+
+          <p>Later we will modify this process and create child process for postponed order if some
+              order positions are absent in stock right now. When they will be delivered to warehouse that
+              postponed orders will start. But right now there will be simple user operation to correct order information.
+          </p>
+
+
+          <p>On process template click 'Add Operation' and select 'Operation for User by Role'.
+              Set Role to 'Sales Team', title to 'Correct Invalid Order Information', operation class to
+              'ProcessInvalidOrder' and operation template class to 'ProcessInvalidOrderTemplate'.</p>
+
+          <p><img src="images/correct_invalid_order.png" width="640"></p>
+
+          <p>In dependencies check "Order Validation" and "Done" state. This way when "Order Validation" will be
+              completed and get "Done" state ProcessInvalidOrderTemplate's resolve_dependency will get that
+              operation to calculate if it need to create new operation.</p>
+
+
+<div>
+<pre>class ProcessInvalidOrderTemplate < RailsWorkflow::OperationTemplate
+  ...
+  def resolve_dependency operation
+    !operation.data[:orderValid]
+  end
+end
+</pre>
+</div>
+
+          <p>We always set orderValid to false - resolve_dependency will always return true and process will
+              create 'Correct Invalid Order Information'. Lets fill User instructions with 'This order has some
+              invalid positions!'. We will show that instruction when user will pickup that operation.</p>
+
+          <p>Click 'Save'.</p>
+
+<p>Next operation will reserve ordered positions in stock. Add another default operation to our process:
+'Reserve Stock Positions'. Important to note that  you need to check 'Order Validation' with 'Done' status
+    and 'Correct Order Information' with 'Done' status.</p>
+          <p><img src="images/reserve_stock_operation.png" width="640"></p>
+
+<p>When any of these operations completed with 'Done' status - ResolveStockPositionsTemplate will check if
+    context orderValid = true and create new operation. If first operation had orderValid = false and second
+    operation completed having orderValid = true - then this operaiton will be created after second operation.</p>
+
+<p>Dependency resolution is very simple in Rails Workflow engine: when operation is completed process searches
+    for operation templates, depending on this operation and it's current state. For every found operation (template)
+    it checks if resolve_dependency returns true - and creates new operation in that case. This way you can add
+    any conditions you may need including some database records validation, operations context and
+    any other conditions you may need.</p>
+
+<p>Right now your process template looks like this:</p>
+<p><img src="images/first_tutorial_ready_template.png" width="640"></p>
+
+
+<p>Now update OrdersController's create method:</p>
+<div>
+<pre>
+def create
+  @order = Order.create(
+    order_params.merge(customer: current_user)
+  )
+
+  create! do |success, failure|
+    success.html do
+      process_template_id = 1
+        RailsWorkflow::ProcessManager.start_process(
+          process_template_id , { resource: resource }
+        )
+
+      redirect_to orders_path
+    end
+  end
+end</pre></div>
+
+<p>Now we can test everything. If you used dump.sql then you already have all users you need. Otherwise you can run
+          rake seed taks to create all necesssary users: </p>
+<div><pre>
+bundle exec rake db:seed
+      </pre></div>
+
+
+    <p>Click on
+    'Create New Order', fill order lines with some numbers and click 'Create Order'. This will create
+    new order and start new process.
+</p>
+<p>Navigate to http://localhost:3000/workflow/processes - you will see process 'Processing Order' with
+    status 'In Progress'. Also here you can see that we have open user operation 'Correct Invalid Order Information'.
+    Open operation means that it is not yet assigned to any specific user.</p>
+
+<p>On a process page you can see process context, process operation, not yet created operations from process
+    template - they all shown with their dependencies and other information. Here you can track your process.</p>
+
+<p>Login as 'sales@test.com' (password 'Qwerty123') and navigate to 'User Operations' - here you will see new
+    operation in 'Available' section. As you will start operation - it will be assigned to you.
+    Available means that you can pickup that operation as it not yet assigned to specific user.
+    Click on 'Start' button. You will be redirected to order show page. You will see operation title and instructions
+    we added on operation template.</p>
+
+
+    <p>If you open views/orders/edit.html.slim - you will see that I am using current_operation helper to get
+        current user operation. I will describe user operations in details in one of next posts.
+        Here I want to note following things:</p>
+
+<div><pre>
+class ProcessInvalidOrderTemplate < Workflow::OperationTemplate
+  def build_operation operation
+    resource = operation.data[:resource]
+    operation.title += " ##{resource.id}"
+
+    operation.context.data.merge!({
+      url_path: :edit_order_path,
+      url_params: [resource]
+    })
+  end
+  ...
+end
+</pre></div>
+
+<p>As you can see we need to add url_path and url_params to user operation so that when user starts operation engine
+    redirect that user to some resource.</p>
+
+<p>In OrdersController's update method we check if 'Complete' button was clicked and completing operation.</p>
+<div><pre>
+  def update
+    update! do |success, failure|
+      success.html do
+        if current_operation && (params['commit'] == 'Complete')
+          current_operation.complete
+        end
+
+        redirect_to root_path
+      end
+    end
+  end
+</pre></div>
+
+<p>I will describe all that in more details shortly so follow my <a href="http://twitter.com/max_madzhuga">twitter</a> for updates.</p>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rails workflow maintained by <a href="https://github.com/madzhuga">madzhuga</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
