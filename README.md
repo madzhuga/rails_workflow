@@ -11,7 +11,7 @@ Rails Workflow is mountable Rails engine and can be mounted to any Rails applica
 All processes, configurations, operations and their data is persisted for processing and supporting purposes.
 Engine has UI to configure process templates and manage existing processes.
 
-![Rails Workflow Engine](https://dl.dropboxusercontent.com/u/192451/rails_workflow_screenshot.png)
+![Rails Workflow Engine](http://madzhuga.github.io/rails_workflow/images/rails_workflow_screenshot.png)
 ### Main features:
 * It is mountable rails engine.
 * Allows to configure process and operation templates.
