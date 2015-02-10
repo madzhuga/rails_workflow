@@ -32,10 +32,8 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="rails-workflow-engine" class="anchor" href="#rails-workflow-engine" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rails Workflow Engine</h1>
+<a id="rails-workflow-engine" class="anchor" href="#rails-workflow-engine" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h1>
 
-<h2>
-<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
 <p>Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
 configure, create and manage processes to easily build project management systems, sales / product provisioning systems,
@@ -123,19 +121,19 @@ Engine has UI to configure process templates and manage existing processes.</p>
 
 <p>Add to your config/application.rb</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span></pre></div>
+<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span></pre></div>
 
 <p>and mount it to /workflow routes:</p>
 
 <div class="highlight highlight-ruby"><pre><span class="pl-s3">Rails</span>.application.routes.draw <span class="pl-k">do</span>
   ...
-  mount <span class="pl-s3">Workflow</span>::<span class="pl-vo">Engine</span> =&gt; <span class="pl-s1"><span class="pl-pds">'</span>/workflow<span class="pl-pds">'</span></span>, <span class="pl-c1">as:</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span>
+  mount <span class="pl-s3">RailsWorkflow</span>::<span class="pl-vo">Engine</span> =&gt; <span class="pl-s1"><span class="pl-pds">'</span>/workflow<span class="pl-pds">'</span></span>, <span class="pl-c1">as:</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span>
   ...
 <span class="pl-k">end</span></pre></div>
 
 <p>Generate all models:</p>
 
-<div class="highlight highlight-sh"><pre>$ rails generate workflow:install
+<div class="highlight highlight-sh"><pre>$ rails generate rails_workflow:instal
 $ bundle <span class="pl-s3">exec</span> rake db:migrate</pre></div>
 
 <p>Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
