@@ -31,8 +31,11 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a id="welcome-to-rails-workflow" class="anchor" href="#welcome-to-rails-workflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Rails Workflow.</h3>
+        <h1>
+<a id="rails-workflow-engine" class="anchor" href="#rails-workflow-engine" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rails Workflow Engine</h1>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
 <p>Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
 configure, create and manage processes to easily build project management systems, sales / product provisioning systems,
@@ -42,6 +45,125 @@ ERP, CMS, etc.</p>
 
 <p>All processes, configurations, operations and their data is persisted for processing and supporting purposes.
 Engine has UI to configure process templates and manage existing processes.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/192451/rails_workflow_screenshot.png" alt="Rails Workflow Engine"></p>
+
+<h3>
+<a id="main-features" class="anchor" href="#main-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main features:</h3>
+
+<ul>
+<li>It is mountable rails engine.</li>
+<li>Allows to configure process and operation templates.</li>
+<li>Allows to configure syncronous and asyncronous operations.</li>
+<li>Allows to run operations in background</li>
+<li>Provides operations exceptions/errors monitoring and management.</li>
+<li>Allows to build hierarchical syncronous and asyncronous processes.</li>
+<li>Allows to split process implementation to operations isolating logic.</li>
+<li>Allows to reuse operations in different processes.</li>
+<li>Every operation runs in it's own transaction and has separate context.</li>
+<li>Process may be canceled, manually changed, rolled back, reset to any specific operation.</li>
+<li>Allow to track operations flow and their context, errors, user activities etc.</li>
+</ul>
+
+<h3>
+<a id="user-interface" class="anchor" href="#user-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>User Interface</h3>
+
+<ul>
+<li>It has UI for processes configuration and management.</li>
+<li>UI is bootstrapped and can be easily changed to fit main rails application design.</li>
+</ul>
+
+<h2>
+<a id="tutorial" class="anchor" href="#tutorial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tutorial</h2>
+
+<p>Working on it right now and going to post it shortly (today or tomorrow).</p>
+
+<h2>
+<a id="process" class="anchor" href="#process" aria-hidden="true"><span class="octicon octicon-link"></span></a>Process</h2>
+
+<p>Process is a set of operations. Operations has 3 kinds - automatic operations, user operations and child process operations. They all will be described bellow in details. Process has template whith operation templates so that user can specify operations for process and specify their dependencies. When operation is completed or changing it's state - process managers makes process to check if any new operations should be build according to process template. When all synchronous process operations are done - process finishes. Asynchronous operations or sub processes may stil be in progress. Automatic operations are may work in background using sidekiq.</p>
+
+<p>Detailed documentation is in progress so please follow me on twitter <a href="https://twitter.com/max_madzhuga">@max_madzhuga</a> if you interested.</p>
+
+<h2>
+<a id="operations" class="anchor" href="#operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Operations</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="helpers" class="anchor" href="#helpers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Helpers</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="process-manager" class="anchor" href="#process-manager" aria-hidden="true"><span class="octicon octicon-link"></span></a>Process Manager</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="process-template" class="anchor" href="#process-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Process Template</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="operation-template" class="anchor" href="#operation-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Operation Template</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add to your application's Gemfile:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>0.2.0<span class="pl-pds">'</span></span></pre></div>
+
+<p>And then execute:</p>
+
+<div class="highlight highlight-sh"><pre>$ bundle install</pre></div>
+
+<p>Add to your config/application.rb</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span></pre></div>
+
+<p>and mount it to /workflow routes:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-s3">Rails</span>.application.routes.draw <span class="pl-k">do</span>
+  ...
+  mount <span class="pl-s3">Workflow</span>::<span class="pl-vo">Engine</span> =&gt; <span class="pl-s1"><span class="pl-pds">'</span>/workflow<span class="pl-pds">'</span></span>, <span class="pl-c1">as:</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span>
+  ...
+<span class="pl-k">end</span></pre></div>
+
+<p>Generate all models:</p>
+
+<div class="highlight highlight-sh"><pre>$ rails generate workflow:install
+$ bundle <span class="pl-s3">exec</span> rake db:migrate</pre></div>
+
+<p>Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
+'inherited_resources', 'jquery-rails', 'jquery-ui-rails', 'draper'. Later I will remove some of that dependencies.
+I will provide installation tutorial shortly.</p>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>TBD</p>
+
+<h2>
+<a id="processes-configuration" class="anchor" href="#processes-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Processes configuration</h2>
+
+<h2>
+<a id="processes-management" class="anchor" href="#processes-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>Processes management</h2>
+
+<h2>
+<a id="process-monitoring" class="anchor" href="#process-monitoring" aria-hidden="true"><span class="octicon octicon-link"></span></a>Process monitoring</h2>
+
+<h2>
+<a id="errors-monigoring-and-managing" class="anchor" href="#errors-monigoring-and-managing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Errors monigoring and managing</h2>
+
+<p>Any error that happened during operation building or execution is saved. Operation and / or process is set to 'Error'
+status. Administrator / support user can retry failed operation after fixing root cause of error.</p>
+
+<p><a href="http://madzhuga.tumblr.com/post/110449183244/rails-workflow-engine-exceptions-handling">Here</a> you can read more about
+exception handling in Rails Workflow.</p>
       </section>
     </div>
 
