@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   resources :sales_contacts
 
   devise_for :users
-  mount Workflow::Engine => "/workflow", as: "workflow"
+  mount RailsWorkflow::Engine => "/workflow", as: "workflow"
   root to: 'workflow/operations#index'
 end

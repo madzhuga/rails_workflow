@@ -1,4 +1,4 @@
-class BadOperation < Workflow::Operation
+class BadOperation < RailsWorkflow::Operation
   def on_complete
     # raise 'ON_COMPLETE EXCEPTION'
   end

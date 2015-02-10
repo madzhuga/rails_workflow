@@ -1,4 +1,4 @@
-Workflow.setup do |config|
+RailsWorkflow.setup do |config|
 
   # config.assignment_by = [:group, :role]
 

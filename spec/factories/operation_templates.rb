@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :operation_template, class: 'Workflow::OperationTemplate' do
+  factory :operation_template, class: 'RailsWorkflow::OperationTemplate' do
     title "Operation Template"
     kind 'default'
     is_background true

@@ -7,7 +7,7 @@ class SalesContactsController < InheritedResources::Base
         #resource (sales contact) will still be created in the system
         #so it may be better to create process in the same transaction
         #if you need them both to be created or both crashed
-          Workflow::ProcessManager.
+          RailsWorkflow::ProcessManager.
               start_process(
                   18,
                   {

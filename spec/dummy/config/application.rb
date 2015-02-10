@@ -9,7 +9,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
-require "workflow"
+require "rails_workflow"
 
 module Dummy
   class Application < Rails::Application

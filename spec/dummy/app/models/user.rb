@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  include Workflow::User::Assignment
+  include RailsWorkflow::User::Assignment
 
   def self.get_role_values
     [

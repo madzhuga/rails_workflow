@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :process, :class => 'Workflow::Process' do
-    status Workflow::Process::NOT_STARTED
+  factory :process, :class => "RailsWorkflow::Process" do
+    status RailsWorkflow::Process::NOT_STARTED
     context { create :context, data: {msg: "Test message"} }
   end
 

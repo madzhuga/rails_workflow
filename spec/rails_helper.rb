@@ -15,8 +15,8 @@ require_relative '../spec/factories/operations.rb'
 require_relative '../spec/factories/processes.rb'
 require_relative '../spec/factories/user.rb'
 require_relative '../spec/factories/context.rb'
-require_relative '../spec/support/workflow/custom_operation_template.rb'
-require_relative '../spec/support/workflow/custom_operation.rb'
+require_relative '../spec/support/rails_workflow/custom_operation_template.rb'
+require_relative '../spec/support/rails_workflow/custom_operation.rb'
 
 
 ActiveRecord::Migration.maintain_test_schema!

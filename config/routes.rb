@@ -1,4 +1,4 @@
-Workflow::Engine.routes.draw do
+RailsWorkflow::Engine.routes.draw do
 
   resources :operations do
     member do

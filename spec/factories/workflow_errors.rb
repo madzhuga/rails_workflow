@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :workflow_error, :class => 'Workflow::Error' do
+  factory :workflow_error, :class => 'RailsWorkflow::Error' do
     message "MyString"
     stack_trace "MyText"
     parent_id 1

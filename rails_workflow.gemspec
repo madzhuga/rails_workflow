@@ -1,12 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "workflow/version"
+require "rails_workflow/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "rails_workflow"
-  s.version     = Workflow::VERSION
+  s.version     = RailsWorkflow::VERSION
   s.authors     = ["Maxim Madzhuga"]
   s.email       = ["maximmadzhuga@gmail.com"]
   s.homepage    = "https://github.com/madzhuga/rails_workflow"

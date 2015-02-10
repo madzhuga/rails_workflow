@@ -68,20 +68,20 @@ $ bundle install
 
 Add to your config/application.rb
 ```ruby
-require 'workflow'
+require 'rails_workflow'
 ```
 
 and mount it to /workflow routes:
 ```ruby
 Rails.application.routes.draw do
   ...
-  mount Workflow::Engine => '/workflow', as: 'workflow'
+  mount RailsWorkflow::Engine => '/workflow', as: 'workflow'
   ...
 end
 ```
 Generate all models:
 ```sh
-$ rails generate workflow:install
+$ rails generate rails_workflow:install
 $ bundle exec rake db:migrate
 ```
 Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
