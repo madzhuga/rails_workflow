@@ -71,6 +71,14 @@ Engine has UI to configure process templates and manage existing processes.</p>
 <li>UI is bootstrapped and can be easily changed to fit main rails application design.</li>
 </ul>
 
+<h3>
+  <a id="content" class="anchor" href="#tutorial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
+
+<ul>
+    <li><a href="http://madzhuga.github.io/rails_workflow/installation.html">Installation</a></li>
+</ul>
+
+
 <h2>
 <a id="tutorial" class="anchor" href="#tutorial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tutorial</h2>
 
@@ -108,37 +116,6 @@ Engine has UI to configure process templates and manage existing processes.</p>
 
 <p>TBD</p>
 
-<h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
-
-<p>Add to your application's Gemfile:</p>
-
-<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>0.2.0<span class="pl-pds">'</span></span></pre></div>
-
-<p>And then execute:</p>
-
-<div class="highlight highlight-sh"><pre>$ bundle install</pre></div>
-
-<p>Add to your config/application.rb</p>
-
-<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span></pre></div>
-
-<p>and mount it to /workflow routes:</p>
-
-<div class="highlight highlight-ruby"><pre><span class="pl-s3">Rails</span>.application.routes.draw <span class="pl-k">do</span>
-  ...
-  mount <span class="pl-s3">RailsWorkflow</span>::<span class="pl-vo">Engine</span> =&gt; <span class="pl-s1"><span class="pl-pds">'</span>/workflow<span class="pl-pds">'</span></span>, <span class="pl-c1">as:</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span>
-  ...
-<span class="pl-k">end</span></pre></div>
-
-<p>Generate all models:</p>
-
-<div class="highlight highlight-sh"><pre>$ rails generate rails_workflow:instal
-$ bundle <span class="pl-s3">exec</span> rake db:migrate</pre></div>
-
-<p>Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
-'inherited_resources', 'jquery-rails', 'jquery-ui-rails', 'draper'. Later I will remove some of that dependencies.
-I will provide installation tutorial shortly.</p>
 
 <h2>
 <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>

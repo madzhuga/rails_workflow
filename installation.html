@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rails workflow : Small and flexible engine to build business processes in Rails applications.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rails workflow</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/madzhuga/rails_workflow">View on GitHub</a>
+
+          <h1 id="project_title">Rails workflow</h1>
+          <h2 id="project_tagline">Small and flexible engine to build business processes in Rails applications.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/madzhuga/rails_workflow/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/madzhuga/rails_workflow/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<div style="float: right">
+  <a href="http://madzhuga.github.io/rails_workflow/">back</a>
+</div>
+
+
+          <p>Add to your application's Gemfile:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>0.2.0<span class="pl-pds">'</span></span></pre></div>
+
+<p>And then execute:</p>
+
+<div class="highlight highlight-sh"><pre>$ bundle install</pre></div>
+
+<p>Add to your config/application.rb</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">require</span> <span class="pl-s1"><span class="pl-pds">'</span>rails_workflow<span class="pl-pds">'</span></span></pre></div>
+
+<p>and mount it to /workflow routes:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-s3">Rails</span>.application.routes.draw <span class="pl-k">do</span>
+  ...
+  mount <span class="pl-s3">RailsWorkflow</span>::<span class="pl-vo">Engine</span> =&gt; <span class="pl-s1"><span class="pl-pds">'</span>/workflow<span class="pl-pds">'</span></span>, <span class="pl-c1">as:</span> <span class="pl-s1"><span class="pl-pds">'</span>workflow<span class="pl-pds">'</span></span>
+  ...
+<span class="pl-k">end</span></pre></div>
+
+<p>Generate all models:</p>
+
+<div class="highlight highlight-sh"><pre>$ rails generate rails_workflow:instal
+$ bundle <span class="pl-s3">exec</span> rake db:migrate</pre></div>
+
+<p>Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
+'inherited_resources', 'jquery-rails', 'jquery-ui-rails', 'draper'. Later I will remove some of that dependencies.
+I will provide installation tutorial shortly.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rails workflow maintained by <a href="https://github.com/madzhuga">madzhuga</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>
