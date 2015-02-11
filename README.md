@@ -29,28 +29,8 @@ Engine has UI to configure process templates and manage existing processes.
 * It has UI for processes configuration and management.
 * UI is bootstrapped and can be easily changed to fit main rails application design.
 
-## Tutorial
-Working on it right now and going to post it shortly (today or tomorrow).
-
-## Process
-Process is a set of operations. Operations has 3 kinds - automatic operations, user operations and child process operations. They all will be described bellow in details. Process has template whith operation templates so that user can specify operations for process and specify their dependencies. When operation is completed or changing it's state - process managers makes process to check if any new operations should be build according to process template. When all synchronous process operations are done - process finishes. Asynchronous operations or sub processes may stil be in progress. Automatic operations are may work in background using sidekiq.
-
-Detailed documentation is in progress so please follow me on twitter [@max_madzhuga](https://twitter.com/max_madzhuga) if you interested.
-
-## Operations
-TBD
-
-## Helpers
-TBD
-
-## Process Manager
-TBD
-
-## Process Template
-TBD
-
-## Operation Template
-TBD
+### Documentation
+You can find tutorials and documentation [here](http://madzhuga.github.io/rails_workflow/)
 
 ## Installation
 
@@ -84,23 +64,3 @@ Generate all models:
 $ rails generate rails_workflow:install
 $ bundle exec rake db:migrate
 ```
-Please check that your gemfile contains 'bootstrap-rails-engine', 'devise', 'will_paginate', 'sidekiq', 'slim-rails',
-'inherited_resources', 'jquery-rails', 'jquery-ui-rails', 'draper'. Later I will remove some of that dependencies.
-I will provide installation tutorial shortly.
-
-## Configuration
-TBD
-
-
-## Processes configuration
-
-## Processes management
-
-## Process monitoring
-
-## Errors monigoring and managing
-Any error that happened during operation building or execution is saved. Operation and / or process is set to 'Error'
-status. Administrator / support user can retry failed operation after fixing root cause of error.
-
-[Here](http://madzhuga.tumblr.com/post/110449183244/rails-workflow-engine-exceptions-handling) you can read more about
-exception handling in Rails Workflow.
