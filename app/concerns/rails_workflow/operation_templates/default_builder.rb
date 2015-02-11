@@ -45,6 +45,20 @@ module RailsWorkflow
 
       end
 
+      module ClassMethods
+
+        def build_context dependencies
+          dependencies.first.try(:context).try(:data)
+        end
+
+        def build_context! operation, dependencies
+          RailsWorkflow::Context.new(
+              parent: operation,
+              data: build_context(dependencies) || operation.process.data)
+        end
+
+      end
+
     end
   end
 end

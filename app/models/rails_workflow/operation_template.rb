@@ -9,23 +9,9 @@ module RailsWorkflow
     belongs_to :child_process, class_name: "RailsWorkflow::ProcessTemplate"
 
     class << self
-
       def types
         RailsWorkflow.config.operation_types
       end
-
-      # by default system using context data of first dependnecy
-      # the one that triggered current operation build
-      def build_context dependencies
-        dependencies.first.try(:context).try(:data)
-      end
-
-      def build_context! operation, dependencies
-        RailsWorkflow::Context.new(
-            parent: operation,
-            data: build_context(dependencies) || operation.process.data)
-      end
-
     end
 
 
@@ -36,14 +22,6 @@ module RailsWorkflow
 
     def default_type
       RailsWorkflow.config.default_operation_template_type
-    end
-
-    def resolve_dependency operation
-      true
-    end
-
-    def resolve_dependency! operation
-      resolve_dependency operation
     end
 
     private

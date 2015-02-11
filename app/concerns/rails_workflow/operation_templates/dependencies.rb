@@ -18,6 +18,14 @@ module RailsWorkflow
       included do
         scope :independent_only, -> { where(dependencies: nil) }
 
+        def resolve_dependency operation
+          true
+        end
+
+        def resolve_dependency! operation
+          resolve_dependency operation
+        end
+
         def dependencies=(dependencies)
           write_attribute(:dependencies, dependencies.to_json.to_s)
         end
