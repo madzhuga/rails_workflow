@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rails workflow : Small and flexible engine to build business processes in Rails applications.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rails Workflow Engine: Errors Handling</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/madzhuga/rails_workflow">View on GitHub</a>
+
+          <h1 id="project_title"><a href="http://madzhuga.github.io/rails_workflow/">Rails workflow</a></h1>
+          <h2 id="project_tagline">Small and flexible engine to build business processes in Rails applications.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/madzhuga/rails_workflow/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/madzhuga/rails_workflow/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Errors Handling</h2>
+
+<p>Rails Workflow engine allows you to to track errors that happens during operations build or execution.
+    You can gather all necessary information and retry error after fixing exception cause to continue process's normal flow.</p>
+
+
+<p>If some exception happens both operation and it's process is set to 'Error' status. If process has any parent operation
+    (means that this process is child process of some other process) than engine also set parent operation and it's process 'Error' status.</p>
+
+<p>You can track errors on 'Processes' list filtering processes by 'Error' status.</p>
+
+          <p>Here I am going to show basic errors handling. We will use 'bad' operation and 'bad' operation template, both raising
+    exceptions: </p>
+
+<div>
+<pre>
+class BadOperationTemplate < Workflow::OperationTemplate
+  def build_operation operation
+    <strong>raise 'BUILD_OPERATION'</strong>
+  end
+
+
+  def resolve_dependency operation
+    <strong>raise 'RESOLVE DEPENDENCY'</strong>
+    true
+  end
+end
+
+class BadOperation < Workflow::Operation
+  def on_complete
+    <strong>raise 'ON_COMPLETE EXCEPTION'</strong>
+  end
+
+  def execute
+    <strong>raise 'EXECUTE EXCEPTION'</strong>
+    true
+  end
+end
+
+</pre>
+</div>
+
+<p>We need to configure process using this bad operation and bad operation template.</p>
+          <p><img src="images/bad_process_example.png" width="640"> </p>
+
+<p>Both operations using same operation and operation template classes but I need two operations as first one will
+be created and running right after process start and second one will be created after first operation is complete.
+This way I will use second operation to show what happens if dependency resolution raising any exceptions.</p>
+
+<p><img src="images/first_bad_operation.png" width="640"></p>
+<p>Second operation is absolutely the same and only difference is that it depends on first operation (with state 'Done')</p>
+          <p><img src="images/second_bad_operation.png" width="640"> </p>
+
+<p>Lets create new process using this process template. New process can be created from UI using 'Create Process'
+    button. You can see new process screenshot here:</p>
+          <p><img src="images/bad_process_error_1.png" width="640"></p>
+
+<p>As you can see on screenshot this process's status is 'Error', it has no operation as first operation is failed to
+build. Also you can see here raised exception information. Now if we comment out our raise command </p>
+
+          <div>
+<pre>
+class BadOperationTemplate < Workflow::OperationTemplate
+  def build_operation operation
+    <strong># raise 'BUILD_OPERATION'</strong>
+  end
+  ...
+end
+</pre></div>
+
+<p>This build_operation method is used to customize operation building. As we have no other code here engine will
+create new operation using default behaviour. Now when I click on error's button 'Retry' engine will try to rebuild
+this operation. As we removed exception raise from it - new operation will be created and added to process.
+When engine will try to complete operation (running it's execute method) - it will fail again as we have another
+    exception there.
+</p>
+
+<p><img src="images/bad_process_error_2.png" width="640"></p>
+
+<p>As you can see both operation and process has 'Error' status. This time exception occured in operation
+execution code so error is added to operation.</p>
+<p><img src="images/bad_process_error_2_2.png" width="640"></p>
+
+<div><pre>
+class BadOperation < Workflow::Operation
+  ...
+
+  def execute
+    <strong># raise 'EXECUTE EXCEPTION'</strong>
+    true
+  end
+end
+</pre></div>
+
+<p>Operation has execute and on_complete methods. on_complete method is usefull for user operations so that when user
+          completing some operation - we can add here some custom code. Now if I retry operation error I will have
+next error: </p>
+
+<p><img src="images/bad_process_error_3.png" width="640"> </p>
+
+<p>Now I will comment out exception from on_complete method and will retry error. As you can see on next screenshot -
+first operation is completed and has 'Done' status. Now process trying to resolve dependencies and create second operation
+and fails as we raising exception in operation template's resolve_dependency method:</p>
+<p><img src="images/bad_process_error_6.png" width="640"></p>
+
+<p>After commenting it out and retrying error we will see that process's both operation is done and process is completed
+with 'Done' status.</p>
+
+<p><img src="images/bad_process_done.png" width="640"></p>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rails workflow maintained by <a href="https://github.com/madzhuga">madzhuga</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>
