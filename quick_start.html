@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rails workflow : Small and flexible engine to build business processes in Rails applications.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rails Workflow Engine: Errors Handling</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/madzhuga/rails_workflow">View on GitHub</a>
+
+          <h1 id="project_title"><a href="http://madzhuga.github.io/rails_workflow/">Rails workflow</a></h1>
+          <h2 id="project_tagline">Small and flexible engine to build business processes in Rails applications.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/madzhuga/rails_workflow/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/madzhuga/rails_workflow/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+
+
+<h3>Starting / building process</h3>
+
+
+<p>ProcessManager is responsible for building and starting process.</p>
+
+<div>
+<pre>
+  RailsWorkflow::ProcessManager.build_process template_id, context
+  RailsWorkflow::ProcessManager.start_process template_id, context
+</pre>
+</div>
+
+<p>template_id - is an id of your ProcessTemplate<br/>
+context - is a hash, for example { resource: product }</p>
+
+<h3>Process</h3>
+
+<p>Main process responsibility is to create new operations when it is necessary.</p>
+
+<div><pre>process.build_dependencies operation</pre></div>
+
+<p>operation is the one which is just completed or changed it's state. Process checks operation templates
+    from current process's  templates and searching those who depends on given operation's template and
+    it's current state.</p>
+
+<p>If any operation templates are found, process checks if they can be created using resolve_dependency
+    method described below operation is the one which was just completed. You can use operation.process,
+    operation.context and any other application data to build your conditions.
+    Check Operation Template for more info.</p>
+
+<p>Process also has following methods which can be usefull to you:</p>
+
+<div><pre>
+  # checks if process can start. By default process can
+  # start if it has operations.
+  <strong>process.can_start?</strong>
+
+  <strong>process.start</strong>
+
+  # checks if process can be completed. If all
+  # process synchronous operations is
+  # completed - then process can complete.
+  # Asynchronous operations may stay
+  # incomplete (that's why they asynchronous)
+  <strong>process.can_complete?</strong>
+
+  # operations which is not yet completed. They may be
+  # in_progress, waiting, error, etc.
+  # Completed operations - done, skipped, canceled.
+  <strong>process.incompleted_operations</strong>
+
+  # works everytime when operation is notify process
+  # that it's completed. By default this
+  # method trying to build new operations and complete process.
+  <strong>process.operation_complete operation</strong>
+
+  <strong>process.complete</strong>
+</pre></div>
+
+
+<h3>Operation Template</h3>
+
+<p>Operation Template is responsible for detecting if operation should be created (resolving dependencies)
+    and for building operation.</p>
+
+<div><pre>
+  # operation (the one which was just completed or changed it's status)
+  # is used to check if new operation can be
+  # created. You can use operation.process,
+  # operation.context or anything else in your
+  # application to build complex conditions.
+  <strong>operation_template.resolve_dependency operation</strong>
+
+  # here you can add some additional logic while building operation.
+  <strong>operation_template.build_operation</strong>
+
+  # here you can customize context for new operation.
+  # operation - is new operations which context will be build
+  # dependencies - is array of other process operations.
+  # By default it is array with only one element - old operation
+  # which has been completed and caused new operation creation. But it
+  # also possible to have here few already completed operations
+  # so that new operation context can be based on their contexts merge.
+  <strong>RailsWorkflow::OperationTemplate.build_context operation, dependencies</strong>
+
+</pre></div>
+<p>In most cases you will have to customise context (using build_context) and resolve_dependecy methods.</p>
+
+<h3>Operation</h3>
+
+<div><pre>
+  # checks if operation can start. By default checks
+  # if operation status = NOT_STARTED.
+  <strong>operation.can_start?</strong>
+
+  # checks if operation can start. if operation can't
+  # be started (for example, user operations) -
+  # then operation status is set to waiting.
+  # Otherwize operation is starting.
+  <strong>operation.start</strong>
+
+  # this is main method for you as
+  # this is the place to add your code. :)
+  <strong>operation.execute</strong>
+
+  # checks if operation is completed
+  <strong>operation.completed?</strong>
+
+  # by default checks if operation
+  # has child process and
+  # if there is child process - then checks
+  # it's status.
+  <strong>operation.can_complete?</strong>
+
+  # method mainly for user operations. Here
+  # you can put code you want to
+  # be executed when user completed some operation.
+  <strong>operation.on_complete</strong>
+</pre></div>
+
+<p>This is all you need to know to start process. In most cases you will need to add your own OperationTemplate
+    with dependency_resolution (depends on your application logic) and building context for operation.
+    Plus you will need to create your own Operation classes with execute method.</p>
+
+<p>Each execute method runs in nested transaction. Best practice is to use sidekiq and execute operations
+    in background.</p>
+
+<h3>User Operations</h3>
+
+<p>There is specific methods for user operations you should know:</p>
+
+<div><pre>
+  # checks if operation may be assigned to
+  # given user. By default operation can be
+  # assigned if it is not yet assigned to any
+  # user. If you using UserByRoleOperation - then
+  # it checks user and operation roles. If you
+  # use UserByGroupOperation
+  # then it checks user and operation group values.
+  <strong>operation.can_be_assigned? user</strong>
+
+  # checks if operation is assigned to given user.
+  <strong>operation.assigned? user</strong>
+
+  # restores initial operation assigned to role or group
+  <strong>operation.cancel_assignment user</strong>
+
+  # checks if operation can be assigned to user
+  <strong>operation.can_be_assigned? user</strong>
+
+  # assigns operation to user
+  <strong>operation.assign user</strong>
+</pre></div>
+
+<p>You need to provide url_path and url_params in user operation context as engine will
+    redirect user to that url when he picks up/start operation.</p>
+
+<p>I will add User Operations specific tutorial shortly but you already can check tutorial as
+    it describes process with user operation.</p>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rails workflow maintained by <a href="https://github.com/madzhuga">madzhuga</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>
