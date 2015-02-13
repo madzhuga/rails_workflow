@@ -29,7 +29,7 @@ module RailsWorkflow
         # Process can be completed if all sync operations is complete.
 
         def can_complete?
-          if processing_statuses.include? status
+          if incomplete_statuses.include? status
             incompleted_operations.size == 0 &&
                 workflow_errors.unresolved.size == 0
           else

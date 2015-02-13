@@ -3,6 +3,8 @@ module RailsWorkflow
   class OperationDecorator < OperationHelperDecorator
     delegate_all
 
+    decorates_association :template, with: OperationTemplateDecorator
+
     def process
       object.process.decorate
     end
@@ -37,18 +39,7 @@ module RailsWorkflow
     end
 
     def show_template_dependencies
-      if object.dependencies.present?
-        object.template.dependencies.map do |dependency|
-          depends_on = OperationTemplate.where(id: dependency['id']).pluck(:title).first
-          statuses = object.
-              get_status_values.
-              select{|status| dependency['statuses'].include? status[0]}
-          [depends_on] + statuses.map(&:last)
-        end
-      else
-        []
-      end
-
+      template.show_dependencies
     end
 
   end

@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
 
   def self.get_group_values
     [
-        ['Sales Team', 'sales_team'],
-        ['Admin', 'admin'],
-        ['Customer Support Team', 'support_team'],
-        ['Stock team', 'stock_team'],
-        ['Provisioning Team', 'provisioning_team']
+        ['Sales Team', :sales_team],
+        ['Admin', :admin],
+        ['Customer Support Team', :support_team],
+        ['Stock team', :stock_team],
+        ['Provisioning Team', :provisioning_team]
     ]
   end
 

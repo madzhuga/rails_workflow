@@ -9,5 +9,4 @@ Rails.application.routes.draw do
 
   devise_for :users
   mount RailsWorkflow::Engine => "/workflow", as: "workflow"
-  root to: 'workflow/operations#index'
 end

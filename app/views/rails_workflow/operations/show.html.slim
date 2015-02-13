@@ -5,7 +5,7 @@ ol.breadcrumb.alert-warning
   li
     = link_to "Processes", processes_path
   li
-    = link_to "Process: #{parent.title}", parent
+    = link_to "Process: #{resource.process.title}", resource.process
   li.active
     = "Operation: #{resource.title} "
 

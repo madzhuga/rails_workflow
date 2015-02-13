@@ -1,6 +1,6 @@
 module RailsWorkflow
   class Process < ActiveRecord::Base
-    include ProcessStatus
+    include Status
     include Processes::DependencyResolver
     include Processes::DefaultRunner
 

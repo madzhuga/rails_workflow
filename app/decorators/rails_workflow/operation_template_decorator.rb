@@ -20,7 +20,7 @@ module RailsWorkflow
 
     def other_operations
       if object.persisted?
-         object.process_template.operations.where.not(id: object.id).order(id: :asc).to_a
+         object.other_operations.order(id: :asc).to_a
       else
         #operations without current to build dependencies form part
         object.process_template.operations.to_a - [object]

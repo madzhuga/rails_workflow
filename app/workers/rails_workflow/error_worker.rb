@@ -4,14 +4,7 @@ module RailsWorkflow
 
     def perform(parent_id, parent_class)
       parent = parent_class.constantize.find(parent_id)
-
-      if parent.is_a? RailsWorkflow::Operation
-        parent.status = RailsWorkflow::Operation::ERROR
-      end
-      if parent.is_a? RailsWorkflow::Process
-        parent.status = RailsWorkflow::Process::ERROR
-      end
-
+      parent.status = parent.class::ERROR
       parent.save
 
       if parent.respond_to?(:parent_operation) &&

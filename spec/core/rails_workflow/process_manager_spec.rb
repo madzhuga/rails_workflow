@@ -10,7 +10,7 @@ module RailsWorkflow
       dependencies = [
           {
               "id" => operation.id,
-              "statuses" => [RailsWorkflow::OperationStatus::DONE]
+              "statuses" => [RailsWorkflow::Operation::DONE]
           }
       ]
 
