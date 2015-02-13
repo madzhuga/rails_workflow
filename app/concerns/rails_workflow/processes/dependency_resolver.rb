@@ -37,7 +37,7 @@ module RailsWorkflow
           end
 
           new_operations.compact.each do |new_operation|
-            if processing_statuses.include?(status)
+            if incomplete_statuses.include?(status)
               self.operations << new_operation
               new_operation.start
             end
