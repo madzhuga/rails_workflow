@@ -6,19 +6,18 @@ module RailsWorkflow
       def status
         if object.status
 
-          label_class = 'label-default'
+          label_class = case object.status
+                          when object.class::DONE
+                            'label-success'
+                          when object.class::IN_PROGRESS..object.class::WAITING
+                            'label-primary'
+                          when object.class::ERROR
+                            'label-danger'
+                          else
+                            'label-default'
+                        end
 
-          if object.status == object.class::DONE
-            label_class = 'label-success'
-          elsif [object.class::IN_PROGRESS, object.class::WAITING].include? object.status
-            label_class = 'label-primary'
-          elsif object.status == object.class::ERROR
-            label_class = 'label-danger'
-            #'warning'
-          end
-
-          text = object.get_status_values.
-              detect { |status| object.status == status[0] }[1]
+          text = object.get_status_values.assoc(object.status)[1]
 
           {
               class: label_class,
