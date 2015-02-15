@@ -1,8 +1,7 @@
 module RailsWorkflow
   class ProcessDecorator < Decorator
-    delegate_all
-
     include StatusDecorator
+    delegate_all
 
     def created_at
       object.created_at.strftime('%m/%d/%Y %H:%M')

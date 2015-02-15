@@ -42,6 +42,7 @@ module RailsWorkflow
               :child_process_id,
               :operation_class,
               :role,
+              :partial_name,
               :async,
               :is_background,
               :group,

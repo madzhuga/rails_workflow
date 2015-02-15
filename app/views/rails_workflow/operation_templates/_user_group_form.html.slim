@@ -24,9 +24,14 @@
     = f.text_field :operation_class, class: "form-control", placeholder: f.object.default_class
 
 .form-group
-  = f.label :type, "Operation Template Class", class: "control-label col-sm-2"
+  = f.label :type, "Template Class", class: "control-label col-sm-2"
   .col-sm-10
     = f.text_field :type, class: "form-control", placeholder: f.object.default_type
+
+.form-group
+  = f.label :partial_name, "Context Partial", class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :partial_name, class: "form-control", placeholder: "Default"
 
 .form-group
   .col-sm-2

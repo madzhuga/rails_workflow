@@ -1,0 +1,11 @@
+table.table.table-striped.table-hover
+  thead
+    tr
+      th Key
+      th Value
+  tbody
+    - context.data.each_pair do |key, value|
+      tr
+        td = key
+        td = value
+

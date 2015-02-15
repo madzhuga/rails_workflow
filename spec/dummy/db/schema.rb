@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210070051) do
+ActiveRecord::Schema.define(version: 20150215164401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20150210070051) do
     t.text     "instruction"
     t.boolean  "is_background",       default: true
     t.string   "type"
+    t.string   "partial_name"
   end
 
   create_table "rails_workflow_operations", force: true do |t|
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 20150210070051) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.string   "partial_name"
   end
 
   create_table "rails_workflow_processes", force: true do |t|

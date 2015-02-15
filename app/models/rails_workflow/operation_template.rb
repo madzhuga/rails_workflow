@@ -8,11 +8,16 @@ module RailsWorkflow
     belongs_to :process_template, class_name: "RailsWorkflow::ProcessTemplate"
     belongs_to :child_process, class_name: "RailsWorkflow::ProcessTemplate"
 
-    scope :other_operations, -> {
-      OperationTemplate.
-          where(process_template_id: self.process_template_id).
-          where.not(id: id)
+    scope :other_operations, ->(process_template_id, operation_template_id) {
+      where(process_template_id: process_template_id).
+          where.not(id: operation_template_id)
     }
+
+
+    def other_operations
+      OperationTemplate.other_operations(self.process_template_id, self.id)
+    end
+
 
     class << self
       def types

@@ -2,8 +2,12 @@
 module RailsWorkflow
   class OperationDecorator < OperationHelperDecorator
     delegate_all
-
     decorates_association :template, with: OperationTemplateDecorator
+
+
+    def context
+      ContextDecorator.decorate object.context
+    end
 
     def process
       object.process.decorate
@@ -34,9 +38,6 @@ module RailsWorkflow
 
     end
 
-    def context
-      ContextDecorator.decorate(object.context).data
-    end
 
     def show_template_dependencies
       template.show_dependencies

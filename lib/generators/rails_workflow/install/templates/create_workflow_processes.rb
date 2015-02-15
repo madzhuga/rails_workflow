@@ -112,5 +112,11 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       rename_table :workflow_errors, :rails_workflow_errors
     end
 
+    unless column_exists? :rails_workflow_operation_templates, :partial_name
+      add_column :rails_workflow_operation_templates, :partial_name, :string
+      add_column :rails_workflow_process_templates, :partial_name, :string
+    end
+
+
   end
 end

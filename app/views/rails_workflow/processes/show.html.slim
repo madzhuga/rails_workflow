@@ -122,13 +122,4 @@ ol.breadcrumb.alert-warning
       .panel-heading
         h1.panel-title Process Context
       .panel-body
-        table.table.table-striped.table-hover
-          thead
-            tr
-              th Key
-              th Value
-          tbody
-            - resource.context.data.each_pair do |key, value|
-              tr
-                td = key
-                td = value
+        = render resource.context.partial_name, { context: resource.context }

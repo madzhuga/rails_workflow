@@ -22,7 +22,7 @@ module RailsWorkflow
 
     protected
     def permitted_params
-      params.permit(process_template: [:title, :source, :manager_class, :process_class, :type])
+      params.permit(process_template: [:title, :source, :manager_class, :partial_name, :process_class, :type])
     end
 
 
