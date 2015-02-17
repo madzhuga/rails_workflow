@@ -9,19 +9,20 @@ module RailsWorkflow
 
         def self.role_text role
           if role.present?
-            get_role_values.rassoc(role.to_s).try(:first) ||
-                get_role_values.rassoc(role.to_sym).try(:first)
+            get_rassoc get_role_values, role
           end
         end
 
         def self.group_text group
           if group.present?
-            get_group_values.rassoc(group.to_s).try(:first) ||
-              get_group_values.rassoc(group.to_sym).try(:first)
+            get_rassoc get_group_values, group
           end
         end
 
-
+        private
+        def get_rassoc values, value
+          values.rassoc(vaule.to_s) || values.rassoc(value.to_sym)
+        end
 
       end
     end

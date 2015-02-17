@@ -1,122 +1,130 @@
 class CreateWorkflowProcesses < ActiveRecord::Migration
   def change
-    unless table_exists?(:rails_workflow_processes) || table_exists?(:workflow_processes)
-      create_table :workflow_processes do |t|
-        t.integer :status
-        t.boolean :async
-        t.string :title
+    create_tables
+    create_columns
+    create_indexes
+  end
 
-        t.timestamps
+  def create_tables
+    [
+        [:workflow_processes, :rails_workflow_processes],
+        [:workflow_operations, :rails_workflow_operations],
+        [:workflow_process_templates, :rails_workflow_process_templates],
+        [:workflow_operation_templates, :rails_workflow_operation_templates],
+        [:workflow_contexts, :rails_workflow_contexts],
+        [:workflow_errors, :rails_workflow_errors]
+    ].map do |names|
+      if table_exists? names[0]
+        rename_table names[0], names[1]
       end
 
-      create_table :workflow_operations do |t|
-        t.integer :status
-        t.boolean :async
-        t.string :title
+      create_table names[1] unless table_exists? names[1]
+    end
 
-        t.timestamps
+  end
+
+  def create_indexes
+    [
+        [:rails_workflow_contexts, [:parent_id, :parent_type]],
+        [:rails_workflow_errors, [:parent_id, :parent_type]],
+        [:rails_workflow_operation_templates, :process_template_id],
+        [:rails_workflow_operations, :process_id],
+        [:rails_workflow_operations, :template_id]
+    ].each do |idx|
+      unless index_exists? idx[0], idx[1]
+        add_index idx[0], idx[1]
       end
+    end
+  end
 
-      create_table :workflow_process_templates do |t|
-        t.string :title
-        t.text :source
-        t.string :manager_class
-        t.string :process_class
+  def create_columns
+    {
+      :rails_workflow_contexts => [
+        [:integer,  :parent_id],
+        [:string,   :parent_type],
+        [:json,     :body],
+        [:datetime, :created_at],
+        [:datetime, :updated_at],
+      ],
 
-        t.timestamps
-      end
+      :rails_workflow_errors => [
+        [:string,   :message],
+        [:text,    :stack_trace],
+        [:integer,  :parent_id],
+        [:string,   :parent_type],
+        [:datetime, :created_at],
+        [:datetime, :updated_at],
+        [:boolean,  :resolved]
+      ],
 
-      create_table :workflow_operation_templates do |t|
-        t.string :title
-        t.text :source
-        t.text :dependencies
-        t.string :operation_class
-        t.integer :process_template_id
-        t.timestamps
-      end
+      :rails_workflow_operation_templates => [
+          [:string,   :title],
+          [:text,     :source],
+          [:text,     :dependencies],
+          [:string,   :operation_class],
+          [:integer,  :process_template_id],
+          [:datetime, :created_at],
+          [:datetime, :updated_at],
+          [:boolean,  :async],
+          [:integer,  :child_process_id],
+          [:integer,  :assignment_id],
+          [:string,   :assignment_type],
+          [:string,   :kind],
+          [:string,   :role],
+          [:string,   :group],
+          [:text,     :instruction],
+          [:boolean,  :is_background],
+          [:string,   :type],
+          [:string,   :partial_name],
+      ],
 
+      :rails_workflow_operations => [
+          [:integer,  :status],
+          [:boolean,  :async],
+          [:string,   :title],
+          [:datetime, :created_at],
+          [:datetime, :updated_at],
+          [:integer,  :process_id],
+          [:integer,  :template_id],
+          [:text,     :dependencies],
+          [:integer,  :child_process_id],
+          [:integer,  :assignment_id],
+          [:string,   :assignment_type],
+          [:datetime, :assigned_at],
+          [:string,   :type],
+          [:boolean,  :is_active],
+          [:datetime, :completed_at],
+          [:boolean,  :is_background]
+      ],
 
-      add_column :workflow_processes, :template_id, :integer
-      add_column :workflow_processes, :type, :string
-      add_column :workflow_operations, :process_id, :integer
-      add_column :workflow_operations, :template_id, :integer
-      add_column :workflow_operation_templates, :async, :boolean
-      add_column :workflow_operations, :dependencies, :text
-      add_column :workflow_operation_templates, :child_process_id, :integer
-      add_column :workflow_operations, :child_process_id, :integer
+      :rails_workflow_process_templates => [
+          [:string,   :title],
+          [:text,     :source],
+          [:string,   :manager_class],
+          [:string,   :process_class],
+          [:datetime, :created_at],
+          [:datetime, :updated_at],
+          [:string,   :type],
+          [:string,   :partial_name]
+      ],
 
-      add_column :workflow_operation_templates, :assignment_id, :integer
-      add_column :workflow_operation_templates, :assignment_type, :string
-
-      add_column :workflow_operations, :assignment_id, :integer
-      add_column :workflow_operations, :assignment_type, :string
-      add_column :workflow_operations, :assigned_at, :datetime
-
-      add_column :workflow_operation_templates, :kind, :string
-
-      add_column :workflow_operation_templates, :role, :string
-      add_column :workflow_operation_templates, :group, :string
-
-      add_column :workflow_operations, :type, :string
-      add_column :workflow_operations, :is_active, :boolean
-      add_column :workflow_operation_templates, :instruction, :text
-
-      create_table :workflow_contexts do |t|
-        t.integer :parent_id
-        t.string :parent_type
-        t.json :body
-
-        t.timestamps
-      end
-
-      add_index :workflow_contexts, [:parent_id, :parent_type]
-
-      create_table :workflow_errors do |t|
-        t.string :message
-        t.text :stack_trace
-        t.integer :parent_id
-        t.string :parent_type
-
-        t.timestamps
-      end
-
-      add_column :workflow_operations, :completed_at, :datetime
-      add_column :workflow_operation_templates, :is_background, :boolean, default: true
-      add_column :workflow_operations, :is_background, :boolean
-
-      unless column_exists? :workflow_operation_templates, :type
-        add_column :workflow_operation_templates, :type, :string
-      end
-
-      unless column_exists? :workflow_errors, :resolved
-        add_column :workflow_errors, :resolved, :boolean
-      end
-
-      unless column_exists? :workflow_process_templates, :type
-        add_column :workflow_process_templates, :type, :string
-      end
-
-      unless column_exists? :workflow_errors, :resolved, :boolean
-        add_column :workflow_errors, :resolved, :boolean
+      :rails_workflow_processes => [
+          [:integer,  :status],
+          [:boolean,  :async],
+          [:string,   :title],
+          [:datetime, :created_at],
+          [:datetime, :updated_at],
+          [:integer,  :template_id],
+          [:string,   :type]
+      ]
+    }.each do |table, columns|
+      columns.map do |column|
+        unless column_exists? talbe, column[1]
+          add_column table, column[1], column[0]
+        end
       end
 
     end
-
-
-    unless table_exists? :rails_workflow_processes
-      rename_table :workflow_processes, :rails_workflow_processes
-      rename_table :workflow_operations, :rails_workflow_operations
-      rename_table :workflow_process_templates, :rails_workflow_process_templates
-      rename_table :workflow_operation_templates, :rails_workflow_operation_templates
-      rename_table :workflow_contexts, :rails_workflow_contexts
-      rename_table :workflow_errors, :rails_workflow_errors
-    end
-
-    unless column_exists? :rails_workflow_operation_templates, :partial_name
-      add_column :rails_workflow_operation_templates, :partial_name, :string
-      add_column :rails_workflow_process_templates, :partial_name, :string
-    end
-
 
   end
 end
