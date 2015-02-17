@@ -60,7 +60,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       :rails_workflow_operation_templates => [
           [:string,   :title],
           [:text,     :source],
-          [:text,     :dependencies],
+          [:json,     :dependencies],
           [:string,   :operation_class],
           [:integer,  :process_template_id],
           [:datetime, :created_at],
@@ -86,7 +86,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
           [:datetime, :updated_at],
           [:integer,  :process_id],
           [:integer,  :template_id],
-          [:text,     :dependencies],
+          [:json,     :dependencies],
           [:integer,  :child_process_id],
           [:integer,  :assignment_id],
           [:string,   :assignment_type],

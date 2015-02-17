@@ -33,7 +33,8 @@ module RailsWorkflow
 
     protected
     def permitted_params
-      parms = params.permit(
+      parameters =
+          params.permit(
           operation_template: [
               :kind,
               :type,
@@ -51,20 +52,25 @@ module RailsWorkflow
                   statuses: []
               ]
           ])
-      prepare_dependencies parms
-      parms
+
+      if parameters[:operation_template].present?
+        parameters[:operation_template][:dependencies] =
+            prepare_dependencies parameters[:operation_template]
+      end
+
+      parameters
     end
 
-    def prepare_dependencies parms
-      if parms[:operation_template].try(:[], :dependencies).present?
-        dependencies = parms[:operation_template][:dependencies].values.map(&:to_h).each do |dep|
-          dep['id'] = dep['id'].to_i
-          dep['statuses'] = (dep['statuses'] ||
-                              RailsWorkflow::OperationTemplate.all_statuses
-                            ).map(&:to_i)
-        end
+    def prepare_dependencies parameters
+      if parameters && parameters[:dependencies].present?
+        parse_dependencies parameters[:dependencies].to_hash
+      end
+    end
 
-        parms[:operation_template][:dependencies] = dependencies
+    def parse_dependencies hash
+      hash.values.each do |dep|
+        dep['id'] = dep['id'].to_i
+        dep['statuses'] = dep['statuses'].map(&:to_i) || RailsWorkflow::OperationTemplate.all_statuses
       end
     end
 

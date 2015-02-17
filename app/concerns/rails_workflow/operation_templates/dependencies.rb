@@ -22,21 +22,12 @@ module RailsWorkflow
           true
         end
 
-        def resolve_dependency! operation
-          resolve_dependency operation
-        end
-
-        def dependencies=(dependencies)
-          write_attribute(:dependencies, dependencies.to_json.to_s)
-        end
-
+        # def dependencies=(dependencies)
+        #   write_attribute(:dependencies, dependencies.to_json.to_s)
+        # end
+        #
         def dependencies
-          value = read_attribute(:dependencies)
-          if value.present?
-            JSON.parse(value)
-          else
-            []
-          end
+          read_attribute(:dependencies) || []
         end
 
       end

@@ -17,31 +17,25 @@ module RailsWorkflow
         # dependencies on process and operation level
         #
         def build_dependencies operation
-          # template operations that depends on that given operation and it's status
-          template_operations = template.dependent_operations(operation)
 
           new_operations = []
-          # default implementation is not allowing to have few operations in process
-          # having same operation template. One operation template = one operation in process.
-          # Only error task's restart or process restart allowing to re-create operation few times.
 
-          (template_operations - operations.map(&:template)).each do |operation_template|
-            # this is templates that depends on given operation and
-            # not yet added to process.
-
+          matched_templates(operation).each do |operation_template|
             completed_dependencies = [operation]
-            if operation_template.resolve_dependency! operation
+
+            if operation_template.resolve_dependency operation
               new_operations << operation_template.build_operation!(self, completed_dependencies)
             end
 
           end
 
-          new_operations.compact.each do |new_operation|
+          new_operations.each do |new_operation|
             if incomplete_statuses.include?(status)
               self.operations << new_operation
               new_operation.start
             end
           end
+
         rescue => exception
           RailsWorkflow::Error.create_from(
               exception, {
@@ -54,11 +48,12 @@ module RailsWorkflow
 
         end
 
-        # # This method returns operations that can be build.
-        # def solved_dependencies operation
-        #   # operation_dependencies(operation).select{|dop| dop.}
-        #   operation_dependencies(operation)
-        # end
+        private
+
+        def matched_templates operation
+          template.dependent_operations(operation) - operations.map(&:template)
+        end
+
 
 
 

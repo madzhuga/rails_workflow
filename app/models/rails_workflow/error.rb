@@ -4,12 +4,14 @@ module RailsWorkflow
     has_one :context, class_name: "RailsWorkflow::Context", as: :parent
     scope :unresolved, -> { where("resolved is null or resolved = false")}
 
+    delegate :data, to: :context
+
     def retry
       update_attribute(:resolved, true)
 
-      target = context.data[:target]
-      method = context.data[:method]
-      args = context.data[:args]
+      target = data[:target]
+      method = data[:method]
+      args = data[:args]
 
       target.send(method, *args)
 
