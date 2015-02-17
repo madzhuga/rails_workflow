@@ -1,8 +1,7 @@
 #Rails Workflow Engine
 
-<a href="https://codeclimate.com/github/madzhuga/rails_workflow">
-    <img src="https://codeclimate.com/github/madzhuga/rails_workflow/badges/gpa.svg" />
-</a>
+[![Code Climate](https://codeclimate.com/github/madzhuga/rails_workflow/badges/gpa.svg)](https://codeclimate.com/github/madzhuga/rails_workflow)
+
 ## Overview
 
 Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
