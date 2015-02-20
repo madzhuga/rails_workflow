@@ -23,7 +23,7 @@ module RailsWorkflow
         end
 
         def get_rassoc values, value
-          values.rassoc(value.to_s) || values.rassoc(value.to_sym)
+          (values.rassoc(value.to_s) || values.rassoc(value.to_sym)).try(:[], 0)
         end
 
       end
