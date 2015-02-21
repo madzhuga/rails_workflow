@@ -1,0 +1,574 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: CreateWorkflowProcesses
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!CreateWorkflowProcesses.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (C)</a> &raquo;
+    
+    
+    <span class="title">CreateWorkflowProcesses</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: CreateWorkflowProcesses
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Migration</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Migration</li>
+          
+            <li class="next">CreateWorkflowProcesses</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/generators/rails_workflow/install/templates/create_workflow_processes.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change-instance_method" title="#change (instance method)">- (Object) <strong>change</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_columns-instance_method" title="#create_columns (instance method)">- (Object) <strong>create_columns</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_indexes-instance_method" title="#create_indexes (instance method)">- (Object) <strong>create_indexes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_tables-instance_method" title="#create_tables (instance method)">- (Object) <strong>create_tables</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="change-instance_method">
+  
+    - (<tt>Object</tt>) <strong>change</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/generators/rails_workflow/install/templates/create_workflow_processes.rb', line 2</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_change'>change</span>
+  <span class='id identifier rubyid_create_tables'>create_tables</span>
+  <span class='id identifier rubyid_create_columns'>create_columns</span>
+  <span class='id identifier rubyid_create_indexes'>create_indexes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_columns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_columns</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/generators/rails_workflow/install/templates/create_workflow_processes.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_columns'>create_columns</span>
+  <span class='lbrace'>{</span>
+    <span class='symbol'>:rails_workflow_contexts</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+      <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:parent_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:parent_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:json</span><span class='comma'>,</span>     <span class='symbol'>:body</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='rbracket'>]</span><span class='comma'>,</span>
+
+    <span class='symbol'>:rails_workflow_errors</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+      <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:message</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span>    <span class='symbol'>:stack_trace</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:parent_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:parent_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:resolved</span><span class='rbracket'>]</span>
+    <span class='rbracket'>]</span><span class='comma'>,</span>
+
+    <span class='symbol'>:rails_workflow_operation_templates</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:title</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span>     <span class='symbol'>:source</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:json</span><span class='comma'>,</span>     <span class='symbol'>:dependencies</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:operation_class</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:process_template_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:async</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:child_process_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:assignment_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:assignment_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:kind</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:role</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:group</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span>     <span class='symbol'>:instruction</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:is_background</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:partial_name</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='rbracket'>]</span><span class='comma'>,</span>
+
+    <span class='symbol'>:rails_workflow_operations</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:status</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:async</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:title</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:process_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:template_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:json</span><span class='comma'>,</span>     <span class='symbol'>:dependencies</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:child_process_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:assignment_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:assignment_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:assigned_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:is_active</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:completed_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:is_background</span><span class='rbracket'>]</span>
+    <span class='rbracket'>]</span><span class='comma'>,</span>
+
+    <span class='symbol'>:rails_workflow_process_templates</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:title</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span>     <span class='symbol'>:source</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:manager_class</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:process_class</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:partial_name</span><span class='rbracket'>]</span>
+    <span class='rbracket'>]</span><span class='comma'>,</span>
+
+    <span class='symbol'>:rails_workflow_processes</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:status</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:boolean</span><span class='comma'>,</span>  <span class='symbol'>:async</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:title</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:created_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:datetime</span><span class='comma'>,</span> <span class='symbol'>:updated_at</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:integer</span><span class='comma'>,</span>  <span class='symbol'>:template_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='lbracket'>[</span><span class='symbol'>:string</span><span class='comma'>,</span>   <span class='symbol'>:type</span><span class='rbracket'>]</span>
+    <span class='rbracket'>]</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_table'>table</span><span class='comma'>,</span> <span class='id identifier rubyid_columns'>columns</span><span class='op'>|</span>
+    <span class='id identifier rubyid_columns'>columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_column'>column</span><span class='op'>|</span>
+      <span class='kw'>unless</span> <span class='id identifier rubyid_column_exists?'>column_exists?</span> <span class='id identifier rubyid_talbe'>talbe</span><span class='comma'>,</span> <span class='id identifier rubyid_column'>column</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_add_column'>add_column</span> <span class='id identifier rubyid_table'>table</span><span class='comma'>,</span> <span class='id identifier rubyid_column'>column</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_column'>column</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_indexes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_indexes</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/generators/rails_workflow/install/templates/create_workflow_processes.rb', line 26</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_indexes'>create_indexes</span>
+  <span class='lbracket'>[</span>
+      <span class='lbracket'>[</span><span class='symbol'>:rails_workflow_contexts</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='comma'>,</span> <span class='symbol'>:parent_type</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:rails_workflow_errors</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='comma'>,</span> <span class='symbol'>:parent_type</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:rails_workflow_operation_templates</span><span class='comma'>,</span> <span class='symbol'>:process_template_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:rails_workflow_operations</span><span class='comma'>,</span> <span class='symbol'>:process_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:rails_workflow_operations</span><span class='comma'>,</span> <span class='symbol'>:template_id</span><span class='rbracket'>]</span>
+  <span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_idx'>idx</span><span class='op'>|</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_index_exists?'>index_exists?</span> <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_add_index'>add_index</span> <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_idx'>idx</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_tables-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_tables</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/generators/rails_workflow/install/templates/create_workflow_processes.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_tables'>create_tables</span>
+  <span class='lbracket'>[</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_processes</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_processes</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_operations</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_operations</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_process_templates</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_process_templates</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_operation_templates</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_operation_templates</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_contexts</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_contexts</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='lbracket'>[</span><span class='symbol'>:workflow_errors</span><span class='comma'>,</span> <span class='symbol'>:rails_workflow_errors</span><span class='rbracket'>]</span>
+  <span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_names'>names</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_table_exists?'>table_exists?</span> <span class='id identifier rubyid_names'>names</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_rename_table'>rename_table</span> <span class='id identifier rubyid_names'>names</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_names'>names</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_create_table'>create_table</span> <span class='id identifier rubyid_names'>names</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_table_exists?'>table_exists?</span> <span class='id identifier rubyid_names'>names</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 19 23:04:32 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>

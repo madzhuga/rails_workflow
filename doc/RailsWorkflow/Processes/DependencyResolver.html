@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: RailsWorkflow::Processes::DependencyResolver
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!RailsWorkflow/Processes/DependencyResolver.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../RailsWorkflow.html" title="RailsWorkflow (module)">RailsWorkflow</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Processes.html" title="RailsWorkflow::Processes (module)">Processes</a></span></span>
+     &raquo; 
+    <span class="title">DependencyResolver</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: RailsWorkflow::Processes::DependencyResolver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1">ActiveSupport::Concern</dd>
+      
+    
+  
+    
+  
+  
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="../Process.html" title="RailsWorkflow::Process (class)">RailsWorkflow::Process</a></span></dd>
+    
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/concerns/rails_workflow/processes/dependency_resolver.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>When some operation is</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_dependencies-instance_method" title="#build_dependencies (instance method)">- (Array&lt;RailsWorkflow::Operation&gt;) <strong>build_dependencies</strong>(operation) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This methods get&#39;s operations that depends on given one.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="build_dependencies-instance_method">
+  
+    - (<tt>Array&lt;<span class='object_link'><a href="../Operation.html" title="RailsWorkflow::Operation (class)">RailsWorkflow::Operation</a></span>&gt;</tt>) <strong>build_dependencies</strong>(operation) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This methods get&#39;s operations that depends on given one.
+Operation::DependencyResolver resolves operation template dependencies but
+we can define dependencies not only by template but by some other business
+logic on process level. That is why I splitted operation dependencies on
+process and operation level</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>operation</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Operation.html" title="RailsWorkflow::Operation (class)">RailsWorkflow::Operation</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which changed status; process template operations that depends on given
+operation&#39;s template (and it&#39;s status) will be build.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../Operation.html" title="RailsWorkflow::Operation (class)">RailsWorkflow::Operation</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/concerns/rails_workflow/processes/dependency_resolver.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_dependencies'>build_dependencies</span> <span class='id identifier rubyid_operation'>operation</span>
+
+  <span class='id identifier rubyid_new_operations'>new_operations</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_matched_templates'>matched_templates</span><span class='lparen'>(</span><span class='id identifier rubyid_operation'>operation</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_operation_template'>operation_template</span><span class='op'>|</span>
+    <span class='id identifier rubyid_completed_dependencies'>completed_dependencies</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_operation'>operation</span><span class='rbracket'>]</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_operation_template'>operation_template</span><span class='period'>.</span><span class='id identifier rubyid_resolve_dependency'>resolve_dependency</span> <span class='id identifier rubyid_operation'>operation</span>
+      <span class='id identifier rubyid_new_operations'>new_operations</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_operation_template'>operation_template</span><span class='period'>.</span><span class='id identifier rubyid_build_operation!'>build_operation!</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_completed_dependencies'>completed_dependencies</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_new_operations'>new_operations</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_new_operation'>new_operation</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_incomplete_statuses'>incomplete_statuses</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_status'>status</span><span class='rparen'>)</span>
+      <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_operations'>operations</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_operation'>new_operation</span>
+      <span class='id identifier rubyid_new_operation'>new_operation</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_exception'>exception</span>
+  <span class='const'>RailsWorkflow</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_create_from'>create_from</span><span class='lparen'>(</span>
+      <span class='id identifier rubyid_exception'>exception</span><span class='comma'>,</span> <span class='lbrace'>{</span>
+                   <span class='label'>parent:</span> <span class='kw'>self</span><span class='comma'>,</span>
+                   <span class='label'>target:</span> <span class='kw'>self</span><span class='comma'>,</span>
+                   <span class='label'>method:</span> <span class='symbol'>:build_dependencies</span><span class='comma'>,</span>
+                   <span class='label'>args:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_operation'>operation</span><span class='rbracket'>]</span>
+               <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:08 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>

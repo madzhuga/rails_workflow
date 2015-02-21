@@ -1,0 +1,4 @@
+/* Override this file with custom rules */
+img {
+    max-width: 1000px;
+}

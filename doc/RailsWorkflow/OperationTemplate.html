@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: RailsWorkflow::OperationTemplate
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!RailsWorkflow/OperationTemplate.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (O)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RailsWorkflow.html" title="RailsWorkflow (module)">RailsWorkflow</a></span></span>
+     &raquo; 
+    <span class="title">OperationTemplate</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: RailsWorkflow::OperationTemplate
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">RailsWorkflow::OperationTemplate</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">OperationStatus, OperationTemplates::Assignments, <span class='object_link'><a href="OperationTemplates/DefaultBuilder.html" title="RailsWorkflow::OperationTemplates::DefaultBuilder (module)">RailsWorkflow::OperationTemplates::DefaultBuilder</a></span>, <span class='object_link'><a href="OperationTemplates/Dependencies.html" title="RailsWorkflow::OperationTemplates::Dependencies (module)">RailsWorkflow::OperationTemplates::Dependencies</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/models/rails_workflow/operation_template.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Every operation has operation template. This operation template allows you
+to configure operation and also responsible for resolving dependencies
+(checking if need to create operation) and for building operation.</p>
+
+<p><img
+src="http://madzhuga.github.io/rails_workflow/images/default_operation_template.png"
+/></p>
+
+<p>Default operation - is auto operation. As you can see on screenshot it has
+several fields:</p>
+
+<p>Operation class - allows you specify custom operation class. Operation need
+to have #execute method having code you want operation to complete (if it
+is auto operation like in this example).</p>
+
+<p>Template class - allows you to specify custom operation template class.
+Template is responsible for resolving dependencies (detecting if that
+operation should be created) and for building operation (including
+operation context)</p>
+
+<p>Context Partial - allows you to specify custom partial for operation
+context. By default operation context partial just showing context
+variables but you may change it to have links to your application resources
+included in context or show some other usefull information on it.</p>
+
+<p>Child process - allows you to specify process, which operation will start
+when executing. Child process will use that operation context as initial
+context. Such operation will be completed only when it&#39;s child process
+is completed - untill then process will not be able to complete this
+operation and build it&#39;s dependant operations. If child process gets
+ERROR status - this operation is also will get ERROR status.</p>
+
+<p>Asynchronous - allows you to set operation as asynchronous. This means that
+process will not wait for it&#39;s completion. By default process is
+completed when all it&#39;s operation is completed. But in some cases you
+may need ability to complete process even if some operations is not yet
+completed. For example overall process is completed but here is some minor
+operation (child process) that is still in progress or waiting for
+something and it &#39;holds&#39; process (and may be it&#39;s parent
+process etc). This is when asynchronous operations are useful - process
+will not wait for such operations to complete and may be completed having
+async operations still running.</p>
+
+<p>Run in background - allows you to set operation to run in sidekiq
+background process.</p>
+
+<p>There is also user by group and user by role operations in the system (you
+can create any custom operation you want but default operation, user by
+group operation and user by role operation comes out of the box). They
+difference is that they also have input to specify user group or role. Only
+users having such group or role will be able to start and complete such
+operations. User by group operation template:</p>
+
+<p><img
+src="http://madzhuga.github.io/rails_workflow/images/new_user_operation_by_group.png"
+/></p>
+
+<p>and user by role:</p>
+
+<p><img
+src="http://madzhuga.github.io/rails_workflow/images/new_user_operation_by_role.png"
+/></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#other_operations-instance_method" title="#other_operations (instance method)">- (Array&lt;RailsWorkflow::OperationTemplate&gt;) <strong>other_operations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns all operation templates except self.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="OperationTemplates/DefaultBuilder.html" title="RailsWorkflow::OperationTemplates::DefaultBuilder (module)">RailsWorkflow::OperationTemplates::DefaultBuilder</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="OperationTemplates/DefaultBuilder.html#build_context-class_method" title="RailsWorkflow::OperationTemplates::DefaultBuilder.build_context (method)">build_context</a></span>, <span class='object_link'><a href="OperationTemplates/DefaultBuilder.html#build_operation-instance_method" title="RailsWorkflow::OperationTemplates::DefaultBuilder#build_operation (method)">#build_operation</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="OperationTemplates/Dependencies.html" title="RailsWorkflow::OperationTemplates::Dependencies (module)">RailsWorkflow::OperationTemplates::Dependencies</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="OperationTemplates/Dependencies.html#dependencies-instance_method" title="RailsWorkflow::OperationTemplates::Dependencies#dependencies (method)">#dependencies</a></span>, <span class='object_link'><a href="OperationTemplates/Dependencies.html#resolve_dependency-instance_method" title="RailsWorkflow::OperationTemplates::Dependencies#resolve_dependency (method)">#resolve_dependency</a></span></p>
+
+  
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="other_operations-instance_method">
+  
+    - (<tt>Array&lt;<span class='object_link'><a href="" title="RailsWorkflow::OperationTemplate (class)">RailsWorkflow::OperationTemplate</a></span>&gt;</tt>) <strong>other_operations</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns all operation templates except self</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="" title="RailsWorkflow::OperationTemplate (class)">RailsWorkflow::OperationTemplate</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/rails_workflow/operation_template.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_other_operations'>other_operations</span>
+  <span class='const'>OperationTemplate</span><span class='period'>.</span><span class='id identifier rubyid_other_operations'>other_operations</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_process_template_id'>process_template_id</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:09 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>
