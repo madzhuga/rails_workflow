@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: RailsWorkflow::Operation
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!RailsWorkflow/Operation.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (O)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RailsWorkflow.html" title="RailsWorkflow (module)">RailsWorkflow</a></span></span>
+     &raquo; 
+    <span class="title">Operation</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: RailsWorkflow::Operation
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">RailsWorkflow::Operation</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">OperationStatus, Operations::Dependencies, <span class='object_link'><a href="Operations/Assignments.html" title="RailsWorkflow::Operations::Assignments (module)">RailsWorkflow::Operations::Assignments</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html" title="RailsWorkflow::Operations::DefaultRunner (module)">RailsWorkflow::Operations::DefaultRunner</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/models/rails_workflow/operation.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Every process contains one or more operations. If you navigate to any
+process you will see that process operations list:</p>
+
+<p><img
+src="http://madzhuga.github.io/rails_workflow/images/process_operations.png"
+/></p>
+
+<p>There is two types of operations: auto operations and user operations. Auto
+operations using #execute method to perform some business logic. This
+#execute method is running is nested transaction and can be running in
+background (using sidekiq). All you have to do is enable sidekiq in
+configuration and check &#39;Run in background&#39; on operation template.</p>
+
+<p>User operations waiting for user to complete. They also have #on_complete
+method where you can add some code to run after user completes operation.</p>
+
+<p>Auto operations get&#39;s executed right after they are started. User
+operations set to WAITING status and waiting for user to complete them.</p>
+
+<p>User operations may be assigned to some users by their role or group. You
+can use following helpers in your application controllers:
+#assigned_operations, #available_operations, #current_operation.</p>
+
+<p>For example you can complete current user operation when it updates some
+resource:</p>
+
+<pre class="code ruby"><code class="ruby">def update
+  update! do |success, failure|
+    success.html do
+      # checks if there is current operation and user clicked &#39;Complete&#39; button
+      if current_operation &amp;&amp; (params[&#39;commit&#39;] == &#39;Complete&#39;)
+        current_operation.complete
+      end
+
+      redirect_to sales_contacts_path
+  end
+end</code></pre>
+
+<p>end</p>
+
+<p>Assigned operations - is operations that is assigned to this exact user.
+For example user can start some operation and then switch to some other
+operation. This way first operation user picked up is assigned to him but
+it is assigned to that user and not yet completed.</p>
+
+<p>Available operations - if operation is not yet assigned to some specific
+user and current user has role/group for which this operation is created
+then this user can pickup such operation and complete it.</p>
+
+<p>assigned_operations and available_operations helpers both returns only
+incompleted user operations.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="UserByGroupOperation.html" title="RailsWorkflow::UserByGroupOperation (class)">UserByGroupOperation</a></span>, <span class='object_link'><a href="UserByRoleOperation.html" title="RailsWorkflow::UserByRoleOperation (class)">UserByRoleOperation</a></span></p>
+</div>
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <h2>Method Summary</h2>
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Operations/Assignments.html" title="RailsWorkflow::Operations::Assignments (module)">RailsWorkflow::Operations::Assignments</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Operations/Assignments.html#activate-instance_method" title="RailsWorkflow::Operations::Assignments#activate (method)">#activate</a></span>, <span class='object_link'><a href="Operations/Assignments.html#assign-instance_method" title="RailsWorkflow::Operations::Assignments#assign (method)">#assign</a></span>, <span class='object_link'><a href="Operations/Assignments.html#assign_to-instance_method" title="RailsWorkflow::Operations::Assignments#assign_to (method)">#assign_to</a></span>, <span class='object_link'><a href="Operations/Assignments.html#assigned%3F-instance_method" title="RailsWorkflow::Operations::Assignments#assigned? (method)">#assigned?</a></span>, <span class='object_link'><a href="Operations/Assignments.html#can_be_assigned%3F-instance_method" title="RailsWorkflow::Operations::Assignments#can_be_assigned? (method)">#can_be_assigned?</a></span>, <span class='object_link'><a href="Operations/Assignments.html#cancel_assignment-instance_method" title="RailsWorkflow::Operations::Assignments#cancel_assignment (method)">#cancel_assignment</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Operations/DefaultRunner.html" title="RailsWorkflow::Operations::DefaultRunner (module)">RailsWorkflow::Operations::DefaultRunner</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Operations/DefaultRunner.html#can_complete%3F-instance_method" title="RailsWorkflow::Operations::DefaultRunner#can_complete? (method)">#can_complete?</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#can_start%3F-instance_method" title="RailsWorkflow::Operations::DefaultRunner#can_start? (method)">#can_start?</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#complete-instance_method" title="RailsWorkflow::Operations::DefaultRunner#complete (method)">#complete</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#completed%3F-instance_method" title="RailsWorkflow::Operations::DefaultRunner#completed? (method)">#completed?</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#execute-instance_method" title="RailsWorkflow::Operations::DefaultRunner#execute (method)">#execute</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#start-instance_method" title="RailsWorkflow::Operations::DefaultRunner#start (method)">#start</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#starting-instance_method" title="RailsWorkflow::Operations::DefaultRunner#starting (method)">#starting</a></span>, <span class='object_link'><a href="Operations/DefaultRunner.html#waiting-instance_method" title="RailsWorkflow::Operations::DefaultRunner#waiting (method)">#waiting</a></span></p>
+
+  
+  
+  
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:09 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>

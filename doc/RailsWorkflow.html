@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: RailsWorkflow
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!RailsWorkflow.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">RailsWorkflow</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: RailsWorkflow
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/rails_workflow.rb<span class="defines">,<br />
+  lib/rails_workflow/version.rb,<br /> app/models/rails_workflow/process.rb,<br /> app/models/rails_workflow/context.rb,<br /> app/models/rails_workflow/operation.rb,<br /> app/models/rails_workflow/process_template.rb,<br /> app/managers/rails_workflow/process_manager.rb,<br /> app/workers/rails_workflow/operation_worker.rb,<br /> app/concerns/rails_workflow/user/assignment.rb,<br /> app/models/rails_workflow/operation_template.rb,<br /> app/models/rails_workflow/user_by_role_operation.rb,<br /> app/models/rails_workflow/user_by_group_operation.rb,<br /> app/concerns/rails_workflow/operations/assignments.rb,<br /> app/concerns/rails_workflow/processes/default_runner.rb,<br /> app/concerns/rails_workflow/operations/default_runner.rb,<br /> app/concerns/rails_workflow/processes/dependency_resolver.rb,<br /> app/concerns/rails_workflow/operation_templates/dependencies.rb,<br /> app/concerns/rails_workflow/process_templates/default_builder.rb,<br /> app/concerns/rails_workflow/operation_templates/default_builder.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="RailsWorkflow/OperationTemplates.html" title="RailsWorkflow::OperationTemplates (module)">OperationTemplates</a></span>, <span class='object_link'><a href="RailsWorkflow/Operations.html" title="RailsWorkflow::Operations (module)">Operations</a></span>, <span class='object_link'><a href="RailsWorkflow/ProcessTemplates.html" title="RailsWorkflow::ProcessTemplates (module)">ProcessTemplates</a></span>, <span class='object_link'><a href="RailsWorkflow/Processes.html" title="RailsWorkflow::Processes (module)">Processes</a></span>, <span class='object_link'><a href="RailsWorkflow/User.html" title="RailsWorkflow::User (module)">User</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RailsWorkflow/Config.html" title="RailsWorkflow::Config (class)">Config</a></span>, <span class='object_link'><a href="RailsWorkflow/Context.html" title="RailsWorkflow::Context (class)">Context</a></span>, <span class='object_link'><a href="RailsWorkflow/Operation.html" title="RailsWorkflow::Operation (class)">Operation</a></span>, <span class='object_link'><a href="RailsWorkflow/OperationTemplate.html" title="RailsWorkflow::OperationTemplate (class)">OperationTemplate</a></span>, <span class='object_link'><a href="RailsWorkflow/OperationWorker.html" title="RailsWorkflow::OperationWorker (class)">OperationWorker</a></span>, <span class='object_link'><a href="RailsWorkflow/Process.html" title="RailsWorkflow::Process (class)">Process</a></span>, <span class='object_link'><a href="RailsWorkflow/ProcessManager.html" title="RailsWorkflow::ProcessManager (class)">ProcessManager</a></span>, <span class='object_link'><a href="RailsWorkflow/ProcessTemplate.html" title="RailsWorkflow::ProcessTemplate (class)">ProcessTemplate</a></span>, <span class='object_link'><a href="RailsWorkflow/UserByGroupOperation.html" title="RailsWorkflow::UserByGroupOperation (class)">UserByGroupOperation</a></span>, <span class='object_link'><a href="RailsWorkflow/UserByRoleOperation.html" title="RailsWorkflow::UserByRoleOperation (class)">UserByRoleOperation</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.2.1</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#setup-class_method" title="setup (class method)">+ (Object) <strong>setup</strong> {|self.config| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Used to configure Rails Workflow Engine.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="setup-class_method">
+  
+    + (<tt>Object</tt>) <strong>setup</strong> {|self.config| ... }
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Used to configure Rails Workflow Engine. Add to
+config/initializers/workflow.rb:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>RailsWorkflow</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_sidekiq_enabled'>sidekiq_enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self.<span class='object_link'>config</span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="RailsWorkflow/Config.html" title="RailsWorkflow::Config (class)">Config</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rails_workflow.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span>
+  <span class='kw'>yield</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:08 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>

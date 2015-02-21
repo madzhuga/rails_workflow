@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Rails Workflow Engine</h1>
+
+<p>[<img src="http://img.shields.io/gem/v/rails_workflow.svg?style=flat-square" alt="RubyGem Version">]
+<a href="https://codeclimate.com/github/madzhuga/rails_workflow"><img src="https://codeclimate.com/github/madzhuga/rails_workflow/badges/gpa.svg" alt="Code Climate"></a>
+[<img src="http://img.shields.io/gem/dt/rails_workflow.svg?style=flat-square" alt="RubyGem Downloads">]</p>
+
+<h2>Overview</h2>
+
+<p>Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
+configure, create and manage processes to easily build project management systems, sales / product provisioning systems,
+ERP, CMS, etc.</p>
+
+<p>Rails Workflow is mountable Rails engine and can be mounted to any Rails application.</p>
+
+<p>All processes, configurations, operations and their data is persisted for processing and supporting purposes.
+Engine has UI to configure process templates and manage existing processes.</p>
+
+<p><img src="http://madzhuga.github.io/rails_workflow/images/rails_workflow_screenshot.png" alt="Rails Workflow Engine"></p>
+
+<h3>Main features:</h3>
+
+<ul>
+<li>It is mountable rails engine.</li>
+<li>Allows to configure process and operation templates.</li>
+<li>Allows to configure syncronous and asyncronous operations.</li>
+<li>Allows to run operations in background</li>
+<li>Provides operations exceptions/errors monitoring and management.</li>
+<li>Allows to build hierarchical syncronous and asyncronous processes.</li>
+<li>Allows to split process implementation to operations isolating logic.</li>
+<li>Allows to reuse operations in different processes.</li>
+<li>Every operation runs in it&#39;s own transaction and has separate context.</li>
+<li>Process may be canceled, manually changed, rolled back, reset to any specific operation.</li>
+<li>Allow to track operations flow and their context, errors, user activities etc.</li>
+</ul>
+
+<h3>User Interface</h3>
+
+<ul>
+<li>It has UI for processes configuration and management.</li>
+<li>UI is bootstrapped and can be easily changed to fit main rails application design.</li>
+</ul>
+
+<h3>Documentation</h3>
+
+<p>You can find tutorials and documentation <a href="http://madzhuga.github.io/rails_workflow/">here</a></p>
+
+<h2>Installation</h2>
+
+<p>Add to your application&#39;s Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rails_workflow</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.2.1</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre class="code sh"><code class="sh">$ bundle install
+</code></pre>
+
+<p>Add to your config/application.rb</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rails_workflow</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>and mount it to /workflow routes:</p>
+
+<pre class="code ruby"><code class="ruby">Rails.application.routes.draw do
+  ...
+  mount RailsWorkflow::Engine =&gt; &#39;/workflow&#39;, as: &#39;workflow&#39;
+  ...
+end
+</code></pre>
+
+<p>Generate all models:</p>
+
+<pre class="code sh"><code class="sh">$ rails generate rails_workflow:install
+$ bundle exec rake db:migrate
+</code></pre>
+</div></div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:08 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>

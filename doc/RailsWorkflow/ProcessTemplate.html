@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: RailsWorkflow::ProcessTemplate
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!RailsWorkflow/ProcessTemplate.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RailsWorkflow.html" title="RailsWorkflow (module)">RailsWorkflow</a></span></span>
+     &raquo; 
+    <span class="title">ProcessTemplate</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: RailsWorkflow::ProcessTemplate
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ActiveRecord::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next">RailsWorkflow::ProcessTemplate</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="ProcessTemplates/DefaultBuilder.html" title="RailsWorkflow::ProcessTemplates::DefaultBuilder (module)">RailsWorkflow::ProcessTemplates::DefaultBuilder</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/models/rails_workflow/process_template.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Rails Workflow engine using Process Templates to configure processes.
+Process template allows you to configure future process operations and
+their dependencies. In addition to that it allows you to configure process
+itlesf. If you will try to create new process template you will see
+following form:</p>
+
+<p><img
+src="http://madzhuga.github.io/rails_workflow/images/new_process_template.png"
+/></p>
+
+<p>Here you can specify following process template parameters:</p>
+
+<p>Manager class - manager class is responsible for starting, building and
+completing process. It also may have additional functions (for example
+broadcasting messages between processes) so you can specify some custom
+process manager for your process or just use default one.</p>
+
+<p>Process class - responsible for starting, and stopping process, it&#39;s
+operations completion, resolving dependencies (deciding if new operations
+should be build when existing process operations changins statuses). You
+can specify some custom process class or use default.</p>
+
+<p>Type - process template class. Process Template class is responsible for
+building process and it&#39;s independent operations. You can use some
+custom process template class here or just use default one.</p>
+
+<p>Here you can see process template operations list: <img
+src="http://madzhuga.github.io/rails_workflow/images/first_tutorial_ready_template.png"
+/></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dependent_operations-instance_method" title="#dependent_operations (instance method)">- (Array&lt;RailsWorkflow::OperationTemplate&gt;) <strong>dependent_operations</strong>(operation) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Searches operation templates that depends on a given operation&#39;s
+template.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#independent_operations-instance_method" title="#independent_operations (instance method)">- (Array&lt;RailsWorkflow::OperationTemplates&gt;) <strong>independent_operations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Independent operations is operations which has no dependencies.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ProcessTemplates/DefaultBuilder.html" title="RailsWorkflow::ProcessTemplates::DefaultBuilder (module)">RailsWorkflow::ProcessTemplates::DefaultBuilder</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ProcessTemplates/DefaultBuilder.html#build_independent_operations-instance_method" title="RailsWorkflow::ProcessTemplates::DefaultBuilder#build_independent_operations (method)">#build_independent_operations</a></span>, <span class='object_link'><a href="ProcessTemplates/DefaultBuilder.html#build_operation-instance_method" title="RailsWorkflow::ProcessTemplates::DefaultBuilder#build_operation (method)">#build_operation</a></span>, <span class='object_link'><a href="ProcessTemplates/DefaultBuilder.html#build_process%21-instance_method" title="RailsWorkflow::ProcessTemplates::DefaultBuilder#build_process! (method)">#build_process!</a></span></p>
+
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="dependent_operations-instance_method">
+  
+    - (<tt>Array&lt;<span class='object_link'><a href="OperationTemplate.html" title="RailsWorkflow::OperationTemplate (class)">RailsWorkflow::OperationTemplate</a></span>&gt;</tt>) <strong>dependent_operations</strong>(operation) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Searches operation templates that depends on a given operation&#39;s
+template.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>operation</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Operation.html" title="RailsWorkflow::Operation (class)">RailsWorkflow::Operation</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>which template is used to search for dependent operations</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="OperationTemplate.html" title="RailsWorkflow::OperationTemplate (class)">RailsWorkflow::OperationTemplate</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/rails_workflow/process_template.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dependent_operations'>dependent_operations</span> <span class='id identifier rubyid_operation'>operation</span>
+  <span class='id identifier rubyid_operations'>operations</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_top'>top</span><span class='op'>|</span>
+    <span class='id identifier rubyid_top'>top</span><span class='period'>.</span><span class='id identifier rubyid_dependencies'>dependencies</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dp'>dp</span><span class='op'>|</span>
+      <span class='id identifier rubyid_dp'>dp</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_template'>template</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_dp'>dp</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>statuses</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='rparen'>)</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="independent_operations-instance_method">
+  
+    - (<tt>Array&lt;<span class='object_link'><a href="OperationTemplates.html" title="RailsWorkflow::OperationTemplates (module)">RailsWorkflow::OperationTemplates</a></span>&gt;</tt>) <strong>independent_operations</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Independent operations is operations which has no dependencies. When
+default builder (process template) is building process it also build
+independent operations for that process. When process is starting - it also
+starts all operations which is already exists in process (by default -
+independent operations)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="OperationTemplates.html" title="RailsWorkflow::OperationTemplates (module)">RailsWorkflow::OperationTemplates</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/rails_workflow/process_template.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_independent_operations'>independent_operations</span>
+  <span class='id identifier rubyid_operations'>operations</span><span class='period'>.</span><span class='id identifier rubyid_independent_only'>independent_only</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Sat Feb 21 22:21:09 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.2).
+</div>
+
+  </body>
+</html>
