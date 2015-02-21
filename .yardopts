@@ -1,0 +1,20 @@
+--protected
+--no-private
+--embed-mixin ClassMethods
+--hide-void-return
+--exclude app/controllers/
+--exclude app/decorators/
+--exclude app/concerns/rails_workflow/operations/dependencies.rb
+--exclude app/concerns/rails_workflow/operation_templates/assignments.rb
+--exclude app/workers/rails_workflow/error_worker.rb
+--exclude app/models/rails_workflow/error.rb
+--exclude app/helpers/rails_workflow/application_helper.rb
+--exclude lib/generators/rails_workflow/install/install_generator.rb
+--exclude lib/rails_workflow/engine.rb
+--exclude lib/generators/rails_workflow/install/install_generator.rb
+--exclude app/concerns/rails_workflow/operation_status.rb
+--exclude lib/generators/rails_workflow/install/templates/create_workflow_processes.rb
+--exclude app/concerns/rails_workflow/status.rb
+-
+CHANGELOG.md
+MIT-LICENSE

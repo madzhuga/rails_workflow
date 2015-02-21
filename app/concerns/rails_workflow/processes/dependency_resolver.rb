@@ -1,21 +1,19 @@
 module RailsWorkflow
   module Processes
-    # = DependencyResolver
     #
-    # New operation can be added to process if all it's dependencies are satisfied.
-    # For example current operation can depend on some existing process operation which
-    # should be completed - then current operation can be build
-
+    # When some operation is
     module DependencyResolver
       extend ActiveSupport::Concern
 
-      included do
+
         # This methods get's operations that depends on given one.
         # Operation::DependencyResolver resolves operation template dependencies
         # but we can define dependencies not only by template but by some other
         # business logic on process level. That is why I splitted operation
         # dependencies on process and operation level
         #
+        # @param [RailsWorkflow::Operation] operation which changed status; process template operations that depends on given operation's template (and it's status) will be build.
+        # @return [Array<RailsWorkflow::Operation>]
         def build_dependencies operation
 
           new_operations = []
@@ -50,6 +48,7 @@ module RailsWorkflow
 
         private
 
+        # @private
         def matched_templates operation
           template.dependent_operations(operation) - operations.map(&:template)
         end
@@ -59,7 +58,7 @@ module RailsWorkflow
 
 
 
-      end
+
     end
   end
 end

@@ -12,3 +12,7 @@ gem "will_paginate"
 gem "sidekiq"
 gem 'sinatra', require: false
 
+group :development do
+  gem 'yard-rails-plugin', :git => 'https://github.com/ogeidix/yard-rails-plugin.git', :tag => 'v0.0.1'
+  gem 'yard-activerecord', :git => 'https://github.com/theodorton/yard-activerecord.git'
+end

@@ -1,7 +1,13 @@
 
 module RailsWorkflow
   module OperationTemplates
-    module Assignments
+    # = Assignments
+    #
+    # User operation template specifies role or group of users which can pickup and complete
+    # operation.
+    #
+
+  module Assignments
       extend ActiveSupport::Concern
 
       included do

@@ -1,6 +1,8 @@
 #Rails Workflow Engine
 
+[![RubyGem Version](http://img.shields.io/gem/v/rails_workflow.svg?style=flat-square)]
 [![Code Climate](https://codeclimate.com/github/madzhuga/rails_workflow/badges/gpa.svg)](https://codeclimate.com/github/madzhuga/rails_workflow)
+[![RubyGem Downloads](http://img.shields.io/gem/dt/rails_workflow.svg?style=flat-square)]
 
 ## Overview
 

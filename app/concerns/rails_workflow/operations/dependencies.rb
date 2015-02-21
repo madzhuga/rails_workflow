@@ -2,6 +2,7 @@ require 'active_support/concern'
 
 module RailsWorkflow
   module Operations
+    # @private
     # = Workflow::ProcessTemplate::Dependenceis
     #
     # Operation dependencies is a set of conditions. Operation can be build if all that
@@ -10,7 +11,6 @@ module RailsWorkflow
     # for example you can add some additional logic depending on existiong processes / operations
     # or other conditions in your system.
     #
-
     module Dependencies
 
       extend ActiveSupport::Concern
