@@ -54,23 +54,37 @@ module RailsWorkflow
       @default_operation_types.merge(@operation_types || {})
     end
 
+    def operation_template_klass=(value)
+      @operation_template_type = value
+    end
+
     def default_operation_template_type
-      @default_operation_template_type
+      @operation_template_type || @default_operation_template_type
+    end
+
+    def manager_class=(value)
+      @process_manager = value
     end
 
     def manager_class
-      @default_process_manager
+      @process_manager || @default_process_manager
+    end
+
+    def process_class=(value)
+      @process_class = value
+    end
+
+    def process_template_klass=(value)
+      @process_template_type = value
     end
 
     def process_class
-      @default_process_class
+      @process_class || @default_process_class
     end
 
     def process_template_type
-      @default_process_template_type
+      @process_template_type || @default_process_template_type
     end
-
-
 
   end
 
