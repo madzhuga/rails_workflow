@@ -21,7 +21,7 @@ module RailsWorkflow
 
     protected
     def permitted_params
-      parms = params.permit(:process_id, :operation_id, :id)
+      params.permit(:process_id, :operation_id, :id)
     end
   end
 

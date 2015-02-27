@@ -1,7 +1,5 @@
 require "rails_workflow/engine"
 require 'singleton'
-require 'inherited_resources'
-require 'devise'
 require 'draper'
 
 

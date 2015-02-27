@@ -5,8 +5,8 @@
         h1.panel-title
           = "New Process Template"
       .panel-body
-        = form_for resource, html: {class: "form-horizontal clearfix"} do |f|
-          = render partial: resource.form, locals: {f: f}
+        = form_for @process_template, html: {class: "form-horizontal clearfix"} do |f|
+          = render partial: @process_template.form, locals: {f: f}
           .btn-toolbar.pull-right
             = link_to 'Back', process_templates_path, class: "btn btn-default"
             = f.submit value: 'Save', class: "btn btn-success"

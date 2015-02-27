@@ -3,7 +3,6 @@ require 'rails_helper'
 module RailsWorkflow
   RSpec.describe OperationTemplatesController, :type => :controller do
     routes { RailsWorkflow::Engine.routes }
-    login_user
 
     before :each do
       @template = create :process_template
@@ -28,7 +27,7 @@ module RailsWorkflow
         operation_template = OperationTemplate.create! valid_attributes
 
         get :index, { process_template_id: @template.id }, valid_session, use_route: :workflow
-        expect(assigns(:operations)).to eq([operation_template])
+        expect(assigns(:operation_templates)).to eq([operation_template])
       end
     end
 

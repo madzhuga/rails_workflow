@@ -1,21 +1,21 @@
-= render partial: "flash", locals: {notice: notice}
+= render partial: "application/flash", locals: {notice: notice}
 
 ol.breadcrumb.alert-warning
   li
     = link_to "Configuration", process_templates_path
   li.active
-    = "Template: #{resource.title}"
+    = "Template: #{@process_template.title}"
 
 .row
   .col-md-10
     .panel
       .panel-heading
         h1.panel-title
-          = "Template: #{resource.title}"
+          = "Template: #{@process_template.title}"
       .panel-body
-        = form_for resource, html: { class: "form-horizontal clearfix" } do |f|
+        = form_for @process_template, html: { class: "form-horizontal clearfix" } do |f|
           = render partial: 'form', locals: {f: f}
           .btn-toolbar.pull-right
-            = link_to 'Show', resource, class: "btn btn-default"
+            = link_to 'Show', @process_template, class: "btn btn-default"
             = link_to 'Back', process_templates_path, class: "btn btn-default"
             = f.submit value: 'Save', class: "btn btn-success"

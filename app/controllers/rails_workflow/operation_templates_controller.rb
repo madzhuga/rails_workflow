@@ -1,33 +1,39 @@
-require 'rails_workflow/application_controller'
 module RailsWorkflow
-  class OperationTemplatesController < ::InheritedResources::Base
+  class OperationTemplatesController < ::ActionController::Base
     layout 'rails_workflow/application'
-
-
-    defaults collection_name: 'operations', resource_class: OperationTemplate
-    belongs_to :process_template
+    before_action :set_operation_template, only: [:show, :edit, :update, :destroy]
+    before_action :set_process_template
+    respond_to :html
 
     before_filter do
       @config_section_active = true
     end
 
-    def new
-      @operation_template = OperationTemplate.new(permitted_params[:operation_template]).decorate
-      @operation_template.process_template = parent
-      new!
+    def index
+      @operation_templates = OperationTemplateDecorator.
+          decorate_collection(operation_templates_collection)
     end
 
+
+    def new
+      @operation_template = OperationTemplate.new(permitted_params).decorate
+      @operation_template.process_template = @process_template
+    end
+
+
     def create
-      create!{ process_template_operation_templates_url }
+      @operation_template = OperationTemplate.create(permitted_params)
+      redirect_to process_template_operation_templates_url
     end
 
     def update
-      @operation_template = RailsWorkflow::OperationTemplate.find(params[:id])
-      update! { process_template_operation_templates_url }
+      @operation_template.update(permitted_params)
+      redirect_to process_template_operation_templates_url
     end
 
     def destroy
-      destroy! { process_template_operation_templates_url}
+      @operation_template.destroy
+      redirect_to process_template_operation_templates_url
     end
 
 
@@ -54,17 +60,17 @@ module RailsWorkflow
           ])
 
       if parameters[:operation_template].present?
-        parameters[:operation_template][:dependencies] =
-            prepare_dependencies parameters[:operation_template]
+          parameters[:operation_template][:dependencies] =
+              prepare_dependencies parameters[:operation_template]
       end
 
-      parameters
+
+      parameters[:operation_template]
     end
 
     def prepare_dependencies parameters
-      if parameters && parameters[:dependencies].present?
-        parse_dependencies parameters[:dependencies].to_hash
-      end
+      parameters[:dependencies] &&
+          parse_dependencies(parameters[:dependencies].to_hash)
     end
 
     def parse_dependencies hash
@@ -74,20 +80,18 @@ module RailsWorkflow
       end
     end
 
-    def operations_collection
-      get_collection_ivar || begin
-        # collection_scope = Workflow::OperationTemplate.select("")
-        collection_scope = end_of_association_chain
-        set_collection_ivar collection_scope.order(id: :asc)
+    def operation_templates_collection
 
-      end
+      @operation_templates = @process_template.try(:operations) || OperationTemplate.
+          order(id: :asc)
+
     end
 
-    def collection
-      OperationTemplateDecorator.decorate_collection(operations_collection)
+    def set_process_template
+      @process_template = ProcessTemplate.find(params[:process_template_id]).decorate
     end
 
-    def resource
+    def set_operation_template
       @operation_template ||= OperationTemplate::find(params[:id]).decorate
     end
   end

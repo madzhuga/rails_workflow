@@ -8,11 +8,11 @@ ol.breadcrumb.alert-warning
   li
     = link_to "Configuration", process_templates_path
   li.active
-    = "Template: #{parent.title}"
+    = "Template: #{@process_template.title}"
 
 
 
-= render partial: "flash", locals: {notice: notice}
+= render partial: "application/flash", locals: {notice: notice}
 
 
 .row
@@ -20,7 +20,7 @@ ol.breadcrumb.alert-warning
     .panel
       .panel-heading
         h1.panel-title
-          = "Template: #{parent.title}"
+          = "Template: #{@process_template.title}"
       .panel-body
 
         table.table.table-striped.table-hover
@@ -36,9 +36,9 @@ ol.breadcrumb.alert-warning
 
 
           tbody
-            - collection.each do |operation|
+            - @operation_templates.each do |operation|
               tr
-                td = link_to operation.title, process_template_operation_template_path(parent, operation)
+                td = link_to operation.title, process_template_operation_template_path(@process_template, operation)
                 td = operation.assignment
                 td
                   ul.list-unstyled
@@ -51,13 +51,13 @@ ol.breadcrumb.alert-warning
                   - if operation.child_process.present?
                     = operation.child_process.title
                     span.label.label-default<> = (operation.async || false) ? "async" : "sync"
-                td = link_to 'Edit', edit_process_template_operation_template_path(parent, operation)
-                td = link_to 'Destroy', process_template_operation_template_path(parent, operation), data: {:confirm => 'Are you sure?'}, :method => :delete
+                td = link_to 'Edit', edit_process_template_operation_template_path(@process_template, operation)
+                td = link_to 'Destroy', process_template_operation_template_path(@process_template, operation), data: {:confirm => 'Are you sure?'}, :method => :delete
 
   .col-md-2
     .row
       .btn-group
-        = button_to "Create Process", {  controller: "processes", action: "create", process: { template_id: parent.id } }, method: :post, class: "btn btn-lg btn-success"
+        = button_to "Create Process", {  controller: "processes", action: "create", process: { template_id: @process_template.id } }, method: :post, class: "btn btn-lg btn-success"
       br
       br
       .btn-group
@@ -72,6 +72,6 @@ ol.breadcrumb.alert-warning
       br
       br
       .btn-group
-        = link_to 'Edit', edit_process_template_path(parent), class: "btn btn-primary"
+        = link_to 'Edit', edit_process_template_path(@process_template), class: "btn btn-primary"
 
 

@@ -17,7 +17,7 @@ ol.breadcrumb.alert-warning
               th Created At
 
           tbody
-            - collection.each do |operation|
+            - @operations.each do |operation|
               tr
                 td = link_to operation.title, process_operation_path(operation.process, operation)
                 td

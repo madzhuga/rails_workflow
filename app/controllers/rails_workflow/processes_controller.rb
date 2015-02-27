@@ -1,70 +1,91 @@
-require 'rails_workflow/application_controller'
 module RailsWorkflow
-  class ProcessesController < ::InheritedResources::Base
+  class ProcessesController < ::ActionController::Base
     layout 'rails_workflow/application'
+    respond_to :html
+    before_action :set_process, only: [:show, :edit, :update, :destroy]
 
     before_filter do
       @processes_section_active = true
     end
 
-    def create
-      #any process should be build by process manager
-      #using some process template.
-
-      @process = RailsWorkflow::ProcessManager.start_process params[:process][:template_id], {}
-
-      create! { process_url(resource) }
-    end
-
-    def update
-      update! { processes_path }
-    end
-
-    def destroy
-      destroy! { processes_url}
-    end
 
     def index
+      @processes = ProcessDecorator.decorate_collection(undecorated_collection)
 
-      @errors = RailsWorkflow::Error.unresolved.order(id: :asc).includes(:parent).limit(10)
-      @open_user_operations = RailsWorkflow::OperationDecorator.decorate_collection(
-          RailsWorkflow::Operation.incompleted.unassigned.includes(:template).limit(20)
-      )
+      @errors = Error.
+          unresolved.order(id: :asc).
+          includes(:parent).limit(10)
+
+      @open_user_operations = OperationDecorator.
+          decorate_collection(
+            RailsWorkflow::Operation.incompleted.
+                unassigned.includes(:template).
+                limit(20)
+          )
+
       @statistic = {
           all: RailsWorkflow::Process.count,
           statuses: RailsWorkflow::Process.count_by_statuses
       }
-
-      index!
     end
+
+    def new
+      @process = Process.new(permitted_params).decorate
+    end
+
+
+    def create
+      @process = RailsWorkflow::ProcessManager.start_process(
+          params[:process][:template_id], {}
+      )
+
+      redirect_to process_url(@process)
+    end
+
+
+    def update
+      @process.update(permitted_params)
+      redirect_to processes_path
+    end
+
+    def destroy
+      @process.destroy
+      redirect_to processes_path
+    end
+
 
 
     protected
     def permitted_params
-      params.permit(processes: [:status, :async, :title, :template_id], filter: [:status])
+      params.permit(
+          process: [
+              :status,
+              :async,
+              :title,
+              :template_id
+          ],
+          filter: [:status]
+      )[:process]
     end
 
     def undecorated_collection
-      get_collection_ivar || begin
-        collection_scope = end_of_association_chain
+
+        collection_scope = Process.default_scoped
 
         if params[:filter]
-          status = ::RailsWorkflow::Process.get_status_code(params[:filter]['status'])
+          status = Process.get_status_code(params[:filter]['status'])
           collection_scope = collection_scope.by_status(status)
         end
 
-        set_collection_ivar collection_scope.paginate(page: params[:page]).order(created_at: :desc)
+        collection_scope.paginate(page: params[:page]).order(created_at: :desc)
 
-      end
     end
 
 
-    def collection
-      ProcessDecorator.decorate_collection(undecorated_collection)
-    end
 
-    def resource
-      ProcessDecorator.decorate(super)
+
+    def set_process
+      @process ||= ProcessDecorator.decorate(Process.find params[:id]).decorate
     end
 
 

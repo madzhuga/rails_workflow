@@ -2,39 +2,39 @@ ol.breadcrumb.alert-warning
   li
     = link_to "Configuration", process_templates_path
   li
-    = link_to "Template: #{parent.title}", process_template_path(parent)
+    = link_to "Template: #{@process_template.title}", process_template_path(@process_template)
   li.active
-    = "Operation Template: #{resource.title}"
-= render partial: "flash", locals: { notice: notice }
+    = "Operation Template: #{@operation_template.title}"
+= render partial: "application/flash", locals: { notice: notice }
 
 .row
   .col-md-10
     .panel
       .panel-heading
         h1.panel-title
-          = "Operation: #{resource.title}"
+          = "Operation: #{@operation_template.title}"
       .panel-body
         table.table.table-striped.table-hover
           tr
             td Operation Class
-            td = resource.operation_class
+            td = @operation_template.operation_class
           tr
             td Operation Template Class
-            td = resource.type
+            td = @operation_template.type
 
-          - if resource.assignment.present?
+          - if @operation_template.assignment.present?
             tr
               td Assigned To
-              td = resource.assignment
+              td = @operation_template.assignment
 
 
           tr
             td Asynchronous
-            td = resource.async_text
+            td = @operation_template.async_text
 
           tr
             td Background:
-            td = resource.is_background_text
+            td = @operation_template.is_background_text
 
 
     .panel
@@ -42,7 +42,7 @@ ol.breadcrumb.alert-warning
         h1.panel-title Dependencies
       .panel-body
         table.table.table-striped.table-hover
-          - resource.show_dependencies.each do |dependency|
+          - @operation_template.show_dependencies.each do |dependency|
             tr
               td
                 = dependency.shift
@@ -51,5 +51,5 @@ ol.breadcrumb.alert-warning
                   span.label.label-default< = dependency_status
   .col-md-2
     .btn-toolbar
-      = link_to 'Edit', edit_process_template_operation_template_path(parent, resource), class: "btn btn-primary"
+      = link_to 'Edit', edit_process_template_operation_template_path(@process_template, @operation_template), class: "btn btn-primary"
 

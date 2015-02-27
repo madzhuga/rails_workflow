@@ -1,8 +1,8 @@
-- if resource.errors.any?
+- if @process_template.errors.any?
   #error_explanation
-    h2 = "#{pluralize(resource.errors.count, "error")} prohibited this process template from being saved:"
+    h2 = "#{pluralize(@process_template.errors.count, "error")} prohibited this process template from being saved:"
     ul
-      - resource.errors.full_messages.each do |message|
+      - @process_template.errors.full_messages.each do |message|
         li = message
 
 .form-group

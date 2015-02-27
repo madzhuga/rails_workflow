@@ -3,7 +3,6 @@ require 'rails_helper'
 module RailsWorkflow
   RSpec.describe ProcessesController, :type => :controller do
     routes { RailsWorkflow::Engine.routes }
-    login_user
 
     before :each do
       @template = create :process_template

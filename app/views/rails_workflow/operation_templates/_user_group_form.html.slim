@@ -1,11 +1,11 @@
-- if resource.errors.any?
+- if @operation_template.errors.any?
   #error_explanation
-    h2 = "#{pluralize(resource.errors.count, "error")} prohibited this wf_operation_template from being saved:"
+    h2 = "#{pluralize(@operation_template.errors.count, "error")} prohibited this wf_operation_template from being saved:"
     ul
-      - resource.errors.full_messages.each do |message|
+      - @operation_template.errors.full_messages.each do |message|
         li = message
 
-= hidden_field_tag 'operation_template[kind]', resource.kind
+= hidden_field_tag 'operation_template[kind]', @operation_template.kind
 
 .form-group
   = f.label :group, class: "control-label col-sm-2"

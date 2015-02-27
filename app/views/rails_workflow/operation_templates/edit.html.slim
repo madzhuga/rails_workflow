@@ -3,31 +3,31 @@ ol.breadcrumb.alert-warning
   li
     = link_to "Configuration", process_templates_path
   li
-    = link_to "Template: #{parent.title}", process_template_path(parent)
+    = link_to "Template: #{@process_template.title}", process_template_path(@process_template)
   li.active
-    = "Operation Template: #{resource.title}"
+    = "Operation Template: #{@operation_template.title}"
 
-= render partial: "flash", locals: {notice: notice}
+= render partial: "application/flash", locals: {notice: notice}
 .row
   .col-md-10
     .panel
       .panel-heading
         h1.panel-title
-          = "Operation: #{resource.title}"
+          = "Operation: #{@operation_template.title}"
       .panel-body
 
-        = form_for [parent, resource], url: process_template_operation_template_path,  html: {class: "form-horizontal clearfix"} do |f|
-          = render partial: resource.form, locals: {f: f}
+        = form_for [@process_template, @operation_template], url: process_template_operation_template_path,  html: {class: "form-horizontal clearfix"} do |f|
+          = render partial: @operation_template.form, locals: {f: f}
           .form-group
             = f.label :dependencies, class: "control-label col-sm-2"
             .col-sm-10
-              - if resource.other_operations.blank?
+              - if @operation_template.other_operations.blank?
                 .checkbox
                   label
                     | There is no other operations in this process template.
 
-              - resource.other_operations.each_with_index do |depends_on, index|
-                - matched_dependency = resource.dependencies.detect { |d| d['id'] == depends_on.id }
+              - @operation_template.other_operations.each_with_index do |depends_on, index|
+                - matched_dependency = @operation_template.dependencies.detect { |d| d['id'] == depends_on.id }
                 .panel.panel-warning
                   .panel-heading
                     .checkbox
@@ -44,5 +44,5 @@ ol.breadcrumb.alert-warning
                           = check_box "operation_template[dependencies][#{index}]", "statuses", {multiple: true, checked: status_matched}, status[0].to_s, nil
                           = status[1]
           .btn-toolbar.pull-right
-            = link_to 'Back', process_template_operation_templates_path(parent), class: "btn btn-default"
+            = link_to 'Back', process_template_operation_templates_path(@process_template), class: "btn btn-default"
             = f.submit value: 'Save', class: "btn btn-success"

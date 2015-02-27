@@ -21,7 +21,6 @@ require 'rails_helper'
 module RailsWorkflow
   RSpec.describe OperationsController, :type => :controller do
     routes { RailsWorkflow::Engine.routes }
-    login_user
 
     let(:valid_attributes) {
       skip("Add a hash of attributes valid for your model")

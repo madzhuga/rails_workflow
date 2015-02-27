@@ -3,7 +3,6 @@ require 'rails_helper'
 module RailsWorkflow
   RSpec.describe ProcessTemplatesController, :type => :controller do
     routes { RailsWorkflow::Engine.routes }
-    login_user
 
     let(:valid_attributes) {
        {title: 'First Test project'}

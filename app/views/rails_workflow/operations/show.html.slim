@@ -1,24 +1,24 @@
 ruby:
-  child_process = resource.child_process
+  child_process = @operation.child_process
 
 ol.breadcrumb.alert-warning
   li
     = link_to "Processes", processes_path
   li
-    = link_to "Process: #{resource.process.title}", resource.process
+    = link_to "Process: #{@operation.process.title}", @operation.process
   li.active
-    = "Operation: #{resource.title} "
+    = "Operation: #{@operation.title} "
 
-= render partial: "flash", locals: { notice: notice }
+= render partial: "application/flash", locals: { notice: notice }
 
 .row
   .col-md-10
     .panel
       .panel-heading
         h1.panel-title
-          = "Operation: #{resource.title} "
-          span.label.more-info-label class=(resource.status[:class])
-            = resource.status[:text]
+          = "Operation: #{@operation.title} "
+          span.label.more-info-label class=(@operation.status[:class])
+            = @operation.status[:text]
       .panel-body
         .col-md-6
           table.table.table-striped.table-hover
@@ -26,21 +26,21 @@ ol.breadcrumb.alert-warning
 
               tr
                 td Created At
-                td = resource.created_at
+                td = @operation.created_at
 
               tr
                 td Completed At
-                td = resource.completed_at
+                td = @operation.completed_at
 
-              - if resource.assigned_to.present?
+              - if @operation.assigned_to.present?
                 tr
                   td Assigned To
-                  td = resource.assigned_to
+                  td = @operation.assigned_to
               tr
                 td Operation Template
-                td = link_to resource.template.title,
-                             process_template_operation_template_path(resource.template.process_template,
-                                                                      resource.template)
+                td = link_to @operation.template.title,
+                             process_template_operation_template_path(@operation.template.process_template,
+                                                                      @operation.template)
 
               - if child_process.present?
                 tr
@@ -52,16 +52,16 @@ ol.breadcrumb.alert-warning
                       = child_process.status[:text]
               tr
                 td Asynchronous
-                td = resource.async
+                td = @operation.async
 
               tr
                 td Background
-                td = resource.is_background
+                td = @operation.is_background
 
 
         .col-md-6
 
-          - if resource.show_dependencies.empty?
+          - if @operation.show_dependencies.empty?
             .col-md-12
               strong
                 | No dependencies
@@ -71,7 +71,7 @@ ol.breadcrumb.alert-warning
                 tr
                   td
                     strong Satisfied Dependencies
-                - resource.show_dependencies.each do |dependency|
+                - @operation.show_dependencies.each do |dependency|
                   tr
                     td
                       = link_to process_operation_path(dependency.process, dependency)
@@ -83,7 +83,7 @@ ol.breadcrumb.alert-warning
                 tr
                   td
                     strong Template Dependencies
-                - resource.show_template_dependencies.each do |dependency|
+                - @operation.show_template_dependencies.each do |dependency|
                   tr
                     td
                       = dependency.shift
@@ -96,7 +96,7 @@ ol.breadcrumb.alert-warning
       .btn-toolbar
         ul.nav.nav-pills
           li role="presentation" class="active"
-            = link_to "Back to Process", process_path(resource.process)
+            = link_to "Back to Process", process_path(@operation.process)
 
 
 .row
@@ -105,10 +105,10 @@ ol.breadcrumb.alert-warning
       .panel-heading
         h1.panel-title Operation Context
       .panel-body
-        = render resource.context.partial_name, { context: resource.context }
+        = render @operation.context.partial_name, { context: @operation.context }
 
-- if resource.workflow_errors.unresolved.present?
-  - resource.workflow_errors.unresolved.each do |error|
+- if @operation.workflow_errors.unresolved.present?
+  - @operation.workflow_errors.unresolved.each do |error|
     .row
       .col-md-10
         .panel
@@ -122,7 +122,7 @@ ol.breadcrumb.alert-warning
                     strong Created at
                   td
                     .pull-right
-                      = button_to "Retry", retry_process_operation_error_path(resource.process, resource, error), class: "btn btn-warning", method: :put
+                      = button_to "Retry", retry_process_operation_error_path(@operation.process, @operation, error), class: "btn btn-warning", method: :put
                     = error.created_at
                 tr
                   td

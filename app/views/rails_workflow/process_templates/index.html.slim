@@ -1,7 +1,7 @@
 ol.breadcrumb.alert-warning
   li.active Configuration
 
-= render partial: "flash", locals: {notice: notice}
+= render partial: "application/flash", locals: {notice: notice}
 
 .row
   .col-sm-10
@@ -21,7 +21,7 @@ ol.breadcrumb.alert-warning
               th
 
           tbody
-            - collection.each do |process_template|
+            - @process_templates.each do |process_template|
               tr
                 td = link_to process_template.title, process_template_operation_templates_path(process_template)
                 td = process_template.manager_class
