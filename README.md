@@ -48,11 +48,6 @@ And then execute:
 $ bundle install
 ```
 
-Add to your config/application.rb
-```ruby
-require 'rails_workflow'
-```
-
 and mount it to /workflow routes:
 ```ruby
 Rails.application.routes.draw do

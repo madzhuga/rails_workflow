@@ -36,7 +36,7 @@ ol.breadcrumb.alert-warning
               th Created At
               th Parent/Child
           tbody
-            - collection.each do |process|
+            - @processes.each do |process|
               tr
                 td = link_to process.title, process
                 td
@@ -56,7 +56,7 @@ ol.breadcrumb.alert-warning
                     = link_to child.title, child
                     span.label<> class=(child.status[:class])
                       = child.status[:text]
-        = will_paginate collection
+        = will_paginate @processes
 
   .col-sm-4
 
