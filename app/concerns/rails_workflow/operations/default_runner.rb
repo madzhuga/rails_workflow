@@ -97,13 +97,16 @@ module RailsWorkflow
               true
         end
 
-
-        def complete
+        def complete to_status = nil
           if can_complete?
-            on_complete if respond_to? :on_complete
+
+            if to_status.blank? && respond_to?(:on_complete)
+              on_complete
+            end
+
             update_attributes(
                 {
-                    status: self.class::DONE,
+                    status: to_status || self.class::DONE,
                     completed_at: Time.zone.now
                 })
             manager.operation_complete self
@@ -113,10 +116,20 @@ module RailsWorkflow
               exception, {
                            parent: self,
                            target: self,
-                           method: :complete
-
+                           method: :complete,
+                           args: [to_status]
                        }
           )
+        end
+
+        def cancel
+          on_cancel if respond_to? :on_cancel
+          complete self.class::CANCELED
+        end
+
+        def skip
+          on_cancel if respond_to? :on_skip
+          complete self.class::SKIPPED
         end
 
       end

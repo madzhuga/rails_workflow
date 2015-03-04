@@ -217,21 +217,19 @@ module RailsWorkflow
         expect(subject.status).to eq RailsWorkflow::Operation::DONE
       end
 
+      it 'should change state to SKIP on skip' do
+        expect(@manager).to receive(:operation_complete)
+        subject.skip
+        expect(subject.status).to eq RailsWorkflow::Operation::SKIPPED
+      end
+
+      it 'should change state to DONE on complete' do
+        expect(@manager).to receive(:operation_complete)
+        subject.cancel
+        expect(subject.status).to eq RailsWorkflow::Operation::CANCELED
+      end
+
     end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   end
 end

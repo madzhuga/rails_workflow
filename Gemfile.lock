@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_workflow (0.2.1)
+    rails_workflow (0.2.2)
       bootstrap-rails-engine
       draper
       jquery-rails

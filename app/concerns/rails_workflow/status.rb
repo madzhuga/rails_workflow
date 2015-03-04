@@ -38,11 +38,11 @@ module RailsWorkflow
       ROLLBACK = 7
 
       def incomplete_statuses
-        [NOT_STARTED, IN_PROGRESS]
+        [NOT_STARTED, IN_PROGRESS, WAITING]
       end
 
       def completed_statuses
-        [DONE, CANCELED, SKIPPED]
+        [DONE, CANCELED, SKIPPED, ROLLBACK]
       end
 
       def get_status_values

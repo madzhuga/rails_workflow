@@ -96,6 +96,22 @@ module RailsWorkflow
         process.reload
         expect(process.status).to eq Process::DONE
       end
+
+      it 'should complete process if last operation skipped' do
+        manager.start_process
+        process.operations.first.complete
+        process.operations.last.skip
+        process.reload
+        expect(process.status).to eq Process::DONE
+      end
+
+      it 'should complete process if last operation canceled' do
+        manager.start_process
+        process.operations.first.complete
+        process.operations.last.cancel
+        process.reload
+        expect(process.status).to eq Process::DONE
+      end
     end
   end
 end

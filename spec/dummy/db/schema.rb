@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "leads", force: true do |t|
+  create_table "leads", force: :cascade do |t|
     t.integer  "sales_contact_id"
     t.text     "offer"
     t.string   "name"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.datetime "updated_at"
   end
 
-  create_table "rails_workflow_contexts", force: true do |t|
+  create_table "rails_workflow_contexts", force: :cascade do |t|
     t.integer  "parent_id"
     t.string   "parent_type"
     t.json     "body"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
 
   add_index "rails_workflow_contexts", ["parent_id", "parent_type"], name: "index_rails_workflow_contexts_on_parent_id_and_parent_type", using: :btree
 
-  create_table "rails_workflow_errors", force: true do |t|
+  create_table "rails_workflow_errors", force: :cascade do |t|
     t.string   "message"
     t.text     "stack_trace"
     t.integer  "parent_id"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.boolean  "resolved"
   end
 
-  create_table "rails_workflow_operation_templates", force: true do |t|
+  create_table "rails_workflow_operation_templates", force: :cascade do |t|
     t.string   "title"
     t.text     "source"
     t.json     "dependencies"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.string   "partial_name"
   end
 
-  create_table "rails_workflow_operations", force: true do |t|
+  create_table "rails_workflow_operations", force: :cascade do |t|
     t.integer  "status"
     t.boolean  "async"
     t.string   "title"
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.boolean  "is_background"
   end
 
-  create_table "rails_workflow_process_templates", force: true do |t|
+  create_table "rails_workflow_process_templates", force: :cascade do |t|
     t.string   "title"
     t.text     "source"
     t.string   "manager_class"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.string   "partial_name"
   end
 
-  create_table "rails_workflow_processes", force: true do |t|
+  create_table "rails_workflow_processes", force: :cascade do |t|
     t.integer  "status"
     t.boolean  "async"
     t.string   "title"
@@ -105,14 +105,14 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.string   "type"
   end
 
-  create_table "sales_contacts", force: true do |t|
+  create_table "sales_contacts", force: :cascade do |t|
     t.text     "message"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
