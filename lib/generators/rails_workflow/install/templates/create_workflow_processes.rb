@@ -138,7 +138,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
   def check_json_columns
     [
         [RailsWorkflow::Operation, :dependencies],
-        [RailsWorkflow::OperationTemplates, :dependencies],
+        [RailsWorkflow::OperationTemplate, :dependencies],
         [RailsWorkflow::Context, :body]
     ].map do |check|
       if check[0].columns_hash[check[1].to_s].sql_type != "json"
