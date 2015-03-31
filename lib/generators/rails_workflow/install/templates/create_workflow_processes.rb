@@ -2,6 +2,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
   def change
     create_tables
     create_columns
+    check_json_columns
     create_indexes
   end
 
@@ -59,6 +60,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
 
       :rails_workflow_operation_templates => [
           [:string,   :title],
+          [:string,   :version],
           [:text,     :source],
           [:json,     :dependencies],
           [:string,   :operation_class],
@@ -81,6 +83,8 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       :rails_workflow_operations => [
           [:integer,  :status],
           [:boolean,  :async],
+          [:string,   :version],
+          [:string,   :tag],
           [:string,   :title],
           [:datetime, :created_at],
           [:datetime, :updated_at],
@@ -100,6 +104,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       :rails_workflow_process_templates => [
           [:string,   :title],
           [:text,     :source],
+          [:string,   :version],
           [:string,   :manager_class],
           [:string,   :process_class],
           [:datetime, :created_at],
@@ -110,6 +115,8 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
 
       :rails_workflow_processes => [
           [:integer,  :status],
+          [:string,   :version],
+          [:string,   :tag],
           [:boolean,  :async],
           [:string,   :title],
           [:datetime, :created_at],
@@ -119,12 +126,24 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       ]
     }.each do |table, columns|
       columns.map do |column|
-        unless column_exists? talbe, column[1]
+        unless column_exists? table, column[1]
           add_column table, column[1], column[0]
         end
       end
 
     end
 
+  end
+
+  def check_json_columns
+    [
+        [RailsWorkflow::Operation, :dependencies],
+        [RailsWorkflow::OperationTemplates, :dependencies],
+        [RailsWorkflow::Context, :body]
+    ].map do |check|
+      if check[0].columns_hash[check[1].to_s].sql_type != "json"
+        change_column check[0].table_name, check[1], "JSON USING #{check[1]}::JSON"
+      end
+    end
   end
 end
