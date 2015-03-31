@@ -39,7 +39,7 @@ You can find tutorials and documentation [here](http://madzhuga.github.io/rails_
 Add to your application's Gemfile:
 
 ```ruby
-gem 'rails_workflow', '0.2.1'
+gem 'rails_workflow', '0.2.2'
 ```
 
 And then execute:
