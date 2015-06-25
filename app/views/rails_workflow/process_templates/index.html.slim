@@ -10,6 +10,12 @@ ol.breadcrumb.alert-warning
         h1.panel-title Templates Configuration
 
       .panel-body
+        .float-right
+          = form_tag({action: :upload}, multipart: true) do
+            span.btn.btn-default.btn-file<>
+              | Select File to Import
+              = file_field_tag 'import_file'
+            = submit_tag 'Send File', class: 'btn btn-success'
 
         table.table.table-striped.table-hover
           thead

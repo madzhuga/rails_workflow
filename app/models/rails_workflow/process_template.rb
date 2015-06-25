@@ -1,7 +1,7 @@
 module RailsWorkflow
   class ProcessTemplate < ActiveRecord::Base
     include ProcessTemplates::DefaultBuilder
-
+    include RailsWorkflow::Uuid
     has_many :operations, :class_name => 'OperationTemplate'
 
 

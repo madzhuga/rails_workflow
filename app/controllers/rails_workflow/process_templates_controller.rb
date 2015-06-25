@@ -1,7 +1,7 @@
 module RailsWorkflow
   class ProcessTemplatesController < ::ActionController::Base
     layout 'rails_workflow/application'
-    respond_to :html
+    respond_to :html, :json
 
     before_action :set_process_template, only: [:show, :edit, :update, :destroy]
 
@@ -9,6 +9,21 @@ module RailsWorkflow
       @config_section_active = true
     end
 
+    def upload
+      uploaded = params[:import_file]
+
+      json = JSON.parse(uploaded.read)
+
+      importer = RailsWorkflow::ProcessImporter.new(json)
+      importer.process
+
+      redirect_to process_templates_path
+    end
+
+    def export
+      template = ProcessTemplate.find(params[:id])
+      send_data render_to_string(json: template, serializer: ProcessTemplateSerializer), filename: "#{template.title}.json"
+    end
 
     def index
       @process_templates = ProcessTemplateDecorator.

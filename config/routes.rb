@@ -28,6 +28,12 @@ RailsWorkflow::Engine.routes.draw do
 
   resources :process_templates, path: 'config' do
     resources :operation_templates
+    member do
+      get :export
+    end
+    collection do
+      post :upload
+    end
   end
   root to: 'operations#index'
 end

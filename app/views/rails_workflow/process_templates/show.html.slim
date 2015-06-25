@@ -59,5 +59,9 @@ ol.breadcrumb.alert-warning
       br
       br
       .btn-group
+        = link_to 'Export', export_process_template_path(@process_template), class: "btn btn-primary"
+      br
+      br
+      .btn-group
         = link_to 'Operations', process_template_operation_templates_path(@process_template), class: "btn btn-primary"
 

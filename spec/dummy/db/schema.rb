@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217161051) do
+ActiveRecord::Schema.define(version: 20150625034602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.boolean  "resolved"
   end
 
+  add_index "rails_workflow_errors", ["parent_id", "parent_type"], name: "index_rails_workflow_errors_on_parent_id_and_parent_type", using: :btree
+
   create_table "rails_workflow_operation_templates", force: :cascade do |t|
     t.string   "title"
     t.text     "source"
@@ -63,7 +65,13 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.boolean  "is_background",       default: true
     t.string   "type"
     t.string   "partial_name"
+    t.string   "version"
+    t.uuid     "uuid"
+    t.string   "tag"
   end
+
+  add_index "rails_workflow_operation_templates", ["process_template_id"], name: "index_rails_workflow_operation_templates_on_process_template_id", using: :btree
+  add_index "rails_workflow_operation_templates", ["uuid"], name: "index_rails_workflow_operation_templates_on_uuid", using: :btree
 
   create_table "rails_workflow_operations", force: :cascade do |t|
     t.integer  "status"
@@ -82,7 +90,12 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.boolean  "is_active"
     t.datetime "completed_at"
     t.boolean  "is_background"
+    t.string   "version"
+    t.string   "tag"
   end
+
+  add_index "rails_workflow_operations", ["process_id"], name: "index_rails_workflow_operations_on_process_id", using: :btree
+  add_index "rails_workflow_operations", ["template_id"], name: "index_rails_workflow_operations_on_template_id", using: :btree
 
   create_table "rails_workflow_process_templates", force: :cascade do |t|
     t.string   "title"
@@ -93,7 +106,12 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.datetime "updated_at"
     t.string   "type"
     t.string   "partial_name"
+    t.uuid     "uuid"
+    t.string   "version"
+    t.string   "tag"
   end
+
+  add_index "rails_workflow_process_templates", ["uuid"], name: "index_rails_workflow_process_templates_on_uuid", using: :btree
 
   create_table "rails_workflow_processes", force: :cascade do |t|
     t.integer  "status"
@@ -103,6 +121,8 @@ ActiveRecord::Schema.define(version: 20150217161051) do
     t.datetime "updated_at"
     t.integer  "template_id"
     t.string   "type"
+    t.string   "version"
+    t.string   "tag"
   end
 
   create_table "sales_contacts", force: :cascade do |t|

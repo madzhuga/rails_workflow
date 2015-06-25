@@ -6,6 +6,8 @@ gem "slim-rails"
 gem "jquery-rails"
 gem "jquery-ui-rails"
 gem "draper"
+gem "active_model_serializers"
+gem 'guid'
 gem "will_paginate"
 gem "sidekiq"
 

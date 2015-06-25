@@ -69,6 +69,11 @@ ol.breadcrumb.alert-warning
             li
               = link_to value[:title], new_template_path.call(type)
 
+
+      br
+      br
+      .btn-group
+        = link_to 'Export', export_process_template_path(@process_template), class: "btn btn-primary"
       br
       br
       .btn-group

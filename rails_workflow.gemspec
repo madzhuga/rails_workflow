@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "will_paginate"
   s.add_runtime_dependency 'draper'
   s.add_runtime_dependency 'sidekiq'
+  s.add_runtime_dependency 'guid'
+  s.add_runtime_dependency 'active_model_serializers'
+
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'

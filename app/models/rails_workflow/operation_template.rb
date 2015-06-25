@@ -1,6 +1,7 @@
 module RailsWorkflow
   class OperationTemplate < ActiveRecord::Base
     include OperationStatus
+    include RailsWorkflow::Uuid
     include OperationTemplates::Dependencies
     include OperationTemplates::Assignments
     include OperationTemplates::DefaultBuilder
