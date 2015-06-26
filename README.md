@@ -36,12 +36,16 @@ Engine has UI to configure process templates and manage existing processes.
 ### Documentation
 You can find tutorials and documentation [here](http://madzhuga.github.io/rails_workflow/)
 
+### Database Support
+Right now rails_workflow using PostgreSQL database and can have json database type issues in other databases.
+I am going to implement support to MySQL and other databases which are not supporting json data type.
+
 ## Installation
 
 Add to your application's Gemfile:
 
 ```ruby
-gem 'rails_workflow', '0.2.2'
+gem 'rails_workflow', '0.3.0'
 ```
 
 And then execute:
@@ -63,3 +67,6 @@ Generate all models:
 $ rails generate rails_workflow:install
 $ bundle exec rake db:migrate
 ```
+
+### Help and support
+Fell free to contact me if you have some questions or need some help.
