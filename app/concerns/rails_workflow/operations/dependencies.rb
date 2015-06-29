@@ -17,6 +17,8 @@ module RailsWorkflow
 
       included do
 
+        serialize :dependencies, JSON
+
         # def dependencies=(dependencies)
         #   write_attribute(:dependencies, dependencies.to_json.to_s)
         # end

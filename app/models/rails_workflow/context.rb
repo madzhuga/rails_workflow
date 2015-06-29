@@ -3,6 +3,8 @@ module RailsWorkflow
     belongs_to :parent, polymorphic: true
     attr_accessor :data
 
+    serialize :body, JSON
+
     before_save :serialize_data
     after_find :init_data
 

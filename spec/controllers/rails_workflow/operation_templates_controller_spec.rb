@@ -73,6 +73,8 @@ module RailsWorkflow
                             operation_template: valid_attributes
                         }, valid_session, use_route: :workflow
           }.to change(OperationTemplate, :count).by(1)
+
+          expect(@template.operations.count).to eq 1
         end
 
         it "creates a new CustomOperationTemplate" do

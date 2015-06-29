@@ -22,7 +22,7 @@ module RailsWorkflow
 
 
     def create
-      @operation_template = OperationTemplate.create(permitted_params)
+      @operation_template = @process_template.operations.create(permitted_params)
       redirect_to process_template_operation_templates_url
     end
 

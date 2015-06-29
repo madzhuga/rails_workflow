@@ -18,6 +18,8 @@ module RailsWorkflow
       included do
         scope :independent_only, -> { where(dependencies: nil) }
 
+        serialize :dependencies, JSON
+
         def resolve_dependency operation
           true
         end

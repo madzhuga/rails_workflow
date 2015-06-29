@@ -18,3 +18,6 @@ end
 group :test do
   gem 'devise'
 end
+
+# just for dummy application
+# gem 'inherited_resources'
