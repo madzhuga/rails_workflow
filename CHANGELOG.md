@@ -5,3 +5,5 @@
     * removed dependency from devise
     * fixed rails version
     * fixed jquery version
+## 0.3.1
+    * Removed native json database type dependency to allow MySQL and other DBs not having native json data type

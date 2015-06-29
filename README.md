@@ -41,7 +41,7 @@ You can find tutorials and documentation [here](http://madzhuga.github.io/rails_
 Add to your application's Gemfile:
 
 ```ruby
-gem 'rails_workflow', '0.3.0'
+gem 'rails_workflow', '0.3.1'
 ```
 
 And then execute:
@@ -63,11 +63,6 @@ Generate all models:
 $ rails generate rails_workflow:install
 $ bundle exec rake db:migrate
 ```
-
-### Database Support
-I am developing this engine using PostgreSQL database.
-There can be issues with json data type if you will try to use other database engines.
-I am going to implement support to MySQL and other databases which has no native json data type support.
 
 
 ### Help and support
