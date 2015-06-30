@@ -19,5 +19,7 @@ group :test do
   gem 'devise'
 end
 
+gem 'mysql2'
+
 # just for dummy application
 # gem 'inherited_resources'

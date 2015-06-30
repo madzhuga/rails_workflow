@@ -7,3 +7,5 @@
     * fixed jquery version
 ## 0.3.1
     * Removed native json database type dependency to allow MySQL and other DBs not having native json data type
+## 0.3.2
+    * Fixes to mysql support - removed uuid and moved window functions to pg dialect to support mysql

@@ -18,12 +18,7 @@ module RailsWorkflow
     end
 
     def self.count_by_statuses
-      query = 'select status, cnt from (
-                  select row_number() over (partition by status),
-                    count(*) over (partition by status) cnt,
-                    status from rails_workflow_processes)t
-                where row_number = 1'
-
+      query = RailsWorkflow.config.sql_dialect::COUNT_STATUSES
 
       statuses = connection.select_all(query).rows
 

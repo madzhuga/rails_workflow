@@ -1,6 +1,8 @@
 require "rails_workflow/engine"
 require 'singleton'
 require 'draper'
+require 'rails_workflow/db/mysql'
+require 'rails_workflow/db/pg'
 
 
 module RailsWorkflow
@@ -36,8 +38,20 @@ module RailsWorkflow
       @default_process_class = "RailsWorkflow::Process"
       @default_process_template_type = "RailsWorkflow::ProcessTemplate"
       @default_assignment_by = [:group, :role]
+      @default_sql_dialect = 'pg'
+    end
 
+    def sql_dialect
+      case @sql_dialect || @default_sql_dialect
+        when 'pg'
+          RailsWorkflow::Db::Pg
+        when 'mysql'
+          RailsWorkflow::Db::Mysql
+      end
+    end
 
+    def sql_dialect=(dialect)
+      @sql_dialect = dialect
     end
 
     def assignment_by

@@ -8,5 +8,6 @@ RailsWorkflow.setup do |config|
   # }
 
   config.sidekiq_enabled = false
+  # config.sql_dialect= 'mysql'
 
 end

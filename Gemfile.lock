@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_workflow (0.3.0)
+    rails_workflow (0.3.1)
       active_model_serializers
       bootstrap-rails-engine
       draper
@@ -105,6 +105,7 @@ GEM
     mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.5.1)
+    mysql2 (0.3.18)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
@@ -214,6 +215,7 @@ DEPENDENCIES
   guid
   jquery-rails
   jquery-ui-rails
+  mysql2
   pg
   rails_workflow!
   rspec-rails

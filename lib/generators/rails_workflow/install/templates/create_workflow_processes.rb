@@ -63,7 +63,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       :rails_workflow_operation_templates => [
           [:string,   :title],
           [:string,   :version],
-          [:uuid,     :uuid],
+          [:string,     :uuid],
           [:string,   :tag],
           [:text,     :source],
           [:text,     :dependencies],
@@ -108,7 +108,7 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
       :rails_workflow_process_templates => [
           [:string,   :title],
           [:text,     :source],
-          [:uuid,     :uuid],
+          [:string,   :uuid],
           [:string,   :version],
           [:string,   :tag],
           [:string,   :manager_class],

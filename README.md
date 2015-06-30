@@ -64,6 +64,13 @@ $ rails generate rails_workflow:install
 $ bundle exec rake db:migrate
 ```
 
+I am developing this engine using PostgreSQL database. In case if you using MySQL, add following
+to your config/initializers/workflow.rb file:
+```ruby
+RailsWorkflow.setup do |config|
+  config.sql_dialect= 'mysql'
+end
+```
 
 ### Help and support
 Fell free to contact me if you have some questions or need some help.
