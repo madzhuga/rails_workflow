@@ -10,6 +10,8 @@ module RailsWorkflow
       g.helper false
     end
 
-
+    initializer "rails_workflow.assets.precompile" do |app|
+      app.config.assets.precompile += %w(application.css application.js)
+    end
   end
 end
