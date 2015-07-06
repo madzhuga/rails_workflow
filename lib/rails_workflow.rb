@@ -1,6 +1,11 @@
 require "rails_workflow/engine"
 require 'singleton'
+require 'guid'
+require 'bootstrap-rails-engine'
+require 'slim-rails'
+require 'will_paginate'
 require 'draper'
+require 'sidekiq'
 require 'rails_workflow/db/mysql'
 require 'rails_workflow/db/pg'
 

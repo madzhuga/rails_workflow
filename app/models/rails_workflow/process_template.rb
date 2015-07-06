@@ -2,7 +2,7 @@ module RailsWorkflow
   class ProcessTemplate < ActiveRecord::Base
     include ProcessTemplates::DefaultBuilder
     include RailsWorkflow::Uuid
-    has_many :operations, :class_name => 'OperationTemplate'
+    has_many :operations, -> { order(id: :asc)},  :class_name => 'OperationTemplate'
 
 
     def other_processes
