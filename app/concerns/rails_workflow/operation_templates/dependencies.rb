@@ -16,7 +16,7 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-        scope :independent_only, -> { where(dependencies: nil) }
+        scope :independent_only, -> { where(dependencies: nil.to_json) }
 
         serialize :dependencies, JSON
 
