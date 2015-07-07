@@ -6,6 +6,7 @@ require 'slim-rails'
 require 'will_paginate'
 require 'draper'
 require 'sidekiq'
+require 'active_model_serializers'
 require 'rails_workflow/db/mysql'
 require 'rails_workflow/db/pg'
 
