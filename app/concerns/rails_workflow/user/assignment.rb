@@ -4,7 +4,7 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-        has_many :operations, class: RailsWorkflow::Operation, as: :assignment
+        has_many :operations, class_name: RailsWorkflow::Operation, as: :assignment
 
       end
 
