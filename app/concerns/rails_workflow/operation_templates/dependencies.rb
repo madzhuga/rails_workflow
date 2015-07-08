@@ -16,9 +16,10 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-        scope :independent_only, -> { where(dependencies: nil.to_json) }
-
         serialize :dependencies, JSON
+
+        # dependeing on serialize / rails version it may save null value or 'null' value
+        scope :independent_only, -> { where("dependencies is null or dependencies = 'null'") }
 
         def resolve_dependency operation
           true
