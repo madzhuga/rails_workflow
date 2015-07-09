@@ -18,8 +18,6 @@ module RailsWorkflow
             update_attribute(:status, self.class::IN_PROGRESS)
             self.operations.where(status: RailsWorkflow::Operation::NOT_STARTED).map(&:start)
           end
-
-
         end
 
         def operation_exception

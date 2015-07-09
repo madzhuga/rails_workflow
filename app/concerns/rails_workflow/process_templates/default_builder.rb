@@ -13,8 +13,6 @@ module RailsWorkflow
         extend ActiveSupport::Concern
 
         included do
-
-
           def build_process! context
             process = process_class.create template: self
 
@@ -23,10 +21,7 @@ module RailsWorkflow
               process.create_context(data: context, parent: process)
 
               build_independent_operations process
-              process.reload
-              build_process(process) if respond_to? :build_process
               process
-
             end
 
           end
