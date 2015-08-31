@@ -69,16 +69,14 @@ module RailsWorkflow
     end
 
     def undecorated_collection
+      collection_scope = Process.default_scoped
 
-        collection_scope = Process.default_scoped
+      if params[:filter]
+        status = Process.get_status_code(params[:filter]['status'])
+        collection_scope = collection_scope.by_status(status)
+      end
 
-        if params[:filter]
-          status = Process.get_status_code(params[:filter]['status'])
-          collection_scope = collection_scope.by_status(status)
-        end
-
-        collection_scope.paginate(page: params[:page]).order(created_at: :desc)
-
+      collection_scope.paginate(page: params[:page]).order(id: :asc)
     end
 
 

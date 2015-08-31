@@ -32,7 +32,7 @@ module RailsWorkflow
     end
 
     def operations
-      OperationDecorator.decorate_collection(object.operations)
+      OperationDecorator.decorate_collection(object.operations.order(:id))
     end
 
 

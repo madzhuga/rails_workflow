@@ -30,22 +30,5 @@ module RailsWorkflow
       create :operation_template, process_template: template, dependencies: dependencies
       expect(RailsWorkflow::OperationTemplate.independent_only.to_a).to match_array([operation])
     end
-
-
-    def dependencies=(dependencies)
-      write_attribute(:dependencies, dependencies.to_json.to_s)
-    end
-
-    def dependencies
-      value = read_attribute(:dependencies)
-      if value.present?
-        JSON.parse(value)
-      else
-        []
-      end
-    end
-
-
-
   end
 end

@@ -9,5 +9,6 @@
     * Removed native json database type dependency to allow MySQL and other DBs not having native json data type
 ## 0.3.2
     * Fixes to mysql support - removed uuid and moved window functions to pg dialect to support mysql
-## not build in gem yet
+## 0.3.5
     * fixed assets precompilation
+    * independent operations fix
