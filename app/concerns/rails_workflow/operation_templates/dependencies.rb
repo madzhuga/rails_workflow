@@ -19,7 +19,7 @@ module RailsWorkflow
         serialize :dependencies, JSON
 
         # dependeing on serialize / rails version it may save null value or 'null' value
-        scope :independent_only, -> { where("dependencies is null or dependencies = 'null'") }
+        scope :independent_only, -> { where("dependencies is null or dependencies = 'null' or dependencies='[]'") }
 
         def resolve_dependency operation
           true
