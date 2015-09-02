@@ -1,5 +1,5 @@
 module RailsWorkflow
-  class ErrorsController < ActionController::Base
+  class ErrorsController < ApplicationController
 
     def retry
       process = RailsWorkflow::Process.find(permitted_params[:process_id])

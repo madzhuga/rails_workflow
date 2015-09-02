@@ -1,5 +1,5 @@
 module RailsWorkflow
-  class OperationsController < ::ActionController::Base
+  class OperationsController < ApplicationController
     layout 'rails_workflow/application'
     respond_to :html
 

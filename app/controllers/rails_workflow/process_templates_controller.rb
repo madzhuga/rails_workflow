@@ -1,5 +1,5 @@
 module RailsWorkflow
-  class ProcessTemplatesController < ::ActionController::Base
+  class ProcessTemplatesController < ApplicationController
     layout 'rails_workflow/application'
     respond_to :html, :json
 

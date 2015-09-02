@@ -86,10 +86,7 @@ module RailsWorkflow
                             process_template_id: @template.id,
                             operation_template: valid_attributes
                         }, valid_session, use_route: :workflow
-          }.to change(OperationTemplate, :count).by(1)
-
-          last_operation = OperationTemplate.last
-          expect(last_operation).to be_instance_of(RailsWorkflow::CustomOperationTemplate)
+          }.to change(RailsWorkflow::CustomOperationTemplate, :count).by(1)
         end
 
         it "assigns a newly created operation_template as @operation_template" do

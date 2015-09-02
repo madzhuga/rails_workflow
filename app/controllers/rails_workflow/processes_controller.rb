@@ -1,5 +1,5 @@
 module RailsWorkflow
-  class ProcessesController < ::ActionController::Base
+  class ProcessesController < ApplicationController
     layout 'rails_workflow/application'
     respond_to :html
     before_action :set_process, only: [:show, :edit, :update, :destroy]

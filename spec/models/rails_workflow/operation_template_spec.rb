@@ -6,15 +6,14 @@ module RailsWorkflow
     let(:template) { create :process_template }
 
     it 'should create operation template of a given type' do
-      operation_template = OperationTemplate.
+      expect{OperationTemplate.
           create! (
                       {
                           title: 'First Test project',
                           process_template_id: template.id,
                           type: "RailsWorkflow::CustomOperationTemplate"
                       }
-                  )
-      expect(operation_template).to be_instance_of(RailsWorkflow::CustomOperationTemplate)
+                  )}.to change(RailsWorkflow::CustomOperationTemplate, :count).by(1)
     end
 
     it 'should return only independent operations' do
