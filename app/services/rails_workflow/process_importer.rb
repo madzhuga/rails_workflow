@@ -8,7 +8,11 @@ module RailsWorkflow
       process = ProcessTemplate.
           where(uuid: @json['uuid']).first_or_create!
 
-      process.attributes = @json.except('operations')
+      @json['child_processes'] && @json['child_processes'].each do |child_process|
+        ProcessImporter.new({"process_template" => child_process}).process
+      end
+
+      process.attributes = @json.except('operations', 'child_processes')
       process.save
 
       operations = []
@@ -19,7 +23,12 @@ module RailsWorkflow
         operation = process.
             operations.where(uuid: operation_json['uuid']).first_or_create!
 
-        operation.attributes = operation_json
+        operation.attributes = operation_json.except('child_process')
+        if (operation_json['child_process'].present?)
+          child_template = ProcessTemplate.find_by_uuid(operation_json['child_process'])
+          raise ActiveRecord::RecordNotFound, "Operation #{operation.title} child process template not found by UUID" if child_template.blank?
+          operation.child_process = child_template
+        end
         operation.save
 
         ids_to_delete.delete(operation.id)

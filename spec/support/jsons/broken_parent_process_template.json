@@ -1,0 +1,63 @@
+{
+  "process_template": {
+    "uuid": "3fab4b65-4a76-b9e7-fcbe-37fd1979a0ac",
+    "title": "Test Parent Process",
+    "source": null,
+    "manager_class": "RailsWorkflow::ProcessManager",
+    "process_class": "RailsWorkflow::Process",
+    "type": "",
+    "partial_name": null,
+    "version": null,
+    "tag": null,
+//    "child_processes": [],
+    "operations": [
+      {
+        "uuid": "a6a86e9a-bd3f-e5f5-b5bb-c8e1eeac427d",
+        "title": "Start Operation",
+        "source": null,
+        "dependencies": [],
+        "operation_class": "RailsWorkflow::Operation",
+        "async": false,
+        "assignment_id": null,
+        "assignment_type": null,
+        "kind": "default",
+        "role": null,
+        "group": null,
+        "instruction": null,
+        "is_background": true,
+        "type": "",
+        "partial_name": "",
+        "version": null,
+        "tag": null,
+        "child_process": null
+      },
+      {
+        "uuid": "06123b30-7bc6-ae77-7841-34099d076ec2",
+        "title": "Start Child Process",
+        "source": null,
+        "dependencies": [
+          {
+            "statuses": [
+              2
+            ],
+            "uuid": "a6a86e9a-bd3f-e5f5-b5bb-c8e1eeac427d"
+          }
+        ],
+        "operation_class": "RailsWorkflow::Operation",
+        "async": false,
+        "assignment_id": null,
+        "assignment_type": null,
+        "kind": "default",
+        "role": null,
+        "group": null,
+        "instruction": null,
+        "is_background": true,
+        "type": "",
+        "partial_name": "",
+        "version": null,
+        "tag": null,
+        "child_process": "632b761a-8a0c-cad2-fff4-39244169cf95"
+      }
+    ]
+  }
+}

@@ -2,10 +2,11 @@ module RailsWorkflow
   class OperationTemplateSerializer < ActiveModel::Serializer
     attributes :uuid, :title, :source, :dependencies, :operation_class,
                :async, :assignment_id, :assignment_type, :kind, :role, :group, :instruction,
-               :is_background, :type, :partial_name, :version, :tag
+               :is_background, :type, :partial_name, :version, :tag, :child_process
 
-    # todo add child_process search by guid
-    # has_one :child_process, serializer: RailsWorkflow::ProcessTemplateSerializer
+    def child_process
+      object.child_process.try(:uuid)
+    end
 
     def dependencies
       object.dependencies.each do |d|
