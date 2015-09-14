@@ -2,6 +2,12 @@ module RailsWorkflow
   class Engine < ::Rails::Engine
     isolate_namespace RailsWorkflow
 
+    config.to_prepare do
+      Dir.glob(Rails.root + "app/**/rails_workflow/*.rb").each do |c|
+        require_dependency(c)
+      end
+    end
+
     config.generators do |g|
       g.template_engine :slim
       g.test_framework :rspec, :fixture => false
