@@ -42,7 +42,7 @@ module RailsWorkflow
       operations.each do |operation|
         operation.dependencies.each do |d|
           d['id'] = OperationTemplate.
-              find_by_uuid(operation['uuid']).try(:id)
+              find_by_uuid(d['uuid']).try(:id)
 
           d.delete("uuid")
         end

@@ -59,6 +59,29 @@ module RailsWorkflow
       end
     end
 
+    context 'dependencies' do
+      let(:json) do
+        JSON.parse(
+            File.read(
+                Rails.root.join("../support/jsons/process_template.json")
+            )
+        )
+      end
+      let(:processor){ ProcessImporter.new(json)}
+      let(:process_template){ ProcessTemplate.find_by_uuid(json['process_template']['uuid']) }
+
+      before(:each) do
+        processor.process
+      end
+
+      it 'should set dependencies' do
+        operation_template = RailsWorkflow::OperationTemplate.find_by_uuid "893ecf5d-b6e5-e0bf-7d07-adcadaafcb75"
+        dependency = RailsWorkflow::OperationTemplate.find(operation_template.dependencies.first['id'])
+        expect(dependency.uuid).to eq "0347a15a-9298-c4a2-3b5e-b521b614e9e3"
+      end
+    end
+
+
     context "parent process template" do
       let(:json) do
         JSON.parse(
