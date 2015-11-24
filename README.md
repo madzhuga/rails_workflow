@@ -6,7 +6,7 @@
 
 ## Overview
 
-Rails Workflow allows you to organize your business by joining user and auto- operations in processes. You can
+Rails Workflow allows you to organize your application business logic by joining user- and auto- operations in processes. You can
 configure, create and manage processes to easily build project management systems, sales / product provisioning systems,
 ERP, CMS, etc.
 
@@ -22,7 +22,7 @@ Engine has UI to configure process templates and manage existing processes.
 * Allows to configure syncronous and asyncronous operations.
 * Allows to run operations in background
 * Provides operations exceptions/errors monitoring and management.
-* Allows to build hierarchical syncronous and asyncronous processes.
+* Allows to build hierarchical synchronous and asynchronous processes.
 * Allows to split process implementation to operations isolating logic.
 * Allows to reuse operations in different processes.
 * Every operation runs in it's own transaction and has separate context.
