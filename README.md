@@ -34,7 +34,7 @@ Engine has UI to configure process templates and manage existing processes.
 * UI is bootstrapped and can be easily changed to fit main rails application design.
 
 ### Documentation
-You can find tutorials and documentation [here](http://madzhuga.github.io/rails_workflow/)
+You can find tutorials and documentation [here](http://www.rails-workflow.com/)
 
 ## Installation
 
