@@ -65,6 +65,7 @@ module RailsWorkflow
             end
 
             if status
+              context.save
               complete
             end
 
