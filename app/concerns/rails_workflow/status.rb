@@ -4,6 +4,15 @@ module RailsWorkflow
   module Status
     extend ActiveSupport::Concern
 
+    NOT_STARTED = 0
+    IN_PROGRESS = 1
+    DONE = 2
+    WAITING = 3
+    ERROR = 4
+    CANCELED = 5
+    SKIPPED = 6
+    ROLLBACK = 7
+
     module ClassMethods
       def all_statuses
         (NOT_STARTED..ROLLBACK).to_a
@@ -25,15 +34,6 @@ module RailsWorkflow
       end
 
     end
-
-    NOT_STARTED = 0
-    IN_PROGRESS = 1
-    DONE = 2
-    WAITING = 3
-    ERROR = 4
-    CANCELED = 5
-    SKIPPED = 6
-    ROLLBACK = 7
 
     included do
 

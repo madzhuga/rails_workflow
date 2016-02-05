@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 20150630174700) do
   create_table "leads", force: :cascade do |t|
     t.integer  "sales_contact_id"
     t.text     "offer"
-    t.string   "name"
+    t.string   "name",             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "rails_workflow_contexts", force: :cascade do |t|
     t.integer  "parent_id"
-    t.string   "parent_type"
+    t.string   "parent_type", limit: 255
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 20150630174700) do
   add_index "rails_workflow_contexts", ["parent_id", "parent_type"], name: "index_rails_workflow_contexts_on_parent_id_and_parent_type", using: :btree
 
   create_table "rails_workflow_errors", force: :cascade do |t|
-    t.string   "message"
+    t.string   "message",     limit: 255
     t.text     "stack_trace"
     t.integer  "parent_id"
-    t.string   "parent_type"
+    t.string   "parent_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "resolved"
@@ -47,27 +47,27 @@ ActiveRecord::Schema.define(version: 20150630174700) do
   add_index "rails_workflow_errors", ["parent_id", "parent_type"], name: "index_rails_workflow_errors_on_parent_id_and_parent_type", using: :btree
 
   create_table "rails_workflow_operation_templates", force: :cascade do |t|
-    t.string   "title"
-    t.string   "version"
-    t.string   "uuid"
-    t.string   "tag"
+    t.string   "title",               limit: 255
     t.text     "source"
     t.text     "dependencies"
-    t.string   "operation_class"
+    t.string   "operation_class",     limit: 255
     t.integer  "process_template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "async"
     t.integer  "child_process_id"
     t.integer  "assignment_id"
-    t.string   "assignment_type"
-    t.string   "kind"
-    t.string   "role"
-    t.string   "group"
+    t.string   "assignment_type",     limit: 255
+    t.string   "kind",                limit: 255
+    t.string   "role",                limit: 255
+    t.string   "group",               limit: 255
     t.text     "instruction"
-    t.boolean  "is_background"
-    t.string   "type"
-    t.string   "partial_name"
+    t.boolean  "is_background",                   default: true
+    t.string   "type",                limit: 255
+    t.string   "partial_name",        limit: 255
+    t.string   "version"
+    t.string   "tag"
+    t.uuid     "uuid"
   end
 
   add_index "rails_workflow_operation_templates", ["process_template_id"], name: "index_rails_workflow_operation_templates_on_process_template_id", using: :btree
@@ -76,9 +76,7 @@ ActiveRecord::Schema.define(version: 20150630174700) do
   create_table "rails_workflow_operations", force: :cascade do |t|
     t.integer  "status"
     t.boolean  "async"
-    t.string   "version"
-    t.string   "tag"
-    t.string   "title"
+    t.string   "title",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "process_id"
@@ -86,64 +84,66 @@ ActiveRecord::Schema.define(version: 20150630174700) do
     t.text     "dependencies"
     t.integer  "child_process_id"
     t.integer  "assignment_id"
-    t.string   "assignment_type"
+    t.string   "assignment_type",  limit: 255
     t.datetime "assigned_at"
-    t.string   "type"
+    t.string   "type",             limit: 255
     t.boolean  "is_active"
     t.datetime "completed_at"
     t.boolean  "is_background"
+    t.string   "version"
+    t.string   "tag"
   end
 
   add_index "rails_workflow_operations", ["process_id"], name: "index_rails_workflow_operations_on_process_id", using: :btree
   add_index "rails_workflow_operations", ["template_id"], name: "index_rails_workflow_operations_on_template_id", using: :btree
 
   create_table "rails_workflow_process_templates", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",         limit: 255
     t.text     "source"
-    t.string   "uuid"
-    t.string   "version"
-    t.string   "tag"
-    t.string   "manager_class"
-    t.string   "process_class"
+    t.string   "manager_class", limit: 255
+    t.string   "process_class", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type"
-    t.string   "partial_name"
+    t.string   "type",          limit: 255
+    t.string   "partial_name",  limit: 255
+    t.string   "version"
+    t.string   "tag"
+    t.uuid     "uuid"
   end
 
   add_index "rails_workflow_process_templates", ["uuid"], name: "index_rails_workflow_process_templates_on_uuid", using: :btree
 
   create_table "rails_workflow_processes", force: :cascade do |t|
     t.integer  "status"
-    t.string   "version"
-    t.string   "tag"
     t.boolean  "async"
-    t.string   "title"
+    t.string   "title",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "template_id"
-    t.string   "type"
+    t.string   "type",        limit: 255
+    t.string   "version"
+    t.string   "tag"
   end
 
   create_table "sales_contacts", force: :cascade do |t|
     t.text     "message"
-    t.string   "email"
+    t.string   "email",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "role"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "role",                   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
