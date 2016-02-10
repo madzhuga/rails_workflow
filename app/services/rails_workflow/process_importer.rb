@@ -3,6 +3,7 @@ module RailsWorkflow
     def initialize json
       if json['operations']
         json['process_template']['operations'] = json['operations']
+        json['process_template'].delete('operation_ids')
       end
       @json = json['process_template']
     end
