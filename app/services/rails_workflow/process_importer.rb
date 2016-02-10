@@ -1,6 +1,10 @@
 module RailsWorkflow
   class ProcessImporter
     def initialize json
+      if json['operations']
+        json['process_template']['operations'] = json['operations']
+        json['process_template'].delete('operation_ids')
+      end
       @json = json['process_template']
     end
 
@@ -54,4 +58,3 @@ module RailsWorkflow
     end
   end
 end
-
