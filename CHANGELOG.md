@@ -12,3 +12,5 @@
 ## 0.3.5
     * fixed assets precompilation
     * independent operations fix
+## 0.3.7
+    * added import template preprocessor

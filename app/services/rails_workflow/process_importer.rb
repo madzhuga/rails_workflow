@@ -1,7 +1,8 @@
 module RailsWorkflow
   class ProcessImporter
     def initialize json
-      @json = json['process_template']
+      prepared_json = RailsWorkflow.config.import_preprocessor.prepare(json)
+      @json = prepared_json['process_template']
     end
 
     def process

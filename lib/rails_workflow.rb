@@ -38,7 +38,7 @@ module RailsWorkflow
               class: "RailsWorkflow::UserByGroupOperation"
           }
       }
-
+      @default_import_preprocessor = "RailsWorkflow::DefaultImporterPreprocessor"
       @default_operation_template_type = "RailsWorkflow::OperationTemplate"
       @default_process_manager = "RailsWorkflow::ProcessManager"
       @default_process_class = "RailsWorkflow::Process"
@@ -74,6 +74,15 @@ module RailsWorkflow
 
     def operation_template_klass=(value)
       @operation_template_type = value
+    end
+
+    def import_preprocessor=(value)
+      @import_preprocessor = value
+    end
+
+    def import_preprocessor
+      processor = @import_preprocessor || @default_import_preprocessor
+      processor.constantize.new
     end
 
     def default_operation_template_type
