@@ -16,18 +16,16 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency "rails", ">= 4.1.0"
-  s.add_dependency "bootstrap-rails-engine"
-  s.add_dependency "slim-rails"
-  s.add_dependency "will_paginate"
-  s.add_dependency 'draper'
-  s.add_dependency 'sidekiq'
-  s.add_dependency 'guid'
-  s.add_dependency 'active_model_serializers'
-
-  s.add_runtime_dependency "jquery-rails"
-
-  s.add_runtime_dependency "pg"
+  s.add_runtime_dependency 'rails', '~> 4.1', '>= 4.1.0'
+  s.add_runtime_dependency 'bootstrap-rails-engine'
+  s.add_runtime_dependency 'slim-rails'
+  s.add_runtime_dependency 'will_paginate'
+  s.add_runtime_dependency 'draper'
+  s.add_runtime_dependency 'sidekiq'
+  s.add_runtime_dependency 'guid'
+  s.add_runtime_dependency 'active_model_serializers'
+  s.add_runtime_dependency 'jquery-rails'
+  s.add_runtime_dependency 'pg'
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'
