@@ -73,4 +73,4 @@ end
 ```
 
 ### Help and support
-Fell free to contact me if you have some questions or need some help.
+Feel free to contact me if you have some questions or need some help.
