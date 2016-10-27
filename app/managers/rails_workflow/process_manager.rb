@@ -1,25 +1,28 @@
 module RailsWorkflow
+  # ProcessManager should be used to build and start processes.
+  # It is top level hierarchy class that also can be used
+  # to build enhancements. For example they can be used to implement
+  # processes communications.
   class ProcessManager
-    class << self
-      def build_process template_id, context
-        template = RailsWorkflow::ProcessTemplate.find template_id
-        template.build_process! context
-      end
-
-      def start_process template_id, context
-        process = build_process template_id, context
-        process.try(:start)
-        process
-      end
-    end
-
     attr_accessor :process, :template
 
-    def initialize process = nil
-      if process
-        @process = process
-        @template = process.template
-      end
+    def self.build_process(template_id, context)
+      template = RailsWorkflow::ProcessTemplate.find template_id
+      template.build_process! context
+    end
+
+    def self.start_process(template_id, context)
+      process = build_process template_id, context
+      process.try(:start)
+      process
+    end
+
+    def initialize(process = nil)
+      @process = process
+    end
+
+    def template
+      @template ||= @process.try(:template)
     end
 
     def start_process
@@ -32,17 +35,14 @@ module RailsWorkflow
       process.operation_exception
     end
 
-    def operation_complete operation
+    def operation_complete(operation)
       process.operation_complete operation
 
       complete_process
     end
 
     def complete_process
-      if process.can_complete?
-        process.complete
-
-      end
+      process.complete if process.can_complete?
     end
   end
 end

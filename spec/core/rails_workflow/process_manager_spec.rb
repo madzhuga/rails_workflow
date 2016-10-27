@@ -1,32 +1,16 @@
-require 'rails_helper'
+require_relative 'prepare_template'
 
 module RailsWorkflow
-  RSpec.describe ProcessManager, :type => :model do
+  RSpec.describe ProcessManager do
+    include PrepareTemplate
 
-    let(:template) {
-      template = create :process_template
-      operation = create :operation_template, process_template: template
+    let(:template) { prepare_template }
 
-      dependencies = [
-          {
-              "id" => operation.id,
-              "statuses" => [RailsWorkflow::Operation::DONE]
-          }
-      ]
-
-      create :operation_template, process_template: template, dependencies: dependencies
-
-      template
-    }
-
-    let(:process) do
-      ProcessManager.build_process template.id, { msg: "Test" }
-    end
+    let(:process) { described_class.build_process template.id, msg: 'Test' }
 
     context 'build process' do
-
       it 'should create new process' do
-        expect(process).to_not be_nil
+        expect(process).to be
         expect(process).to be_kind_of(Process)
         expect(process.status).to eq RailsWorkflow::Process::NOT_STARTED
       end
@@ -37,24 +21,27 @@ module RailsWorkflow
 
       it 'should create new process operations' do
         expect(process.operations.size).to eq 1
-        expect(process.operations.first.status).to eq RailsWorkflow::Operation::NOT_STARTED
+        expect(process.operations.first.status)
+          .to eq RailsWorkflow::Operation::NOT_STARTED
       end
 
       it 'should create process context' do
-        expect(process.context).to_not be_nil
-        expect(process.context.data[:msg]).to eq "Test"
+        expect(process.context).to be
+        expect(process.context.data[:msg]).to eq 'Test'
       end
+
       it 'should create context for new operation' do
         context = process.operations.first.context
-        expect(context).to_not be_nil
-        expect(context.data[:msg]).to eq "Test"
+        expect(context).to be
+        expect(context.data[:msg]).to eq 'Test'
       end
     end
 
     context 'start process' do
       context 'start process (in progres)' do
         before :each do
-          allow_any_instance_of(RailsWorkflow::ProcessManager).to receive(:complete_process)
+          allow_any_instance_of(RailsWorkflow::ProcessManager)
+            .to receive(:complete_process)
           allow_any_instance_of(RailsWorkflow::Operation).to receive(:complete)
           process_manager = RailsWorkflow::ProcessManager.new process
           process_manager.start_process
@@ -65,19 +52,19 @@ module RailsWorkflow
         end
 
         it 'should start first operations' do
-          expect(process.operations.first.status).to eq RailsWorkflow::Operation::IN_PROGRESS
+          expect(process.operations.first.status)
+            .to eq RailsWorkflow::Operation::IN_PROGRESS
         end
       end
     end
 
     context 'complete operations' do
-      let(:manager) {
-        RailsWorkflow::ProcessManager.new process
-      }
+      let(:manager) { RailsWorkflow::ProcessManager.new process }
 
       context 'dependent operation' do
         it 'should be created when dependencies is sutisfied' do
-          allow_any_instance_of(RailsWorkflow::OperationTemplate).to receive(:resolve_dependency).and_return(false)
+          allow_any_instance_of(RailsWorkflow::OperationTemplate)
+            .to receive(:resolve_dependency).and_return(false)
           manager.start_process
           process.operations.first.complete
           expect(process.operations.size).to eq 1
@@ -89,28 +76,21 @@ module RailsWorkflow
         end
       end
 
-      it 'should complete process if last operation complete' do
-        manager.start_process
-        process.operations.first.complete
-        process.operations.last.complete
-        process.reload
-        expect(process.status).to eq Process::DONE
-      end
+      context 'after first operation done' do
+        before do
+          manager.start_process
+          process.operations.first.complete
+        end
 
-      it 'should complete process if last operation skipped' do
-        manager.start_process
-        process.operations.first.complete
-        process.operations.last.skip
-        process.reload
-        expect(process.status).to eq Process::DONE
-      end
-
-      it 'should complete process if last operation canceled' do
-        manager.start_process
-        process.operations.first.complete
-        process.operations.last.cancel
-        process.reload
-        expect(process.status).to eq Process::DONE
+        [:complete, :skip, :cancel].each do |method_name|
+          new_method = <<-METHOD
+            it 'should complete process if last operation #{method_name}' do
+              process.operations.last.#{method_name}
+              expect(process.status).to eq Process::DONE
+            end
+          METHOD
+          class_eval(new_method)
+        end
       end
     end
   end
