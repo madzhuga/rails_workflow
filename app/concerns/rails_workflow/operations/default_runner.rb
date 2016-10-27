@@ -26,9 +26,9 @@ module RailsWorkflow
 
           update_attribute(:status, self.class::IN_PROGRESS)
 
-          is_background && RailsWorkflow.config.sidekiq_enabled ?
-              OperationWorker.perform_async(id) :
-              OperationWorker.new.perform(id)
+          is_background && RailsWorkflow.config.activejob_enabled ?
+              OperationExecutionJob.perform_later(id) :
+              OperationExecutionJob.perform_now(id)
 
         end
 

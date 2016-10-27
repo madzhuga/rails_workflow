@@ -7,7 +7,7 @@ RailsWorkflow.setup do |config|
   #     class: "Workflow::UserByRoleOperation"
   # }
 
-  config.sidekiq_enabled = false
+  config.activejob_enabled = false
   # config.sql_dialect= 'mysql'
 
 end

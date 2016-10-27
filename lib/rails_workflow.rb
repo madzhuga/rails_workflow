@@ -21,7 +21,7 @@ module RailsWorkflow
     include Singleton
 
     attr_accessor :operation_types
-    attr_accessor :sidekiq_enabled
+    attr_accessor :activejob_enabled
 
     def initialize
       @default_operation_types = {

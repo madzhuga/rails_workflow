@@ -9,17 +9,16 @@ gem "draper"
 gem "active_model_serializers"
 gem 'guid'
 gem "will_paginate"
-gem "sidekiq"
+gem 'activejob'
 
 group :development do
   gem 'sinatra', require: false
 end
 
 group :test do
+  gem 'pry'
   gem 'devise'
 end
-
-gem 'mysql2'
 
 # just for dummy application
 # gem 'inherited_resources'

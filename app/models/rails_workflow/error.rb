@@ -63,10 +63,7 @@ module RailsWorkflow
 
       error.create_context(data: context)
 
-      # Workflow.config.sidekiq_enabled ?
-      #     Workflow::ErrorWorker.perform_async(parent.id, parent.class.to_s) :
-      #     Workflow::ErrorWorker.new.perform(parent.id, parent.class.to_s)
-      RailsWorkflow::ErrorWorker.new.perform(parent.id, parent.class.to_s)
+      RailsWorkflow::OperationErrorJob.new.perform(parent.id, parent.class.to_s)
     end
   end
 end
