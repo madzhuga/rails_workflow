@@ -18,8 +18,8 @@ module RailsWorkflow
       children = object.operations.map(&:child_process).compact.uniq
       unless children.blank?
         ActiveModel::ArraySerializer.new(
-            children,
-            each_serializer: ProcessTemplateSerializer
+          children,
+          each_serializer: ProcessTemplateSerializer
         ).as_json
       end || []
     end

@@ -1,7 +1,7 @@
 module RailsWorkflow
   module Db
     module Mysql
-      COUNT_STATUSES = <<-SQL
+      COUNT_STATUSES = <<-SQL.freeze
       SELECT status, cnt FROM
                (
                     SELECT @row_number:=CASE
@@ -20,8 +20,6 @@ module RailsWorkflow
                       (SELECT @row_number:=0,@status:=-1) AS t
                ) t1 WHERE row_number = 1
       SQL
-
     end
   end
-
 end

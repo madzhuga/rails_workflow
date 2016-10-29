@@ -12,7 +12,6 @@ module RailsWorkflow
     #
 
     module Dependencies
-
       extend ActiveSupport::Concern
 
       included do
@@ -21,7 +20,7 @@ module RailsWorkflow
         # dependeing on serialize / rails version it may save null value or 'null' value
         scope :independent_only, -> { where("dependencies is null or dependencies = 'null' or dependencies='[]'") }
 
-        def resolve_dependency operation
+        def resolve_dependency(_operation)
           true
         end
 
@@ -32,7 +31,6 @@ module RailsWorkflow
         def dependencies
           read_attribute(:dependencies) || []
         end
-
       end
     end
   end

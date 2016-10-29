@@ -1,5 +1,4 @@
 class ActionController::Base
-
   def set_current_operation
     session[:current_operation_id] = @operation.id
   end
@@ -13,8 +12,8 @@ class ActionController::Base
       operation_id = session[:current_operation_id]
 
       if @current_workflow_operation &&
-          @current_workflow_operation.id == operation_id
-          RailsWorkflow::Operation.user_ready_statuses.include? @current_workflow_operation.status
+         @current_workflow_operation.id == operation_id
+        RailsWorkflow::Operation.user_ready_statuses.include? @current_workflow_operation.status
 
         @current_workflow_operation
 
@@ -32,8 +31,8 @@ class ActionController::Base
         end
       end
     end
-
   end
+
   helper_method :current_operation
 
   def available_operations
@@ -46,7 +45,6 @@ class ActionController::Base
     operations = RailsWorkflow::Operation.assigned_to(current_user).waiting
     RailsWorkflow::OperationHelperDecorator.decorate_collection(operations)
   end
+
   helper_method :assigned_operations
-
-
 end

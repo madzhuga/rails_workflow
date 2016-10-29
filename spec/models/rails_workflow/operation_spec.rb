@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 module RailsWorkflow
-  RSpec.describe Operation, :type => :model do
+  RSpec.describe Operation, type: :model do
     context 'Default Builder' do
-      let(:template) {
-        create :operation_template, async: true, operation_class: "RailsWorkflow::UserByGroupOperation"
-      }
+      let(:template) do
+        create :operation_template, async: true, operation_class: 'RailsWorkflow::UserByGroupOperation'
+      end
 
       let(:manager) { manager = RailsWorkflow::ProcessManager.new }
       let(:process) { process = create :process }
@@ -22,21 +22,18 @@ module RailsWorkflow
         expect(operation.is_background).to eq template.is_background
       end
 
-
-
       context 'should set dependencies' do
         it 'from template' do
           operation = create :operation, status: RailsWorkflow::Operation::ERROR
 
-
           operation_with_dependencies =
-              template.build_operation! process, [operation]
+            template.build_operation! process, [operation]
 
           dependencies = [
-              {
-                  "operation_id"=>operation.id,
-                  "status"=>operation.status
-              }
+            {
+              'operation_id' => operation.id,
+              'status' => operation.status
+            }
           ]
 
           expect(operation_with_dependencies.dependencies).to eq dependencies
@@ -45,7 +42,6 @@ module RailsWorkflow
         it 'when template dependencies is blank' do
           expect(operation.dependencies).to eq []
         end
-
       end
 
       it 'should build correct class' do
@@ -81,21 +77,18 @@ module RailsWorkflow
       it 'should save operation' do
         expect(operation.persisted?).to be true
       end
-
-
     end
 
     context 'Operation Assignment' do
-      let(:operation) {
+      let(:operation) do
         operation = create :operation
-      }
+      end
 
-      let(:other_user) {
+      let(:other_user) do
         create :user, email: 'other@user.com'
-      }
+      end
 
       let(:user) { create :user }
-
 
       it 'should assigns operation to user' do
         operation.assign user
@@ -124,7 +117,7 @@ module RailsWorkflow
       it 'should not allow to assign already assigned operation' do
         operation.assign user
 
-        expect(operation.can_be_assigned? other_user).to be false
+        expect(operation.can_be_assigned?(other_user)).to be false
 
         operation.assign other_user
         expect(operation.assignment).to eq user
@@ -141,8 +134,8 @@ module RailsWorkflow
 
       it 'should return true if user assigned' do
         operation.assign user
-        expect(operation.assigned? user).to be true
-        expect(operation.assigned? other_user).to be false
+        expect(operation.assigned?(user)).to be true
+        expect(operation.assigned?(other_user)).to be false
       end
 
       it 'should return collection by scope' do
@@ -151,7 +144,6 @@ module RailsWorkflow
 
         group_operation = create :operation, status: Operation::WAITING, template: group_template
         role_operation = create :operation, status: Operation::WAITING, template: role_template
-
 
         user = create :user, role: :admin
 
@@ -164,7 +156,6 @@ module RailsWorkflow
         role_operation.assign user
         expect(RailsWorkflow::Operation.unassigned).to match_array [group_operation]
       end
-
     end
 
     context 'Operation Runner' do
@@ -178,7 +169,6 @@ module RailsWorkflow
       end
 
       it 'should start child process' do
-
         allow_any_instance_of(RailsWorkflow::Process).to receive(:can_start?).and_return(true)
         allow_any_instance_of(RailsWorkflow::Process).to receive(:can_complete?).and_return(false)
 
@@ -188,8 +178,6 @@ module RailsWorkflow
         parent_operation.save
         parent_operation.start
 
-
-
         expect(parent_operation.status).to eq RailsWorkflow::Operation::IN_PROGRESS
         parent_operation.child_process.reload
         expect(parent_operation.child_process.status).to eq RailsWorkflow::Process::IN_PROGRESS
@@ -197,13 +185,6 @@ module RailsWorkflow
 
       it 'should not complete if child process is in progress'
     end
-
-
-
-
-
-
-
 
     context 'complete operation ' do
       before :each do
@@ -228,8 +209,6 @@ module RailsWorkflow
         subject.cancel
         expect(subject.status).to eq RailsWorkflow::Operation::CANCELED
       end
-
     end
-
   end
 end

@@ -9,22 +9,22 @@ module RailsWorkflow
     after_find :init_data
 
     def serialize_data
-      self.body = prepare_data(self.data)
+      self.body = prepare_data(data)
     end
 
     def init_data
       self.data = prepare_body(body).with_indifferent_access
     end
 
-    def prepare_body body
+    def prepare_body(body)
       if body.is_a? Array
         body.map do |element|
           prepare_body element
         end
       elsif body.is_a? Hash
 
-        if body.keys == ["id", "class"]
-          body["class"].constantize.find(body["id"])
+        if body.keys == %w(id class)
+          body['class'].constantize.find(body['id'])
         else
           res = {}
           body.each_pair do |key, value|
@@ -38,8 +38,7 @@ module RailsWorkflow
       end
     end
 
-
-    def prepare_data data
+    def prepare_data(data)
       if data.is_a? ActiveRecord::Base
         { id: data.id, class: data.class.to_s }
       elsif data.is_a? Array
@@ -56,6 +55,5 @@ module RailsWorkflow
         data
       end
     end
-
   end
 end

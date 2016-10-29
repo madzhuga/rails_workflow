@@ -4,11 +4,13 @@ module RailsWorkflow
     include Processes::DependencyResolver
     include Processes::DefaultRunner
 
-    belongs_to :template, class_name: "RailsWorkflow::ProcessTemplate"
-    has_many :operations, class_name: "RailsWorkflow::Operation"
-    has_one :parent_operation, class_name: "RailsWorkflow::Operation", foreign_key: :child_process_id
-    has_one :context, class_name: "RailsWorkflow::Context", as: :parent
-    has_many :workflow_errors, class_name: "RailsWorkflow::Error", as: :parent
+    belongs_to :template, class_name: 'RailsWorkflow::ProcessTemplate'
+    has_many :operations, class_name: 'RailsWorkflow::Operation'
+    has_one :parent_operation,
+      class_name: 'RailsWorkflow::Operation',
+      foreign_key: :child_process_id
+    has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
+    has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
     delegate :data, to: :context
     scope :by_status, -> (status) { where(status: status) }
@@ -22,10 +24,13 @@ module RailsWorkflow
 
       statuses = connection.select_all(query).rows
 
-      (RailsWorkflow::Process::NOT_STARTED..RailsWorkflow::Process::ROLLBACK).to_a.map{|status|
-        statuses.detect{|s| s.first.to_i == status }.try(:last).to_i
-      }
+      statuses_array.map do |status|
+        statuses.detect { |s| s.first.to_i == status }.try(:last).to_i
+      end
+    end
 
+    def self.statuses_array
+      (NOT_STARTED..ROLLBACK).to_a
     end
   end
 end

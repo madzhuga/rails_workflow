@@ -1,5 +1,4 @@
 RailsWorkflow::Engine.routes.draw do
-
   resources :operations do
     member do
       get :complete
@@ -9,7 +8,6 @@ RailsWorkflow::Engine.routes.draw do
       get :cancel
     end
   end
-
 
   resources :processes, except: [:destroy] do
     resources :errors, only: [:retry] do

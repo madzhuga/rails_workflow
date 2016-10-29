@@ -1,5 +1,4 @@
 RailsWorkflow.setup do |config|
-
   # config.assignment_by = [:group, :role]
 
   # config.operation_types = {
@@ -9,5 +8,4 @@ RailsWorkflow.setup do |config|
 
   config.activejob_enabled = false
   # config.sql_dialect= 'mysql'
-
 end

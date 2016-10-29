@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :development_authenticate_user!
 
   def development_authenticate_user!
-    if Rails.env.development?
-      authenticate_user!
-    end
+    authenticate_user! if Rails.env.development?
   end
-
 end

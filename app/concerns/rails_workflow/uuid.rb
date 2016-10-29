@@ -6,9 +6,6 @@ module RailsWorkflow::Uuid
   end
 
   def generate_guid
-    if uuid.blank?
-      self.uuid = Guid.new.to_s
-    end
-
+    self.uuid = Guid.new.to_s if uuid.blank?
   end
 end

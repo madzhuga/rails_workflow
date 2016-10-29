@@ -26,18 +26,16 @@ module RailsWorkflow
     end
 
     def index
-      @process_templates = ProcessTemplateDecorator.
-          decorate_collection(process_templates_collection)
+      @process_templates = ProcessTemplateDecorator
+                           .decorate_collection(process_templates_collection)
 
       respond_with(@process_templates)
     end
-
 
     def new
       @process_template = ProcessTemplate.new(permitted_params).decorate
       respond_with @process_template
     end
-
 
     def create
       @process_template = ProcessTemplate.create(permitted_params)
@@ -55,16 +53,17 @@ module RailsWorkflow
     end
 
     protected
+
     def permitted_params
       params.permit(
-          process_template: [
-              :title,
-              :source,
-              :manager_class,
-              :partial_name,
-              :process_class,
-              :type
-          ]
+        process_template: [
+          :title,
+          :source,
+          :manager_class,
+          :partial_name,
+          :process_class,
+          :type
+        ]
       )[:process_template]
     end
 
@@ -73,9 +72,8 @@ module RailsWorkflow
     end
 
     def process_templates_collection
-      ProcessTemplate.
-          order(id: :desc)
+      ProcessTemplate
+        .order(id: :desc)
     end
-
   end
 end

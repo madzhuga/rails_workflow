@@ -19,36 +19,36 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 module RailsWorkflow
-  RSpec.describe OperationsController, :type => :controller do
+  RSpec.describe OperationsController, type: :controller do
     routes { RailsWorkflow::Engine.routes }
 
-    let(:valid_attributes) {
-      skip("Add a hash of attributes valid for your model")
-    }
+    let(:valid_attributes) do
+      skip('Add a hash of attributes valid for your model')
+    end
 
-    let(:invalid_attributes) {
-      skip("Add a hash of attributes invalid for your model")
-    }
+    let(:invalid_attributes) do
+      skip('Add a hash of attributes invalid for your model')
+    end
 
     let(:valid_session) { {} }
 
-    describe "GET index" do
-      it "assigns all wf_operations as @wf_operations" do
+    describe 'GET index' do
+      it 'assigns all wf_operations as @wf_operations' do
         wf_operation = Operation.create! valid_attributes
         get :index, {}, valid_session
         expect(assigns(:operations)).to eq([wf_operation])
       end
     end
 
-    describe "GET show" do
-      it "assigns the requested wf_operation as @wf_operation" do
+    describe 'GET show' do
+      it 'assigns the requested wf_operation as @wf_operation' do
         wf_operation = Operation.create! valid_attributes
-        get :show, {:id => wf_operation.to_param}, valid_session
+        get :show, { id: wf_operation.to_param }, valid_session
         expect(assigns(:operations)).to eq(wf_operation)
       end
     end
 
-    describe "GET new" do
+    describe 'GET new' do
       # it "assigns a new operation as operation" do
       #   process = create(:process)
       #
@@ -57,102 +57,101 @@ module RailsWorkflow
       # end
     end
 
-    describe "GET edit" do
-      it "assigns the requested wf_operation as @wf_operation" do
+    describe 'GET edit' do
+      it 'assigns the requested wf_operation as @wf_operation' do
         wf_operation = Operation.create! valid_attributes
-        get :edit, {:id => wf_operation.to_param}, valid_session
+        get :edit, { id: wf_operation.to_param }, valid_session
         expect(assigns(:operations)).to eq(wf_operation)
       end
     end
 
-    describe "POST create" do
-      describe "with valid params" do
-        it "creates a new WfOperation" do
-          expect {
-            post :create, {:operations => valid_attributes}, valid_session
-          }.to change(Operation, :count).by(1)
+    describe 'POST create' do
+      describe 'with valid params' do
+        it 'creates a new WfOperation' do
+          expect do
+            post :create, { operations: valid_attributes }, valid_session
+          end.to change(Operation, :count).by(1)
         end
 
-        it "assigns a newly created wf_operation as @wf_operation" do
-          post :create, {:operations => valid_attributes}, valid_session
+        it 'assigns a newly created wf_operation as @wf_operation' do
+          post :create, { operations: valid_attributes }, valid_session
           expect(assigns(:operations)).to be_a(Operation)
           expect(assigns(:operations)).to be_persisted
         end
 
-        it "redirects to the created wf_operation" do
-          post :create, {:operations => valid_attributes}, valid_session
+        it 'redirects to the created wf_operation' do
+          post :create, { operations: valid_attributes }, valid_session
           expect(response).to redirect_to(Operation.last)
         end
       end
 
-      describe "with invalid params" do
-        it "assigns a newly created but unsaved wf_operation as @wf_operation" do
-          post :create, {:operations => invalid_attributes}, valid_session
+      describe 'with invalid params' do
+        it 'assigns a newly created but unsaved wf_operation as @wf_operation' do
+          post :create, { operations: invalid_attributes }, valid_session
           expect(assigns(:operations)).to be_a_new(Operation)
         end
 
         it "re-renders the 'new' template" do
-          post :create, {:operations => invalid_attributes}, valid_session
-          expect(response).to render_template("new")
+          post :create, { operations: invalid_attributes }, valid_session
+          expect(response).to render_template('new')
         end
       end
     end
 
-    describe "PUT update" do
-      describe "with valid params" do
-        let(:new_attributes) {
-          skip("Add a hash of attributes valid for your model")
-        }
-
-        it "updates the requested wf_operation" do
-          wf_operation = Operation.create! valid_attributes
-          put :update, {:id => wf_operation.to_param, :operations => new_attributes}, valid_session
-          wf_operation.reload
-          skip("Add assertions for updated state")
+    describe 'PUT update' do
+      describe 'with valid params' do
+        let(:new_attributes) do
+          skip('Add a hash of attributes valid for your model')
         end
 
-        it "assigns the requested wf_operation as @wf_operation" do
+        it 'updates the requested wf_operation' do
           wf_operation = Operation.create! valid_attributes
-          put :update, {:id => wf_operation.to_param, :operations => valid_attributes}, valid_session
+          put :update, { id: wf_operation.to_param, operations: new_attributes }, valid_session
+          wf_operation.reload
+          skip('Add assertions for updated state')
+        end
+
+        it 'assigns the requested wf_operation as @wf_operation' do
+          wf_operation = Operation.create! valid_attributes
+          put :update, { id: wf_operation.to_param, operations: valid_attributes }, valid_session
           expect(assigns(:operations)).to eq(wf_operation)
         end
 
-        it "redirects to the wf_operation" do
+        it 'redirects to the wf_operation' do
           wf_operation = Operation.create! valid_attributes
-          put :update, {:id => wf_operation.to_param, :operations => valid_attributes}, valid_session
+          put :update, { id: wf_operation.to_param, operations: valid_attributes }, valid_session
           expect(response).to redirect_to(wf_operation)
         end
       end
 
-      describe "with invalid params" do
-        it "assigns the wf_operation as @wf_operation" do
+      describe 'with invalid params' do
+        it 'assigns the wf_operation as @wf_operation' do
           wf_operation = Operation.create! valid_attributes
-          put :update, {:id => wf_operation.to_param, :operations => invalid_attributes}, valid_session
+          put :update, { id: wf_operation.to_param, operations: invalid_attributes }, valid_session
           expect(assigns(:operations)).to eq(wf_operation)
         end
 
         it "re-renders the 'edit' template" do
           wf_operation = Operation.create! valid_attributes
-          put :update, {:id => wf_operation.to_param, :operations => invalid_attributes}, valid_session
-          expect(response).to render_template("edit")
+          put :update, { id: wf_operation.to_param, operations: invalid_attributes }, valid_session
+          expect(response).to render_template('edit')
         end
       end
     end
 
-    describe "DELETE destroy" do
-      it "destroys the requested wf_operation" do
+    describe 'DELETE destroy' do
+      it 'destroys the requested wf_operation' do
         wf_operation = Operation.create! valid_attributes
-        expect {
-          delete :destroy, {:id => wf_operation.to_param}, valid_session
-        }.to change(Operation, :count).by(-1)
+        expect do
+          delete :destroy, { id: wf_operation.to_param }, valid_session
+        end.to change(Operation, :count).by(-1)
       end
 
-      it "redirects to the wf_operations list" do
+      it 'redirects to the wf_operations list' do
         wf_operation = Operation.create! valid_attributes
-        delete :destroy, {:id => wf_operation.to_param}, valid_session
+        delete :destroy, { id: wf_operation.to_param }, valid_session
         expect(response).to redirect_to(wf_operations_url)
       end
     end
-
   end
 end

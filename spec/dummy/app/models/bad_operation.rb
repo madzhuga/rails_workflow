@@ -7,5 +7,4 @@ class BadOperation < RailsWorkflow::Operation
     # raise 'EXECUTE EXCEPTION'
     true
   end
-
 end

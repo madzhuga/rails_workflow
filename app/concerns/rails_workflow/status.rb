@@ -18,25 +18,23 @@ module RailsWorkflow
         (NOT_STARTED..ROLLBACK).to_a
       end
 
-      def get_status_code status
+      def get_status_code(status)
         case status
-          when "in_progress"
-            IN_PROGRESS
-          when "done"
-            DONE
-          when "not_started"
-            NOT_STARTED
-          when "waiting"
-            WAITING
-          when "error"
-            ERROR
+        when 'in_progress'
+          IN_PROGRESS
+        when 'done'
+          DONE
+        when 'not_started'
+          NOT_STARTED
+        when 'waiting'
+          WAITING
+        when 'error'
+          ERROR
         end
       end
-
     end
 
     included do
-
       def incomplete_statuses
         [NOT_STARTED, IN_PROGRESS, WAITING]
       end
@@ -47,17 +45,16 @@ module RailsWorkflow
 
       def get_status_values
         [
-            [NOT_STARTED, 'Not Started'],
-            [IN_PROGRESS, 'In Progress'],
-            [DONE, 'Done'],
-            [WAITING, 'Waiting'],
-            [ERROR, 'Error'],
-            [CANCELED, 'Canceled'],
-            [SKIPPED, 'Skipped'],
-            [ROLLBACK, 'Rollback']
+          [NOT_STARTED, 'Not Started'],
+          [IN_PROGRESS, 'In Progress'],
+          [DONE, 'Done'],
+          [WAITING, 'Waiting'],
+          [ERROR, 'Error'],
+          [CANCELED, 'Canceled'],
+          [SKIPPED, 'Skipped'],
+          [ROLLBACK, 'Rollback']
         ]
       end
     end
-
   end
 end

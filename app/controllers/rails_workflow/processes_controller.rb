@@ -8,24 +8,23 @@ module RailsWorkflow
       @processes_section_active = true
     end
 
-
     def index
       @processes = ProcessDecorator.decorate_collection(undecorated_collection)
 
-      @errors = Error.
-          unresolved.order(id: :asc).
-          includes(:parent).limit(10)
+      @errors = Error
+                .unresolved.order(id: :asc)
+                .includes(:parent).limit(10)
 
-      @open_user_operations = OperationDecorator.
-          decorate_collection(
-            RailsWorkflow::Operation.incompleted.
-                unassigned.includes(:template).
-                limit(20)
-          )
+      @open_user_operations = OperationDecorator
+                              .decorate_collection(
+                                RailsWorkflow::Operation.incompleted
+                                    .unassigned.includes(:template)
+                                    .limit(20)
+                              )
 
       @statistic = {
-          all: RailsWorkflow::Process.count,
-          statuses: RailsWorkflow::Process.count_by_statuses
+        all: RailsWorkflow::Process.count,
+        statuses: RailsWorkflow::Process.count_by_statuses
       }
     end
 
@@ -33,15 +32,13 @@ module RailsWorkflow
       @process = Process.new(permitted_params).decorate
     end
 
-
     def create
       @process = RailsWorkflow::ProcessManager.start_process(
-          params[:process][:template_id], {}
+        params[:process][:template_id], {}
       )
 
       redirect_to process_url(@process)
     end
-
 
     def update
       @process.update(permitted_params)
@@ -53,18 +50,17 @@ module RailsWorkflow
       redirect_to processes_path
     end
 
-
-
     protected
+
     def permitted_params
       params.permit(
-          process: [
-              :status,
-              :async,
-              :title,
-              :template_id
-          ],
-          filter: [:status]
+        process: [
+          :status,
+          :async,
+          :title,
+          :template_id
+        ],
+        filter: [:status]
       )[:process]
     end
 
@@ -79,13 +75,8 @@ module RailsWorkflow
       collection_scope.paginate(page: params[:page]).order(id: :asc)
     end
 
-
-
-
     def set_process
-      @process ||= ProcessDecorator.decorate(Process.find params[:id]).decorate
+      @process ||= ProcessDecorator.decorate(Process.find(params[:id])).decorate
     end
-
-
   end
 end

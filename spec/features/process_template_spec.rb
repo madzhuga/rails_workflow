@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Process Template' do
-  scenario "User creates new template" do
+  scenario 'User creates new template' do
     # visit "/workflow/config"
     #
     # click_link "Add Process Template"

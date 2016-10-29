@@ -1,6 +1,6 @@
 module RailsWorkflow
   class DefaultImporterPreprocessor
-    def prepare json
+    def prepare(json)
       if json['operations']
         json['process_template']['operations'] = json['operations']
         json['process_template'].delete('operation_ids')

@@ -11,8 +11,6 @@ module RailsWorkflow
       ContextDecorator.decorate object.context
     end
 
-
-
     def parents
       if object.parent_operation.present?
         [self.class.decorate(object.parent_operation.process)]
@@ -28,13 +26,11 @@ module RailsWorkflow
       else
         []
       end
-
     end
 
     def operations
       OperationDecorator.decorate_collection(object.operations.order(:id))
     end
-
 
     def future_operations
       operations = if object.operations.present?
@@ -42,11 +38,10 @@ module RailsWorkflow
                    else
                      []
                    end
-      OperationTemplateDecorator.
-          decorate_collection(
-              object.template.operations - operations
-          )
-
+      OperationTemplateDecorator
+        .decorate_collection(
+          object.template.operations - operations
+        )
     end
   end
 end

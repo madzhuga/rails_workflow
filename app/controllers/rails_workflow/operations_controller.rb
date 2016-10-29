@@ -22,7 +22,7 @@ module RailsWorkflow
 
     def index
       @operations = OperationDecorator.decorate_collection(
-          parent.try(:operations) || Operation.waiting.order(created_at: :desc)
+        parent.try(:operations) || Operation.waiting.order(created_at: :desc)
       )
 
       respond_with @operations
@@ -38,13 +38,12 @@ module RailsWorkflow
 
         set_current_operation
         redirect_to main_app.send(
-                        @operation.data[:url_path],
-                        *@operation.data[:url_params]
-                    )
+          @operation.data[:url_path],
+          *@operation.data[:url_params]
+        )
       else
         redirect_to operations_path
       end
-
     end
 
     def complete
@@ -62,30 +61,27 @@ module RailsWorkflow
       redirect_to process_operation_url
     end
 
-
     protected
+
     def permitted_params
       params.permit(
-          operation: [
-              :title,
-              :source,
-              :operation_class,
-              :async,
-              :is_background,
-              dependencies: [:id, statuses: []]
-          ]
+        operation: [
+          :title,
+          :source,
+          :operation_class,
+          :async,
+          :is_background,
+          dependencies: [:id, statuses: []]
+        ]
       )[:operation]
     end
-
 
     def parent
       @parent ||= params[:process_id] && Process.find(params[:process_id])
     end
 
     def set_operation
-      @operation ||= Operation::find(params[:id]).decorate
+      @operation ||= Operation.find(params[:id]).decorate
     end
-
-
   end
 end

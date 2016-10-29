@@ -4,7 +4,6 @@ module RailsWorkflow
     delegate_all
     decorates_association :template, with: OperationTemplateDecorator
 
-
     def context
       ContextDecorator.decorate object.context
     end
@@ -14,11 +13,11 @@ module RailsWorkflow
     end
 
     def async
-      object.async ? "Yes" : "No"
+      object.async ? 'Yes' : 'No'
     end
 
     def is_background
-      object.is_background ? "Yes": "No"
+      object.is_background ? 'Yes' : 'No'
     end
 
     def child_process
@@ -35,13 +34,10 @@ module RailsWorkflow
       else
         []
       end
-
     end
-
 
     def show_template_dependencies
       template.show_dependencies
     end
-
   end
 end

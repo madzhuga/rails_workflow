@@ -1,17 +1,15 @@
 module RailsWorkflow
   class OperationHelperDecorator < Decorator
-
     include StatusDecorator
     delegate :id, :title, :instruction, :complete
 
     def assigned_to
       object.assignment.try(:email) || begin
         [
-            ::User.role_text(object.role),
-            ::User.group_text(object.group)
-        ].compact.join(", ")
+          ::User.role_text(object.role),
+          ::User.group_text(object.group)
+        ].compact.join(', ')
       end
-
     end
 
     def created_at
@@ -23,6 +21,5 @@ module RailsWorkflow
         object.completed_at.strftime('%m/%d/%Y %H:%M')
       end
     end
-
   end
 end

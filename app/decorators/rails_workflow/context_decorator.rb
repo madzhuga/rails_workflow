@@ -1,8 +1,7 @@
 module RailsWorkflow
   class ContextDecorator < Draper::Decorator
-
     def partial_name
-      object.parent.template.partial_name.presence || "application/context"
+      object.parent.template.partial_name.presence || 'application/context'
     end
 
     def data
@@ -11,7 +10,6 @@ module RailsWorkflow
       else
         {}
       end
-
     end
   end
 end

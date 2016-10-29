@@ -2,13 +2,13 @@ module RailsWorkflow
   class ProcessTemplate < ActiveRecord::Base
     include ProcessTemplates::DefaultBuilder
     include RailsWorkflow::Uuid
-    has_many :operations, -> { order(id: :asc)},  :class_name => 'OperationTemplate'
-
+    has_many :operations,
+      -> { order(id: :asc) },
+      class_name: 'OperationTemplate'
 
     def other_processes
-      ProcessTemplate.where.not(id: self.id)
+      ProcessTemplate.where.not(id: id)
     end
-
 
     # we try to read process class from template
     # and set default Workflow::Process if blank process_class on template
@@ -28,21 +28,22 @@ module RailsWorkflow
 
     # here we calculate template operations that depends on
     # given process operation status and template id
-    def dependent_operations operation
+    def dependent_operations(operation)
       operations.select do |top|
         top.dependencies.select do |dp|
-          dp['id'] == operation.template.id && dp['statuses'].include?(operation.status)
+          dp['id'] == operation.template.id &&
+            dp['statuses'].include?(operation.status)
         end.present?
       end
     end
 
     private
+
     # we try to read manager class from process template
     # otherwise use default
 
-    def get_class_for symb, default
+    def get_class_for(symb, default)
       (read_attribute(symb).presence || default).constantize
     end
-
   end
 end

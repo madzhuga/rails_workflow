@@ -1,4 +1,3 @@
-
 module RailsWorkflow
   module Operations
     #
@@ -9,7 +8,6 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-
         # in this default operation runner we don't need to wait anything
         # so we just can run operation. If you need to gather some other
         # information - feel free to redefine operation start logic but
@@ -23,13 +21,11 @@ module RailsWorkflow
         end
 
         def starting
-
           update_attribute(:status, self.class::IN_PROGRESS)
 
           is_background && RailsWorkflow.config.activejob_enabled ?
               OperationExecutionJob.perform_later(id) :
               OperationExecutionJob.perform_now(id)
-
         end
 
         # This method allows you to add requirements for operation to start. For example
@@ -39,7 +35,7 @@ module RailsWorkflow
           status == Operation::NOT_STARTED
         end
 
-        #move operation to waiting status. for example - for user operations
+        # move operation to waiting status. for example - for user operations
         def waiting
           update_attribute(:status, self.class::WAITING)
           start_waiting if respond_to? :start_waiting
@@ -48,40 +44,32 @@ module RailsWorkflow
         end
 
         def execute_in_transaction
-          begin
-
-            status = nil
-            self.class.transaction(requires_new: true) do
-              begin
-                if child_process.present?
-                  child_process.start
-                end
-                status = execute
-              rescue ActiveRecord::Rollback
-                status = nil
-              end
-
-              raise ActiveRecord::Rollback unless status
+          status = nil
+          self.class.transaction(requires_new: true) do
+            begin
+              child_process.start if child_process.present?
+              status = execute
+            rescue ActiveRecord::Rollback
+              status = nil
             end
 
-            if status
-              context.save
-              complete
-            end
-
-          rescue ActiveRecord::Rollback => exception
-            # In case of rollback exception we do nothing -
-            # this may be caused by usual validations
-          rescue => exception
-            RailsWorkflow::Error.create_from(
-                exception, {
-                             parent: self,
-                             target: self,
-                             method: :execute_in_transaction
-                         }
-            )
-
+            raise ActiveRecord::Rollback unless status
           end
+
+          if status
+            context.save
+            complete
+          end
+
+        rescue ActiveRecord::Rollback => exception
+          # In case of rollback exception we do nothing -
+          # this may be caused by usual validations
+        rescue => exception
+          RailsWorkflow::Error.create_from(
+            exception, parent: self,
+                       target: self,
+                       method: :execute_in_transaction
+          )
         end
 
         def execute
@@ -98,28 +86,23 @@ module RailsWorkflow
               true
         end
 
-        def complete to_status = nil
+        def complete(to_status = nil)
           if can_complete?
 
-            if to_status.blank? && respond_to?(:on_complete)
-              on_complete
-            end
+            on_complete if to_status.blank? && respond_to?(:on_complete)
 
             update_attributes(
-                {
-                    status: to_status || self.class::DONE,
-                    completed_at: Time.zone.now
-                })
+              status: to_status || self.class::DONE,
+              completed_at: Time.zone.now
+            )
             manager.operation_complete self
           end
         rescue => exception
           RailsWorkflow::Error.create_from(
-              exception, {
-                           parent: self,
-                           target: self,
-                           method: :complete,
-                           args: [to_status]
-                       }
+            exception,                 parent: self,
+                                       target: self,
+                                       method: :complete,
+                                       args: [to_status]
           )
         end
 
@@ -132,9 +115,7 @@ module RailsWorkflow
           on_cancel if respond_to? :on_skip
           complete self.class::SKIPPED
         end
-
       end
-
     end
   end
 end

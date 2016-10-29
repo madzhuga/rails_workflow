@@ -1,8 +1,8 @@
 module RailsWorkflow
   class Error < ActiveRecord::Base
     belongs_to :parent, polymorphic: true
-    has_one :context, class_name: "RailsWorkflow::Context", as: :parent
-    scope :unresolved, -> { where("resolved is null or resolved = false")}
+    has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
+    scope :unresolved, -> { where('resolved is null or resolved = false') }
 
     delegate :data, to: :context
 
@@ -28,7 +28,10 @@ module RailsWorkflow
       if operation.present?
         operation.reload
         if operation.status == RailsWorkflow::Operation::ERROR
-          operation.update_attribute(:status, RailsWorkflow::Operation::NOT_STARTED)
+          operation.update_attribute(
+            :status,
+            RailsWorkflow::Operation::NOT_STARTED
+          )
         end
       end
 
@@ -36,16 +39,14 @@ module RailsWorkflow
         process.update_attribute(:status, RailsWorkflow::Process::IN_PROGRESS)
         process.start
       end
-
     end
 
-    def can_restart_process process
-      process.workflow_errors.
-          unresolved.where.not(id: self.id).count == 0
+    def can_restart_process(process)
+      process.workflow_errors
+             .unresolved.where.not(id: id).count.zero?
     end
 
-    def self.create_from exception, context
-
+    def self.create_from(exception, context)
       parent = context[:parent]
 
       if parent.is_a? RailsWorkflow::Operation
@@ -55,10 +56,10 @@ module RailsWorkflow
       end
 
       error = RailsWorkflow::Error.create(
-          parent_id: parent.id,
-          parent_type: (correct_parent || parent).class.to_s,
-          message: exception.message.first(250),
-          stack_trace: exception.backtrace.join("<br/>\n")
+        parent_id: parent.id,
+        parent_type: (correct_parent || parent).class.to_s,
+        message: exception.message.first(250),
+        stack_trace: exception.backtrace.join("<br/>\n")
       )
 
       error.create_context(data: context)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module RailsWorkflow
-  RSpec.describe Error, :type => :model do
+  RSpec.describe Error, type: :model do
     # let(:process_template) { create :process_template }
     # let(:process) {
     #   process = create :process, template: process_template

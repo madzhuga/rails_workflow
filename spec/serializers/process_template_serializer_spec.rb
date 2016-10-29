@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 module RailsWorkflow
-  RSpec.describe ProcessTemplateSerializer, :type => :serializer do
+  RSpec.describe ProcessTemplateSerializer, type: :serializer do
     context 'Default Builder' do
-
       it 'should serialize child process' do
         process_template = create :process_template
 
@@ -13,8 +12,7 @@ module RailsWorkflow
 
         check = ProcessTemplateSerializer.new(process_template).as_json['process_template']
         child_process_uuid = check[:operations].first[:child_process]
-        expect(check[:child_processes].map{|pt| pt[:uuid] }).to include(child_process_uuid)
-
+        expect(check[:child_processes].map { |pt| pt[:uuid] }).to include(child_process_uuid)
       end
 
       it 'should not fail if no child processes' do
@@ -26,7 +24,6 @@ module RailsWorkflow
 
         check = ProcessTemplateSerializer.new(process_template).as_json['process_template']
         expect(check[:child_processes]).to be_blank
-
       end
     end
   end

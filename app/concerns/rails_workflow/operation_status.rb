@@ -6,12 +6,9 @@ module RailsWorkflow
     include Status
 
     included do
-
       def self.user_ready_statuses
         [Status::WAITING]
       end
-
     end
-
   end
 end
