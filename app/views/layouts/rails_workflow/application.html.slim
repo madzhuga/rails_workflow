@@ -1,55 +1,55 @@
 doctype html
 html
-head
-  meta charset="utf-8"
-  meta http-equiv="X-UA-Compatible" content="IE=edge"
-  meta name="viewport" content="width=device-width, initial-scale=1.0"
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
 
-  title Rails Workflow Engine
+    title Rails Workflow Engine
 
-  = stylesheet_link_tag "rails_workflow/application"
-  = javascript_include_tag "rails_workflow/application"
-  = csrf_meta_tags
+    = stylesheet_link_tag "rails_workflow/application"
+    = javascript_include_tag "rails_workflow/application"
+    = csrf_meta_tags
 
-  a href="#Top"
+    a href="#Top"
 
-body
-  .navbar.navbar-static-top.navbar-default role="navigation"
-    .container
-      .navbar-header
-        button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
-          span class="sr-only" Toggle navigation
-          span class="icon-bar"
-          span class="icon-bar"
-          span class="icon-bar"
+  body
+    .navbar.navbar-static-top.navbar-default role="navigation"
+      .container
+        .navbar-header
+          button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
+            span class="sr-only" Toggle navigation
+            span class="icon-bar"
+            span class="icon-bar"
+            span class="icon-bar"
 
-        = link_to 'Workflow', root_path, :class => "navbar-brand"
+          = link_to 'Workflow', root_path, :class => "navbar-brand"
 
-      .collapse.navbar-collapse
-        ul.nav.navbar-nav.pull-right
-          li class="#{'active' if @processes_section_active}"
-            = link_to "Processes", processes_path
-          li class="#{'active' if @operations_section_active}"
-            = link_to "User Operations", operations_path
-          li class="#{'active' if @config_section_active}"
-            = link_to "Configuration", process_templates_path
-          li
-            = mail_to "max.madzhuga@gmail.com", "Support", subject: "Workflow Support"
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav.pull-right
+            li class="#{'active' if @processes_section_active}"
+              = link_to "Processes", processes_path
+            li class="#{'active' if @operations_section_active}"
+              = link_to "User Operations", operations_path
+            li class="#{'active' if @config_section_active}"
+              = link_to "Configuration", process_templates_path
+            li
+              = mail_to "max.madzhuga@gmail.com", "Support", subject: "Workflow Support"
 
-  .container.wfmain
-    = yield
+    .container.wfmain
+      = yield
 
-    footer
-      hr
-      p
-        | &copy;
-        span<> = Date.today.in_time_zone.year
-        | Maxim Madzhuga
-        | &nbsp;&bull;
-        span<>= mail_to "max.madzhuga@gmail.com", "Contact me", subject: "Workflow Support"
-        | &bull;
-        span<>
-          a href="https://twitter.com/max_madzhuga" @max_madzhuga
-        | &bull;
+      footer
+        hr
+        p
+          | &copy;
+          span<> = Date.today.in_time_zone.year
+          | Maxim Madzhuga
+          | &nbsp;&bull;
+          span<>= mail_to "max.madzhuga@gmail.com", "Contact me", subject: "Workflow Support"
+          | &bull;
+          span<>
+            a href="https://twitter.com/max_madzhuga" @max_madzhuga
+          | &bull;
 
-        span<>= link_to "Rails Workflow Site", 'http://madzhuga.github.io/rails_workflow/'
+          span<>= link_to "Rails Workflow Site", 'http://madzhuga.github.io/rails_workflow/'

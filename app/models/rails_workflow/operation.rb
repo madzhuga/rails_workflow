@@ -1,4 +1,7 @@
 module RailsWorkflow
+  # Operation is a key building block for a Rails Workflow.
+  # This model is used to save operation meta data, describe relation
+  # with operation context etc.
   class Operation < ActiveRecord::Base
     include OperationStatus
 
@@ -28,5 +31,23 @@ module RailsWorkflow
     end
 
     attr_writer :manager
+
+    def waiting?
+      status.in? Operation.user_ready_statuses
+    end
+
+    def can_be_started_by?(user)
+      waiting? && can_be_assigned?(user) && assignment.nil?
+    end
+
+    def assigned_to?(user)
+      assignment && assignment == user
+    end
+
+    def can_be_continued_by?(user, current_operation)
+      waiting? &&
+        assigned_to?(user) &&
+        (current_operation.nil? || current_operation != self)
+    end
   end
 end

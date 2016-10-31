@@ -8,13 +8,14 @@ ol.breadcrumb.alert-warning
         h1.panel-title Operations
 
       .panel-body
-        table.table.table-striped.table-hover
+        table.table.table-striped.table-hover#operations
           thead
             tr
               th Title
               th Status
               th Assignment
               th Created At
+              th
 
           tbody
             - @operations.each do |operation|
@@ -25,3 +26,14 @@ ol.breadcrumb.alert-warning
                     = operation.status[:text]
                 td = operation.assigned_to
                 td = operation.created_at
+                td
+                  - if operation.can_be_started_by?(current_user)
+                    = button_to 'Start', pickup_operation_path(operation), class: "btn btn-primary btn-sm", method: :put
+                  - if current_operation == operation
+                    = button_to 'Navigate to', navigate_to_operations_path, class: "btn btn-primary btn-sm", method: :get
+                    = button_to 'Complete', complete_operations_path, class: "btn btn-primary btn-sm", method: :get
+                    = button_to 'Postpone', postpone_operations_path, class: "btn btn-primary btn-sm", method: :get
+                    = button_to 'Skip', skip_operations_path, class: "btn btn-primary btn-sm", method: :get
+                    = button_to 'Cancel', cancel_operations_path, class: "btn btn-primary btn-sm", method: :get
+                  - if operation.can_be_continued_by?(current_user, current_operation)
+                    = button_to 'Continue', continue_operation_path(operation), class: "btn btn-primary btn-sm", method: :get
