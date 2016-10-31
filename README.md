@@ -41,7 +41,7 @@ You can find tutorials and documentation [here](http://www.rails-workflow.com/)
 Add to your application's Gemfile:
 
 ```ruby
-gem 'rails_workflow', '0.3.1'
+gem 'rails_workflow'
 ```
 
 And then execute:
