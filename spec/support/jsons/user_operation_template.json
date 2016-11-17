@@ -1,0 +1,56 @@
+{
+  "process_template": {
+    "uuid": "a708ce2c-cdff-b059-be0e-6bd16d552169",
+    "title": "User Operation Template",
+    "source": null,
+    "manager_class": "",
+    "process_class": "",
+    "type": "",
+    "partial_name": null,
+    "version": null,
+    "tag": null,
+    "operations": [
+      {
+        "uuid": "9ee9a27e-0790-0d45-9534-a6469e5b9ce9",
+        "title": "Admin Operation",
+        "source": null,
+        "dependencies": [],
+        "operation_class": "",
+        "async": false,
+        "assignment_id": null,
+        "assignment_type": null,
+        "kind": "user_role",
+        "role": "admin",
+        "group": null,
+        "instruction": "",
+        "is_background": true,
+        "type": "",
+        "partial_name": "",
+        "version": null,
+        "tag": null,
+        "child_process": null
+      },
+      {
+        "uuid": "9ee9a27e-0790-0d45-9534-a6469e5b9cxx",
+        "title": "Regular User Operation",
+        "source": null,
+        "dependencies": [],
+        "operation_class": "",
+        "async": false,
+        "assignment_id": null,
+        "assignment_type": null,
+        "kind": "user_role",
+        "role": "regular_user",
+        "group": null,
+        "instruction": "",
+        "is_background": true,
+        "type": "",
+        "partial_name": "",
+        "version": null,
+        "tag": null,
+        "child_process": null
+      }
+
+    ]
+  }
+}
