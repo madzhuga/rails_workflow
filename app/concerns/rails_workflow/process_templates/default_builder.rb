@@ -10,47 +10,43 @@ module RailsWorkflow
     # processes).
     #
     module DefaultBuilder
-      extend ActiveSupport::Concern
+      def build_process!(context)
+        process = process_class.create template: self
 
-      included do
-        def build_process!(context)
-          process = process_class.create template: self
+        process.class.transaction do
+          process.update_attributes(title: title, status: Process::NOT_STARTED)
+          process.create_context(data: context, parent: process)
 
-          process.class.transaction do
-            process.update_attributes(title: title, status: Process::NOT_STARTED)
-            process.create_context(data: context, parent: process)
-
-            build_independent_operations process
-            process
-          end
-        end
-
-        # Independent operations is template operations that have no dependencies from
-        # any other operations
-        def build_independent_operations(process)
-          independent_operations.each do |operation_template|
-            build_operation process, operation_template
-          end
-        end
-
-        # Important note: operation template contains Operation Class.
-        # You can specify custom class on template
-
-        def build_operation(process, template, completed_dependencies = [])
-          operation = template.build_operation! process, completed_dependencies
-
-          process.operations << operation if operation.present?
-
-          operation
-        rescue => exception
-          RailsWorkflow::Error.create_from(
-            exception, parent: process,
-                       target: process.template,
-                       method: :build_operation,
-                       args: [process, template, completed_dependencies]
-          )
+          build_independent_operations process
+          process
         end
       end
+
+      # Independent operations is template operations that have no dependencies from
+      # any other operations
+      def build_independent_operations(process)
+        independent_operations.each do |operation_template|
+          build_operation process, operation_template
+        end
+      end
+
+      # Important note: operation template contains Operation Class.
+      # You can specify custom class on template
+
+      def build_operation(process, template, completed_dependencies = [])
+        operation = template.build_operation! process, completed_dependencies
+
+        process.operations << operation if operation.present?
+
+        operation
+      rescue => exception
+        RailsWorkflow::Error.create_from(
+          exception, parent: process,
+                     target: process.template,
+                     method: :build_operation,
+                     args: [process, template, completed_dependencies]
+        )
       end
     end
+  end
 end

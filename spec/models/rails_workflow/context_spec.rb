@@ -4,7 +4,7 @@ module RailsWorkflow
   RSpec.describe Context, type: :model do
     let(:operation) { create :operation }
     let(:process) { create :process }
-    let(:manager) { ProcessManager.new }
+    let(:manager) { ProcessManager.new(process) }
     let(:template) do
       create :operation_template, async: true, operation_class: 'RailsWorkflow::UserByGroupOperation'
     end

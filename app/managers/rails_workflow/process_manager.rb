@@ -4,25 +4,24 @@ module RailsWorkflow
   # to build enhancements. For example they can be used to implement
   # processes communications.
   class ProcessManager
-    attr_accessor :process, :template
-
-    def self.build_process(template_id, context)
-      template = RailsWorkflow::ProcessTemplate.find template_id
-      template.build_process! context
-    end
-
-    def self.start_process(template_id, context)
-      process = build_process template_id, context
-      process.try(:start)
-      process
-    end
+    attr_accessor :process
+    delegate :template, :operation_exception, to: :process
+    delegate :complete, to: :process, prefix: true
 
     def initialize(process = nil)
       @process = process
     end
 
-    def template
-      @template ||= @process.try(:template)
+    def self.build_process(template_id, context)
+      RailsWorkflow::ProcessTemplate
+        .find(template_id)
+        .build_process!(context)
+    end
+
+    def self.start_process(template_id, context)
+      process = build_process template_id, context
+      new(process).start_process
+      process
     end
 
     def start_process
@@ -31,18 +30,13 @@ module RailsWorkflow
       RailsWorkflow::Error.create_from exception, parent: process
     end
 
-    def operation_exception
-      process.operation_exception
-    end
-
-    def operation_complete(operation)
+    def operation_completed(operation)
       process.operation_complete operation
-
-      complete_process
+      process_complete
     end
 
     def complete_process
-      process.complete if process.can_complete?
+      process.complete
     end
   end
 end

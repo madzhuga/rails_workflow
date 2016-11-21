@@ -7,7 +7,7 @@ module RailsWorkflow
         create :operation_template, async: true, operation_class: 'RailsWorkflow::UserByGroupOperation'
       end
 
-      let(:manager) { manager = RailsWorkflow::ProcessManager.new }
+      let(:manager) { manager = RailsWorkflow::ProcessManager.new(process) }
       let(:process) { process = create :process }
 
       let(:operation) { template.build_operation! process }
@@ -193,19 +193,19 @@ module RailsWorkflow
       end
 
       it 'should change state to DONE on complete' do
-        expect(@manager).to receive(:operation_complete)
+        expect(@manager).to receive(:operation_completed)
         subject.complete
         expect(subject.status).to eq RailsWorkflow::Operation::DONE
       end
 
       it 'should change state to SKIP on skip' do
-        expect(@manager).to receive(:operation_complete)
+        expect(@manager).to receive(:operation_completed)
         subject.skip
         expect(subject.status).to eq RailsWorkflow::Operation::SKIPPED
       end
 
       it 'should change state to DONE on complete' do
-        expect(@manager).to receive(:operation_complete)
+        expect(@manager).to receive(:operation_completed)
         subject.cancel
         expect(subject.status).to eq RailsWorkflow::Operation::CANCELED
       end

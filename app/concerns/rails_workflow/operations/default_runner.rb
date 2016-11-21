@@ -95,7 +95,7 @@ module RailsWorkflow
               status: to_status || self.class::DONE,
               completed_at: Time.zone.now
             )
-            manager.operation_complete self
+            manager.operation_completed self
           end
         rescue => exception
           RailsWorkflow::Error.create_from(
