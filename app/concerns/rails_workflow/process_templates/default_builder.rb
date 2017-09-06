@@ -1,14 +1,15 @@
-require 'active_support/concern'
+# frozen_string_literal: true
+
 module RailsWorkflow
   module ProcessTemplates
     # = DefaultBuilder
     #
-    # Process Builder is used to build new process. All process building logic should be
-    # gathered here. It defines how process is build using template (for example it can used
-    # to gather some additional information from system - for example some information from
-    # existing processes or it can handle hierarchical processes logic for parent / child
-    # processes).
-    #
+    # Process Builder is used to build new process. All process building logic
+    # should be gathered here. It defines how process is build using template
+    # (for example it can used to gather some additional information from
+    # system - for example some information from existing processes or it
+    # can handle hierarchical processes logic for parent / child processes).
+    # TODO move to separate class
     module DefaultBuilder
       def build_process!(context)
         process = process_class.create template: self
@@ -22,14 +23,15 @@ module RailsWorkflow
         end
       end
 
-      # Independent operations is template operations that have no dependencies from
-      # any other operations
+      # Independent operations is template operations that have no
+      # dependencies from any other operations
       def build_independent_operations(process)
         independent_operations.each do |operation_template|
           build_operation process, operation_template
         end
       end
 
+      # TODO remove from here
       # Important note: operation template contains Operation Class.
       # You can specify custom class on template
 
@@ -40,12 +42,19 @@ module RailsWorkflow
 
         operation
       rescue => exception
-        RailsWorkflow::Error.create_from(
-          exception, parent: process,
-                     target: process.template,
-                     method: :build_operation,
-                     args: [process, template, completed_dependencies]
+        error_manager.handle(
+          exception,
+          parent: process, target: process.template, method: :build_operation,
+          args: [process, template, completed_dependencies]
         )
+      end
+
+      def error_manager
+        config.error_manager
+      end
+
+      def config
+        RailsWorkflow.config
       end
     end
   end

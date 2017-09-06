@@ -9,6 +9,7 @@ module RailsWorkflow
     has_one :parent_operation,
       class_name: 'RailsWorkflow::Operation',
       foreign_key: :child_process_id
+    alias_method :parent, :parent_operation
     has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 

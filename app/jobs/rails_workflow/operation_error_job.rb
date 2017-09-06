@@ -1,4 +1,5 @@
 module RailsWorkflow
+  # TODO: Remove this job
   # When some operation fails due to some exceptions this job
   # is responsible for setting operation to error status. Also it
   # check if there is parent processes / operations and set it
@@ -27,7 +28,7 @@ module RailsWorkflow
     def process_parents
       parent_methods.each do |parent_method|
         parent_target = target.public_send(parent_method)
-        perform(parent_target.id, parent_target.class.to_s) if parent_target
+        self.class.new.perform(parent_target.id, parent_target.class.to_s) if parent_target
       end
     end
 

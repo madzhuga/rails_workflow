@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
+  # Stores error information
   class Error < ActiveRecord::Base
     belongs_to :parent, polymorphic: true
     has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
@@ -6,6 +9,7 @@ module RailsWorkflow
 
     delegate :data, to: :context
 
+    # TODO move to error manager
     def retry
       update_attribute(:resolved, true)
 
@@ -35,36 +39,16 @@ module RailsWorkflow
         end
       end
 
-      if process.present? && can_restart_process(process)
-        process.update_attribute(:status, RailsWorkflow::Process::IN_PROGRESS)
-        process.start
-      end
+      return unless process.present? && can_restart_process(process)
+
+      process.update_attribute(:status, RailsWorkflow::Process::IN_PROGRESS)
+      process.start
     end
 
+    # TODO move to process
     def can_restart_process(process)
       process.workflow_errors
              .unresolved.where.not(id: id).count.zero?
-    end
-
-    def self.create_from(exception, context)
-      parent = context[:parent]
-
-      if parent.is_a? RailsWorkflow::Operation
-        correct_parent = parent.becomes(RailsWorkflow::Operation)
-      elsif parent.is_a? RailsWorkflow::Process
-        correct_parent = parent.becomes(RailsWorkflow::Process)
-      end
-
-      error = RailsWorkflow::Error.create(
-        parent_id: parent.id,
-        parent_type: (correct_parent || parent).class.to_s,
-        message: exception.message.first(250),
-        stack_trace: exception.backtrace.join("<br/>\n")
-      )
-
-      error.create_context(data: context)
-
-      RailsWorkflow::OperationErrorJob.new.perform(parent.id, parent.class.to_s)
     end
   end
 end

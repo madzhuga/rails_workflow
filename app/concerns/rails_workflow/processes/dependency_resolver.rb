@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   module Processes
     # = DependencyResolver
     #
-    # New operation can be added to process if all it's dependencies are satisfied.
-    # For example current operation can depend on some existing process operation which
-    # should be completed - then current operation can be build
-
+    # New operation can be added to process if all it's dependencies
+    # are satisfied. For example current operation can depend on some
+    # existing process operation which should be completed - then current
+    # operation can be build
     module DependencyResolver
       extend ActiveSupport::Concern
 
@@ -22,9 +24,10 @@ module RailsWorkflow
           matched_templates(operation).each do |operation_template|
             completed_dependencies = [operation]
 
-            if operation_template.resolve_dependency operation
-              new_operations << operation_template.build_operation!(self, completed_dependencies)
-            end
+            next unless operation_template.resolve_dependency operation
+            new_operations << operation_template.build_operation!(
+              self, completed_dependencies
+            )
           end
 
           new_operations.each do |new_operation|
@@ -33,17 +36,23 @@ module RailsWorkflow
               new_operation.start
             end
           end
-
         rescue => exception
-          RailsWorkflow::Error.create_from(
-            exception, parent: self,
-                       target: self,
-                       method: :build_dependencies,
-                       args: [operation]
+          error_manager.handle(
+            exception,
+            parent: self, target: self, method: :build_dependencies,
+            args: [operation]
           )
         end
 
         private
+
+        def error_manager
+          config.error_manager
+        end
+
+        def config
+          RailsWorkflow.config
+        end
 
         def matched_templates(operation)
           template.dependent_operations(operation) - operations.map(&:template)

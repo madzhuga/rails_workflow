@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
+# TODO check if we really need all those
 require 'singleton'
-require 'guid'
-require 'bootstrap-rails-engine'
-require 'slim-rails'
-require 'will_paginate'
-require 'draper'
-require 'sidekiq'
-require 'active_model_serializers'
+# require 'guid'
+# require 'bootstrap-rails-engine'
+# require 'slim-rails'
+# require 'will_paginate'
+# require 'draper'
+# require 'sidekiq'
+# require 'active_model_serializers'
 require 'rails_workflow/db/mysql'
+require_relative './error_manager'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -31,12 +35,15 @@ module RailsWorkflow
           class: 'RailsWorkflow::UserByGroupOperation'
         }
       }
-      @default_import_preprocessor = 'RailsWorkflow::DefaultImporterPreprocessor'
+      @default_import_preprocessor =
+        'RailsWorkflow::DefaultImporterPreprocessor'
+
       @default_operation_template_type = 'RailsWorkflow::OperationTemplate'
       @default_process_manager = 'RailsWorkflow::ProcessManager'
+      @default_error_manager = 'RailsWorkflow::ErrorManager'
       @default_process_class = 'RailsWorkflow::Process'
       @default_process_template_type = 'RailsWorkflow::ProcessTemplate'
-      @default_assignment_by = [:group, :role]
+      @default_assignment_by = %i[group role]
       @default_sql_dialect = 'pg'
     end
 
@@ -96,6 +103,12 @@ module RailsWorkflow
 
     def process_template_type
       @process_template_type || @default_process_template_type
+    end
+
+    attr_writer :error_manager
+
+    def error_manager
+      (@error_manager || @default_error_manager).constantize
     end
   end
 end

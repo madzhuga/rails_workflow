@@ -1,5 +1,7 @@
+## 0.4.0
+    * Error management improvements (added ErrorManager, can be configured)
 ## 0.3.9
-    * added Active Job API support instead of hardcoded sidekiq.
+    * added Active Job API support instead of hard-coded sidekiq.
 ## 0.3.7
     * added import template preprocessor
 ## 0.3.5
@@ -11,7 +13,7 @@
     * Removed native json database type dependency to allow MySQL and other DBs not having native json data type
 ## 0.3.0:
     * configuration export / import
-    * Custom context view for operations (can be specified on operaiton templates)
+    * Custom context view for operations (can be specified on operation templates)
     * removed dependency from inherited_resources
     * removed dependency from devise
     * fixed rails version

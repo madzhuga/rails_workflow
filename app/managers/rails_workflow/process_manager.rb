@@ -27,7 +27,7 @@ module RailsWorkflow
     def start_process
       process.start
     rescue => exception
-      RailsWorkflow::Error.create_from exception, parent: process
+      error_manager.handle(exception, parent: process)
     end
 
     def operation_completed(operation)
@@ -37,6 +37,14 @@ module RailsWorkflow
 
     def complete_process
       process.complete
+    end
+
+    def error_manager
+      config.error_manager
+    end
+
+    def config
+      RailsWorkflow.config
     end
   end
 end

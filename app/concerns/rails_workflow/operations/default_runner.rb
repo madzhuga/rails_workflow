@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   module Operations
     #
@@ -17,19 +19,22 @@ module RailsWorkflow
         def start
           can_start? ? starting : waiting
         rescue => exception
-          RailsWorkflow::Error.create_from exception, parent: self
+          error_manager.handle(exception, parent: self)
         end
 
         def starting
           update_attribute(:status, self.class::IN_PROGRESS)
 
-          is_background && RailsWorkflow.config.activejob_enabled ?
-              OperationExecutionJob.perform_later(id) :
-              OperationExecutionJob.perform_now(id)
+          if is_background && config.activejob_enabled
+            OperationExecutionJob.perform_later(id)
+          else
+            OperationExecutionJob.perform_now(id)
+          end
         end
 
-        # This method allows you to add requirements for operation to start. For example
-        # some operation can't start because of some process or overal system conditions.
+        # This method allows you to add requirements for operation to start.
+        # For example some operation can't start because of some process
+        # or overal system conditions.
         # By default any operation can start :)
         def can_start?
           status == Operation::NOT_STARTED
@@ -40,7 +45,7 @@ module RailsWorkflow
           update_attribute(:status, self.class::WAITING)
           start_waiting if respond_to? :start_waiting
         rescue => exception
-          RailsWorkflow::Error.create_from exception, parent: self
+          error_manager.handle(exception, parent: self)
         end
 
         def execute_in_transaction
@@ -60,15 +65,13 @@ module RailsWorkflow
             context.save
             complete
           end
-
         rescue ActiveRecord::Rollback => exception
           # In case of rollback exception we do nothing -
           # this may be caused by usual validations
         rescue => exception
-          RailsWorkflow::Error.create_from(
-            exception, parent: self,
-                       target: self,
-                       method: :execute_in_transaction
+          error_manager.handle(
+            exception,
+            parent: self, target: self, method: :execute_in_transaction
           )
         end
 
@@ -81,28 +84,26 @@ module RailsWorkflow
         end
 
         def can_complete?
-          child_process.present? ?
-              child_process.status == RailsWorkflow::Process::DONE :
-              true
+          # TODO cover by specs
+          child_process.nil? ||
+            child_process.status == RailsWorkflow::Process::DONE
         end
 
-        def complete(to_status = nil)
+        def complete(to_status = self.class::DONE)
           if can_complete?
 
             on_complete if to_status.blank? && respond_to?(:on_complete)
 
             update_attributes(
-              status: to_status || self.class::DONE,
+              status: to_status,
               completed_at: Time.zone.now
             )
             manager.operation_completed self
           end
         rescue => exception
-          RailsWorkflow::Error.create_from(
-            exception,                 parent: self,
-                                       target: self,
-                                       method: :complete,
-                                       args: [to_status]
+          error_manager.handle(
+            exception,
+            parent: self, target: self, method: :complete, args: [to_status]
           )
         end
 
@@ -114,6 +115,16 @@ module RailsWorkflow
         def skip
           on_cancel if respond_to? :on_skip
           complete self.class::SKIPPED
+        end
+
+        private
+
+        def error_manager
+          config.error_manager
+        end
+
+        def config
+          RailsWorkflow.config
         end
       end
     end
