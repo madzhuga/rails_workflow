@@ -1,6 +1,7 @@
-require 'active_support/concern'
+# frozen_string_literal: true
 
 module RailsWorkflow
+  # Describes process and operation statuses
   module Status
     extend ActiveSupport::Concern
 
@@ -18,19 +19,14 @@ module RailsWorkflow
         (NOT_STARTED..ROLLBACK).to_a
       end
 
-      def get_status_code(status)
-        case status
-        when 'in_progress'
-          IN_PROGRESS
-        when 'done'
-          DONE
-        when 'not_started'
-          NOT_STARTED
-        when 'waiting'
-          WAITING
-        when 'error'
-          ERROR
-        end
+      def status_code_for(status)
+        [
+          ['in_progress', IN_PROGRESS],
+          ['done', DONE],
+          ['not_started', NOT_STARTED],
+          ['waiting', WAITING],
+          ['error', ERROR]
+        ].assoc(status).last
       end
     end
 

@@ -31,17 +31,14 @@ module RailsWorkflow
 
       if operation.present?
         operation.reload
-        if operation.status == RailsWorkflow::Operation::ERROR
-          operation.update_attribute(
-            :status,
-            RailsWorkflow::Operation::NOT_STARTED
-          )
+        if operation.status == Status::ERROR
+          operation.update_attribute(:status, Status::NOT_STARTED)
         end
       end
 
       return unless process.present? && can_restart_process(process)
 
-      process.update_attribute(:status, RailsWorkflow::Process::IN_PROGRESS)
+      process.update_attribute(:status, Status::IN_PROGRESS)
       process.start
     end
 

@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
+# require_relative '../../concerns/status_spec.rb'
 
 module RailsWorkflow
-  RSpec.describe Process, type: :model do
-    it 'should complete parent operation on process complete'
+  RSpec.describe RailsWorkflow::Process, type: :model do
+    it_behaves_like 'Status'
   end
 end

@@ -48,6 +48,7 @@ module RailsWorkflow
           error_manager.handle(exception, parent: self)
         end
 
+        # TODO refactor this mess
         def execute_in_transaction
           status = nil
           self.class.transaction(requires_new: true) do
@@ -86,10 +87,10 @@ module RailsWorkflow
         def can_complete?
           # TODO cover by specs
           child_process.nil? ||
-            child_process.status == RailsWorkflow::Process::DONE
+            child_process.status == Status::DONE
         end
 
-        def complete(to_status = self.class::DONE)
+        def complete(to_status = Status::DONE)
           if can_complete?
 
             on_complete if to_status.blank? && respond_to?(:on_complete)
@@ -109,12 +110,12 @@ module RailsWorkflow
 
         def cancel
           on_cancel if respond_to? :on_cancel
-          complete self.class::CANCELED
+          complete Status::CANCELED
         end
 
         def skip
           on_cancel if respond_to? :on_skip
-          complete self.class::SKIPPED
+          complete Status::SKIPPED
         end
 
         private

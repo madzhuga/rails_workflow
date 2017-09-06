@@ -80,7 +80,7 @@ module RailsWorkflow
     end
 
     it 'should be build using operation dependencies contexts' do
-      operation = create :operation_with_context, status: RailsWorkflow::Operation::ERROR
+      operation = create :operation_with_context, status: RailsWorkflow::Status::ERROR
 
       child_operation =
         template.build_operation! process, [operation]

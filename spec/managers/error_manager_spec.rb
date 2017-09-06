@@ -27,11 +27,11 @@ module RailsWorkflow
     end
 
     shared_examples 'has workflow error' do
-      it { expect(process.reload.status).to eq RailsWorkflow::Process::ERROR }
+      it { expect(process.reload.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error_parent.workflow_errors.count).to eq 1 }
       # TODO replace with RailsWorkflow::Status::ERROR
-      it { expect(error_parent.status).to eq RailsWorkflow::Operation::ERROR }
+      it { expect(error_parent.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error.message).to eq test_message }
 
@@ -74,7 +74,7 @@ module RailsWorkflow
 
     context 'when operation completion fails' do
       let(:error_method) { 'complete' }
-      let(:error_args) { [RailsWorkflow::Operation::DONE] }
+      let(:error_args) { [RailsWorkflow::Status::DONE] }
 
       before { raise_error operation, :update_attributes }
       let(:failing_method_call) { operation.complete }

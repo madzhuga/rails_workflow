@@ -12,7 +12,7 @@ module RailsWorkflow
       it 'should create new process' do
         expect(process).to be
         expect(process).to be_kind_of(Process)
-        expect(process.status).to eq RailsWorkflow::Process::NOT_STARTED
+        expect(process.status).to eq RailsWorkflow::Status::NOT_STARTED
       end
 
       it 'with reference to template' do
@@ -22,7 +22,7 @@ module RailsWorkflow
       it 'should create new process operations' do
         expect(process.operations.size).to eq 1
         expect(process.operations.first.status)
-          .to eq RailsWorkflow::Operation::NOT_STARTED
+          .to eq RailsWorkflow::Status::NOT_STARTED
       end
 
       it 'should create process context' do
@@ -48,12 +48,12 @@ module RailsWorkflow
         end
 
         it 'should start new process' do
-          expect(process.status).to eq RailsWorkflow::Process::IN_PROGRESS
+          expect(process.status).to eq RailsWorkflow::Status::IN_PROGRESS
         end
 
         it 'should start first operations' do
           expect(process.operations.first.status)
-            .to eq RailsWorkflow::Operation::IN_PROGRESS
+            .to eq RailsWorkflow::Status::IN_PROGRESS
         end
       end
     end

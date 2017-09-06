@@ -68,7 +68,7 @@ module RailsWorkflow
       collection_scope = Process.default_scoped
 
       if params[:filter]
-        status = Process.get_status_code(params[:filter]['status'])
+        status = Process.status_code_for(params[:filter]['status'])
         collection_scope = collection_scope.by_status(status)
       end
 

@@ -21,7 +21,7 @@ class ActionController::Base
 
         @current_workflow_operation = begin
 
-          if RailsWorkflow::Operation.exists?(id: operation_id, status: RailsWorkflow::Operation::WAITING)
+          if RailsWorkflow::Operation.exists?(id: operation_id, status: Status::WAITING)
             operation = RailsWorkflow::Operation.find(operation_id)
             RailsWorkflow::OperationHelperDecorator.decorate(operation)
           else

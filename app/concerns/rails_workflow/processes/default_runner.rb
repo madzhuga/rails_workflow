@@ -11,8 +11,8 @@ module RailsWorkflow
 
       def start
         if can_start?
-          update_attribute(:status, self.class::IN_PROGRESS)
-          operations.where(status: RailsWorkflow::Operation::NOT_STARTED).map(&:start)
+          update_attribute(:status, Status::IN_PROGRESS)
+          operations.where(status: Status::NOT_STARTED).map(&:start)
         end
       end
 
@@ -20,8 +20,7 @@ module RailsWorkflow
         self.status = self.class::ERROR
       end
 
-      # Process can be completed if all sync operations is complete.
-
+      # Process can be completed if all sync operations is complete
       def can_complete?
         if incomplete_statuses.include? status
           incompleted_operations.size.zero? &&

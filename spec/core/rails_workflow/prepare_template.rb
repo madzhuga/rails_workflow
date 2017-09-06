@@ -12,7 +12,7 @@ module PrepareTemplate
   def prepare_template_dependencies(operation)
     [{
       'id' => operation.id,
-      'statuses' => [RailsWorkflow::Operation::DONE]
+      'statuses' => [RailsWorkflow::Status::DONE]
     }]
   end
 
