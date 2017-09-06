@@ -2,15 +2,17 @@
 
 # TODO check if we really need all those
 require 'singleton'
-# require 'guid'
-# require 'bootstrap-rails-engine'
-# require 'slim-rails'
-# require 'will_paginate'
-# require 'draper'
-# require 'sidekiq'
-# require 'active_model_serializers'
+require 'guid'
+require 'bootstrap-rails-engine'
+require 'slim-rails'
+require 'will_paginate'
+require 'draper'
+require 'sidekiq'
+require 'active_model_serializers'
 require 'rails_workflow/db/mysql'
 require_relative './error_manager'
+require_relative './process_builder'
+require_relative './operation_builder'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -40,6 +42,8 @@ module RailsWorkflow
 
       @default_operation_template_type = 'RailsWorkflow::OperationTemplate'
       @default_process_manager = 'RailsWorkflow::ProcessManager'
+      @default_process_builder = 'RailsWorkflow::ProcessBuilder'
+      @default_operation_builder = 'RailsWorkflow::OperationBuilder'
       @default_error_manager = 'RailsWorkflow::ErrorManager'
       @default_process_class = 'RailsWorkflow::Process'
       @default_process_template_type = 'RailsWorkflow::ProcessTemplate'
@@ -109,6 +113,16 @@ module RailsWorkflow
 
     def error_manager
       (@error_manager || @default_error_manager).constantize
+    end
+
+    attr_writer :process_builder
+    def process_builder
+      (@process_builder || @default_process_builder).constantize
+    end
+
+    attr_writer :operation_builder
+    def operation_builder
+      (@operation_builder || @default_operation_builder).constantize
     end
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../../concerns/status_spec.rb'
 
 module RailsWorkflow
   RSpec.describe Operation, type: :model do
@@ -16,7 +17,7 @@ module RailsWorkflow
       let(:manager) { ProcessManager.new(process) }
       let(:process) { create :process }
 
-      let(:operation) { template.build_operation! process }
+      let(:operation) { OperationBuilder.new(process, template).create_operation }
 
       before :each do
         allow_any_instance_of(RailsWorkflow::Process)
@@ -33,8 +34,8 @@ module RailsWorkflow
         it 'from template' do
           operation = create :operation, status: Status::ERROR
 
-          operation_with_dependencies =
-            template.build_operation! process, [operation]
+          operation_with_dependencies = OperationBuilder
+            .new(process, template, [operation]).create_operation
 
           dependencies = [
             {
@@ -76,7 +77,7 @@ module RailsWorkflow
       it 'should build child process' do
         parent_template = create :parent_operation_template
 
-        parent_operation = parent_template.build_operation! process, [operation]
+        parent_operation = OperationBuilder.new(process, parent_template, [operation]).create_operation
 
         expect(parent_operation.child_process)
           .to be_a_kind_of RailsWorkflow::Process

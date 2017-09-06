@@ -14,19 +14,19 @@ ol.breadcrumb.alert-warning
             span.badge< = @statistic[:all]
           = link_to processes_path(filter: {status: "in_progress"}), class: "btn btn-primary" do
             | In progress
-            span.badge< = @statistic[:statuses][Status::IN_PROGRESS]
+            span.badge< = @statistic[:statuses][RailsWorkflow::Status::IN_PROGRESS]
           = link_to processes_path(filter: {status: "done"}), class: "btn btn-success" do
             | Done
-            span.badge< = @statistic[:statuses][Status::DONE]
+            span.badge< = @statistic[:statuses][RailsWorkflow::Status::DONE]
           = link_to processes_path(filter: {status: "waiting"}), class: "btn btn-info" do
             | Waiting
-            span.badge< = @statistic[:statuses][Status::WAITING]
+            span.badge< = @statistic[:statuses][RailsWorkflow::Status::WAITING]
           = link_to processes_path(filter: {status: "not_started"}), class: "btn btn-warning" do
             | Not Started
-            span.badge< = @statistic[:statuses][Status::NOT_STARTED]
+            span.badge< = @statistic[:statuses][RailsWorkflow::Status::NOT_STARTED]
           = link_to processes_path(filter: {status: "error"}), class: "btn btn-danger" do
             | Error
-            span.badge< = @statistic[:statuses][Status::ERROR]
+            span.badge< = @statistic[:statuses][RailsWorkflow::Status::ERROR]
 
         table.table.table-striped.table-hover
           thead

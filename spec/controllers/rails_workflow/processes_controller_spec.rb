@@ -57,7 +57,7 @@ module RailsWorkflow
         it 'creates a new WfProcess' do
           expect do
             post :create, { process: valid_attributes }, valid_session
-          end.to change(Process, :count).by(1)
+          end.to change(RailsWorkflow::Process, :count).by(1)
         end
 
         it 'assigns a newly created process as @process' do

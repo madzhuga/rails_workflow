@@ -82,8 +82,9 @@ module RailsWorkflow
     it 'should be build using operation dependencies contexts' do
       operation = create :operation_with_context, status: RailsWorkflow::Status::ERROR
 
-      child_operation =
-        template.build_operation! process, [operation]
+      child_operation = OperationBuilder.new(
+        process, template, [operation]
+      ).create_operation
 
       expect(child_operation.context.data).to match(msg: 'Test')
     end

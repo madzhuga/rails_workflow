@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 module RailsWorkflow
   RSpec.describe ErrorManager do
     let(:process_template) { create :process_template }
@@ -90,10 +92,13 @@ module RailsWorkflow
       let(:error_parent_type) { RailsWorkflow::Process }
       let(:error_method) { 'build_operation' }
       let(:error_args) { [process, operation_template, []] }
+      let(:operation_builder) do
+        OperationBuilder.new(process, operation_template)
+      end
 
-      before { raise_error operation_template, :build_operation! }
+      before { raise_error operation_builder, :build_operation! }
       let(:failing_method_call) do
-        process_template.build_operation(process, operation_template)
+        operation_builder.create_operation
       end
 
       it_behaves_like 'workflow failed'

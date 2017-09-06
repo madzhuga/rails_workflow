@@ -4,7 +4,6 @@ module RailsWorkflow
     include RailsWorkflow::Uuid
     include OperationTemplates::Dependencies
     include OperationTemplates::Assignments
-    include OperationTemplates::DefaultBuilder
 
     belongs_to :process_template, class_name: 'RailsWorkflow::ProcessTemplate'
     belongs_to :child_process, class_name: 'RailsWorkflow::ProcessTemplate'

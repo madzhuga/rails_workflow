@@ -25,9 +25,9 @@ module RailsWorkflow
             completed_dependencies = [operation]
 
             next unless operation_template.resolve_dependency operation
-            new_operations << operation_template.build_operation!(
-              self, completed_dependencies
-            )
+            new_operations << operation_builder.new(
+              self, operation_template, completed_dependencies
+            ).create_operation
           end
 
           new_operations.each do |new_operation|
@@ -52,6 +52,10 @@ module RailsWorkflow
 
         def config
           RailsWorkflow.config
+        end
+
+        def operation_builder
+          config.operation_builder
         end
 
         def matched_templates(operation)

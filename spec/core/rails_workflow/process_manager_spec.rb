@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
 require_relative 'prepare_template'
 
 module RailsWorkflow
@@ -6,7 +9,7 @@ module RailsWorkflow
 
     let(:template) { prepare_template }
 
-    let(:process) { described_class.build_process template.id, msg: 'Test' }
+    let(:process) { described_class.create_process template.id, msg: 'Test' }
 
     context 'build process' do
       it 'should create new process' do
@@ -69,6 +72,7 @@ module RailsWorkflow
           process.operations.first.complete
           expect(process.operations.size).to eq 1
         end
+
         it 'should not be created when dependencies is not sutisfied' do
           manager.start_process
           process.operations.first.complete
@@ -82,7 +86,7 @@ module RailsWorkflow
           process.operations.first.complete
         end
 
-        [:complete, :skip, :cancel].each do |method_name|
+        %i[complete skip cancel].each do |method_name|
           new_method = <<-METHOD
             it 'should complete process if last operation #{method_name}' do
               process.operations.last.#{method_name}
