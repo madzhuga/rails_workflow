@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class ProcessesController < ApplicationController
     layout 'rails_workflow/application'
     respond_to :html
-    before_action :set_process, only: [:show, :edit, :update, :destroy]
+    before_action :set_process, only: %i[show edit update destroy]
 
     before_filter do
       @processes_section_active = true
@@ -54,11 +56,11 @@ module RailsWorkflow
 
     def permitted_params
       params.permit(
-        process: [
-          :status,
-          :async,
-          :title,
-          :template_id
+        process: %i[
+          status
+          async
+          title
+          template_id
         ],
         filter: [:status]
       )[:process]

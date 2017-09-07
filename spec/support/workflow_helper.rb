@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WorkflowHelper
   def given_a_process(workflow_identifier)
     TemplateSpecHelper.new(workflow_identifier).start

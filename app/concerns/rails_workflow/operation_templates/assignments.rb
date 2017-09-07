@@ -1,4 +1,6 @@
 
+# frozen_string_literal: true
+
 module RailsWorkflow
   module OperationTemplates
     module Assignments
@@ -6,7 +8,7 @@ module RailsWorkflow
 
       included do
         belongs_to :assignment, polymorphic: true
-        scope :for_user, -> (user) {
+        scope :for_user, ->(user) {
           keys = RailsWorkflow.config.assignment_by.select { |k| user.respond_to? k }
 
           assignment_condition = keys.map do |key|

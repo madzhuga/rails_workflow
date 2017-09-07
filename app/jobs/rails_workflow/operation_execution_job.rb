@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # Rails workflow operation can run in background
   # (if is_background = true). This job is responsible

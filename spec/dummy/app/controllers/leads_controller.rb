@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeadsController < InheritedResources::Base
   private
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class Engine < ::Rails::Engine
     isolate_namespace RailsWorkflow
@@ -17,7 +19,7 @@ module RailsWorkflow
     end
 
     initializer 'rails_workflow.assets.precompile' do |app|
-      app.config.assets.precompile += %w(application.css application.js)
+      app.config.assets.precompile += %w[application.css application.js]
     end
   end
 end

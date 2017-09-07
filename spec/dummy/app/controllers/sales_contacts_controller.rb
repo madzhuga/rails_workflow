@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SalesContactsController < InheritedResources::Base
   def create
     create! do |success, _failure|

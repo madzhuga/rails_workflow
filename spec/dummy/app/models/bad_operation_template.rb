@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BadOperationTemplate < RailsWorkflow::OperationTemplate
   def build_operation(operation)
     # raise 'BUILD_OPERATION'

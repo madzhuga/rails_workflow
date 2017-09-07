@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RailsWorkflow::Engine.routes.draw do
-  resources :operations, only: [:index, :show] do
+  resources :operations, only: %i[index show] do
     collection do
       get :complete
       get :skip
@@ -20,7 +22,7 @@ RailsWorkflow::Engine.routes.draw do
         put :retry
       end
     end
-    resources :operations, except: [:create, :update, :destroy] do
+    resources :operations, except: %i[create update destroy] do
       resources :errors, only: [:retry] do
         member do
           put :retry

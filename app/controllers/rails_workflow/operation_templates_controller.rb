@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class OperationTemplatesController < ApplicationController
     layout 'rails_workflow/application'
-    before_action :set_operation_template, only: [:show, :edit, :update, :destroy]
+    before_action :set_operation_template, only: %i[show edit update destroy]
     before_action :set_process_template
     respond_to :html
 

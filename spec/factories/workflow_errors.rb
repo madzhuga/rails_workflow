@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :workflow_error, class: 'RailsWorkflow::Error' do
     message 'MyString'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   module Operations
     module Assignments
@@ -6,22 +8,22 @@ module RailsWorkflow
       included do
         belongs_to :assignment, polymorphic: true
 
-        scope :by_role, -> (role) { joins(:template).where(rails_workflow_operation_templates: { role: role }) }
-        scope :by_group, -> (group) { joins(:template).where(rails_workflow_operation_templates: { group: group }) }
+        scope :by_role, ->(role) { joins(:template).where(rails_workflow_operation_templates: { role: role }) }
+        scope :by_group, ->(group) { joins(:template).where(rails_workflow_operation_templates: { group: group }) }
         scope :unassigned, -> { where(assignment_id: nil) }
 
         scope :waiting, -> { where(status: Operation.user_ready_statuses) }
 
-        scope :available_for_user, -> (user) {
+        scope :available_for_user, ->(user) {
           waiting.unassigned.joins(:template)
                  .merge(OperationTemplate.for_user(user))
         }
 
-        scope :by_role_or_group, -> (role, group) do
+        scope :by_role_or_group, ->(role, group) do
           joins(:template).by_role_or_group(role, group)
         end
 
-        scope :assigned_to, -> (user) {
+        scope :assigned_to, ->(user) {
           where(assignment_id: user.id, assignment_type: user.class.to_s)
         }
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# TODO check if we really need all those
+# TODO: check if we really need all those
 require 'singleton'
 require 'guid'
 require 'bootstrap-rails-engine'

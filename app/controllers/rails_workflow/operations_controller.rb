@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # Operations controller. Allows to pickup (start),
   # skip, postpone, cancel, complete operations.
@@ -6,7 +8,7 @@ module RailsWorkflow
     respond_to :html
 
     before_action :set_operation,
-                  only: [:show, :edit, :pickup, :continue, :update, :destroy]
+                  only: %i[show edit pickup continue update destroy]
 
     before_filter do
       if @process.present?

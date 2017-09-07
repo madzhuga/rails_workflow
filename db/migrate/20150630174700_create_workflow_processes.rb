@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateWorkflowProcesses < ActiveRecord::Migration
   def change
     create_tables
@@ -8,12 +10,12 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
 
   def create_tables
     [
-      [:workflow_processes, :rails_workflow_processes],
-      [:workflow_operations, :rails_workflow_operations],
-      [:workflow_process_templates, :rails_workflow_process_templates],
-      [:workflow_operation_templates, :rails_workflow_operation_templates],
-      [:workflow_contexts, :rails_workflow_contexts],
-      [:workflow_errors, :rails_workflow_errors]
+      %i[workflow_processes rails_workflow_processes],
+      %i[workflow_operations rails_workflow_operations],
+      %i[workflow_process_templates rails_workflow_process_templates],
+      %i[workflow_operation_templates rails_workflow_operation_templates],
+      %i[workflow_contexts rails_workflow_contexts],
+      %i[workflow_errors rails_workflow_errors]
     ].map do |names|
       rename_table names[0], names[1] if table_exists? names[0]
 
@@ -23,13 +25,13 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
 
   def create_indexes
     [
-      [:rails_workflow_contexts, [:parent_id, :parent_type]],
-      [:rails_workflow_errors, [:parent_id, :parent_type]],
-      [:rails_workflow_operation_templates, :process_template_id],
-      [:rails_workflow_operation_templates, :uuid],
-      [:rails_workflow_process_templates, :uuid],
-      [:rails_workflow_operations, :process_id],
-      [:rails_workflow_operations, :template_id]
+      [:rails_workflow_contexts, %i[parent_id parent_type]],
+      [:rails_workflow_errors, %i[parent_id parent_type]],
+      %i[rails_workflow_operation_templates process_template_id],
+      %i[rails_workflow_operation_templates uuid],
+      %i[rails_workflow_process_templates uuid],
+      %i[rails_workflow_operations process_id],
+      %i[rails_workflow_operations template_id]
     ].each do |idx|
       add_index idx[0], idx[1] unless index_exists? idx[0], idx[1]
     end
@@ -38,93 +40,93 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
   def create_columns
     {
       rails_workflow_contexts: [
-        [:integer,  :parent_id],
-        [:string,   :parent_type],
-        [:text,     :body],
-        [:datetime, :created_at],
-        [:datetime, :updated_at]
+        %i[integer parent_id],
+        %i[string parent_type],
+        %i[text body],
+        %i[datetime created_at],
+        %i[datetime updated_at]
       ],
 
       rails_workflow_errors: [
-        [:string,   :message],
-        [:text, :stack_trace],
-        [:integer,  :parent_id],
-        [:string,   :parent_type],
-        [:datetime, :created_at],
-        [:datetime, :updated_at],
-        [:boolean,  :resolved]
+        %i[string message],
+        %i[text stack_trace],
+        %i[integer parent_id],
+        %i[string parent_type],
+        %i[datetime created_at],
+        %i[datetime updated_at],
+        %i[boolean resolved]
       ],
 
       rails_workflow_operation_templates: [
-        [:string,   :title],
-        [:string, :version],
+        %i[string title],
+        %i[string version],
         # [:uuid,     :uuid],
-        [:string, :uuid],
-        [:string,   :tag],
-        [:text,     :source],
-        [:text,     :dependencies],
-        [:string,   :operation_class],
-        [:integer,  :process_template_id],
-        [:datetime, :created_at],
-        [:datetime, :updated_at],
-        [:boolean,  :async],
-        [:integer,  :child_process_id],
-        [:integer,  :assignment_id],
-        [:string,   :assignment_type],
-        [:string,   :kind],
-        [:string,   :role],
-        [:string,   :group],
-        [:text,     :instruction],
-        [:boolean,  :is_background],
-        [:string,   :type],
-        [:string,   :partial_name]
+        %i[string uuid],
+        %i[string tag],
+        %i[text source],
+        %i[text dependencies],
+        %i[string operation_class],
+        %i[integer process_template_id],
+        %i[datetime created_at],
+        %i[datetime updated_at],
+        %i[boolean async],
+        %i[integer child_process_id],
+        %i[integer assignment_id],
+        %i[string assignment_type],
+        %i[string kind],
+        %i[string role],
+        %i[string group],
+        %i[text instruction],
+        %i[boolean is_background],
+        %i[string type],
+        %i[string partial_name]
       ],
 
       rails_workflow_operations: [
-        [:integer,  :status],
-        [:boolean,  :async],
-        [:string,   :version],
-        [:string,   :tag],
-        [:string,   :title],
-        [:datetime, :created_at],
-        [:datetime, :updated_at],
-        [:integer,  :process_id],
-        [:integer,  :template_id],
-        [:text,     :dependencies],
-        [:integer,  :child_process_id],
-        [:integer,  :assignment_id],
-        [:string,   :assignment_type],
-        [:datetime, :assigned_at],
-        [:string,   :type],
-        [:boolean,  :is_active],
-        [:datetime, :completed_at],
-        [:boolean,  :is_background]
+        %i[integer status],
+        %i[boolean async],
+        %i[string version],
+        %i[string tag],
+        %i[string title],
+        %i[datetime created_at],
+        %i[datetime updated_at],
+        %i[integer process_id],
+        %i[integer template_id],
+        %i[text dependencies],
+        %i[integer child_process_id],
+        %i[integer assignment_id],
+        %i[string assignment_type],
+        %i[datetime assigned_at],
+        %i[string type],
+        %i[boolean is_active],
+        %i[datetime completed_at],
+        %i[boolean is_background]
       ],
 
       rails_workflow_process_templates: [
-        [:string,   :title],
-        [:text,     :source],
-        [:string,   :uuid],
-        [:string,   :version],
-        [:string,   :tag],
-        [:string,   :manager_class],
-        [:string,   :process_class],
-        [:datetime, :created_at],
-        [:datetime, :updated_at],
-        [:string,   :type],
-        [:string,   :partial_name]
+        %i[string title],
+        %i[text source],
+        %i[string uuid],
+        %i[string version],
+        %i[string tag],
+        %i[string manager_class],
+        %i[string process_class],
+        %i[datetime created_at],
+        %i[datetime updated_at],
+        %i[string type],
+        %i[string partial_name]
       ],
 
       rails_workflow_processes: [
-        [:integer,  :status],
-        [:string,   :version],
-        [:string,   :tag],
-        [:boolean,  :async],
-        [:string,   :title],
-        [:datetime, :created_at],
-        [:datetime, :updated_at],
-        [:integer,  :template_id],
-        [:string,   :type]
+        %i[integer status],
+        %i[string version],
+        %i[string tag],
+        %i[boolean async],
+        %i[string title],
+        %i[datetime created_at],
+        %i[datetime updated_at],
+        %i[integer template_id],
+        %i[string type]
       ]
     }.each do |table, columns|
       columns.map do |column|

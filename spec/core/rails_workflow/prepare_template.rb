@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PrepareTemplate
   def prepare_template_operations(template)
     operation = create :operation_template, process_template: template

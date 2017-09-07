@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class ProcessTemplatesController < ApplicationController
     layout 'rails_workflow/application'
     respond_to :html, :json
 
-    before_action :set_process_template, only: [:show, :edit, :update, :destroy]
+    before_action :set_process_template, only: %i[show edit update destroy]
 
     before_filter do
       @config_section_active = true
@@ -56,13 +58,13 @@ module RailsWorkflow
 
     def permitted_params
       params.permit(
-        process_template: [
-          :title,
-          :source,
-          :manager_class,
-          :partial_name,
-          :process_class,
-          :type
+        process_template: %i[
+          title
+          source
+          manager_class
+          partial_name
+          process_class
+          type
         ]
       )[:process_template]
     end

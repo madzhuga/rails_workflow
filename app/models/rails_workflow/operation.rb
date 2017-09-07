@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # Operation is a key building block for a Rails Workflow.
   # This model is used to save operation meta data, describe relation
@@ -10,7 +12,7 @@ module RailsWorkflow
     include Operations::Assignments
 
     belongs_to :process, class_name: 'RailsWorkflow::Process'
-    alias_method :parent, :process
+    alias parent process
     belongs_to :template, class_name: 'RailsWorkflow::OperationTemplate'
     belongs_to :child_process, class_name: 'RailsWorkflow::Process'
     has_one :context, class_name: 'RailsWorkflow::Context', as: :parent

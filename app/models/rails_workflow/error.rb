@@ -14,7 +14,7 @@ module RailsWorkflow
     #   super(*args)
     # end
 
-    # TODO move to error manager
+    # TODO: move to error manager
     def retry
       update_attribute(:resolved, true)
 
@@ -47,7 +47,7 @@ module RailsWorkflow
       process.start
     end
 
-    # TODO move to process
+    # TODO: move to process
     def can_restart_process(process)
       process.workflow_errors
              .unresolved.where.not(id: id).count.zero?

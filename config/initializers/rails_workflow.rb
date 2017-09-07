@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActionController::Base
   def set_current_operation
     session[:current_operation_id] = @operation.id
@@ -20,14 +22,12 @@ class ActionController::Base
       else
 
         @current_workflow_operation = begin
-
           if RailsWorkflow::Operation.exists?(id: operation_id, status: RailsWorkflow::Status::WAITING)
             operation = RailsWorkflow::Operation.find(operation_id)
             RailsWorkflow::OperationHelperDecorator.decorate(operation)
           else
             clear_current_operation
           end
-
         end
       end
     end

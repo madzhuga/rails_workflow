@@ -20,7 +20,7 @@ module RailsWorkflow
       return unless can_start?
 
       process.update_attribute(:status, Status::IN_PROGRESS)
-      # TODO replace with OperationRunner
+      # TODO: replace with OperationRunner
       operations.where(status: Status::NOT_STARTED).map(&:start)
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :operation_template, class: 'RailsWorkflow::OperationTemplate' do
     title 'Operation Template'

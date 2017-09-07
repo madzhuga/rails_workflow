@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # Default class to describe User operation.
   # It describes two main differences of user

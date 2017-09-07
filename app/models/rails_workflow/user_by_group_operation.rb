@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # Used to describe user operations which assignment
   # is depend on user group.

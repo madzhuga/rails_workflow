@@ -48,7 +48,7 @@ module RailsWorkflow
           error_manager.handle(exception, parent: self)
         end
 
-        # TODO refactor this mess
+        # TODO: refactor this mess
         def execute_in_transaction
           status = nil
           self.class.transaction(requires_new: true) do
@@ -85,7 +85,7 @@ module RailsWorkflow
         end
 
         def can_complete?
-          # TODO cover by specs
+          # TODO: cover by specs
           child_process.nil? ||
             child_process.status == Status::DONE
         end

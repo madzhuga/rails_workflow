@@ -1,4 +1,6 @@
 
+# frozen_string_literal: true
+
 module RailsWorkflow
   class OperationDecorator < OperationHelperDecorator
     delegate_all

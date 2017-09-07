@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class ProcessTemplate < ActiveRecord::Base
     include RailsWorkflow::Uuid
     has_many :operations,
-      -> { order(id: :asc) },
-      class_name: 'OperationTemplate'
+             -> { order(id: :asc) },
+             class_name: 'OperationTemplate'
 
     def other_processes
       ProcessTemplate.where.not(id: id)

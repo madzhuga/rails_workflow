@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class ProcessTemplateSerializer < ActiveModel::Serializer
     attributes :uuid, :title, :source,

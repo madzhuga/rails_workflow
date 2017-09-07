@@ -16,7 +16,7 @@ module RailsWorkflow
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
     delegate :data, to: :context
-    scope :by_status, -> (status) { where(status: status) }
+    scope :by_status, ->(status) { where(status: status) }
 
     def manager
       @manager ||= template.manager_class.new(self)
@@ -36,7 +36,7 @@ module RailsWorkflow
       (NOT_STARTED..ROLLBACK).to_a
     end
 
-    # TODO do we need to raise some errors if all operations
+    # TODO: do we need to raise some errors if all operations
     # are completed but process status is incomplete?
     def incomplete?
       incomplete_statuses.include?(status) &&

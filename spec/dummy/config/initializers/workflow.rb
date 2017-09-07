@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RailsWorkflow.setup do |config|
   # config.assignment_by = [:group, :role]
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class Context < ActiveRecord::Base
     belongs_to :parent, polymorphic: true
@@ -23,7 +25,7 @@ module RailsWorkflow
         end
       elsif body.is_a? Hash
 
-        if body.keys == %w(id class)
+        if body.keys == %w[id class]
           body['class'].constantize.find(body['id'])
         else
           res = {}

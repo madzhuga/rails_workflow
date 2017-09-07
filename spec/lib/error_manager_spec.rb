@@ -32,12 +32,12 @@ module RailsWorkflow
       it { expect(process.reload.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error_parent.workflow_errors.count).to eq 1 }
-      # TODO replace with RailsWorkflow::Status::ERROR
+      # TODO: replace with RailsWorkflow::Status::ERROR
       it { expect(error_parent.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error.message).to eq test_message }
 
-      # TODO check with custom operation / process types
+      # TODO: check with custom operation / process types
       it { expect(error.parent).to be_a_kind_of(error_parent_type) }
 
       it { expect(error.data[:target]).to eq error_target }

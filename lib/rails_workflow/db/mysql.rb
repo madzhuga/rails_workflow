@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   module Db
     module Mysql
-      COUNT_STATUSES = <<-SQL.freeze
+      COUNT_STATUSES = <<-SQL
       SELECT status, cnt FROM
                (
                     SELECT @row_number:=CASE

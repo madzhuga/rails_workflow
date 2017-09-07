@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :operation, class: 'RailsWorkflow::Operation' do
     title 'Test Operation'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class ProcessTemplateDecorator < Decorator
     delegate_all

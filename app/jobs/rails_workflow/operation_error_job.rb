@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   # TODO: Remove this job
   # When some operation fails due to some exceptions this job
@@ -34,7 +36,7 @@ module RailsWorkflow
 
     # Target operation respond to process, process respond to parent_operation
     def parent_methods
-      [:parent_operation, :process]
+      %i[parent_operation process]
         .select { |method_name| target.respond_to?(method_name) }
     end
   end
