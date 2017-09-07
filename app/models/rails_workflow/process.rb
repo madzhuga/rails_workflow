@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 module RailsWorkflow
   class Process < ActiveRecord::Base
     include Status
     include Processes::DependencyResolver
-    include Processes::DefaultRunner
 
     belongs_to :template, class_name: 'RailsWorkflow::ProcessTemplate'
     has_many :operations, class_name: 'RailsWorkflow::Operation'
     has_one :parent_operation,
-      class_name: 'RailsWorkflow::Operation',
-      foreign_key: :child_process_id
-    alias_method :parent, :parent_operation
+            class_name: 'RailsWorkflow::Operation',
+            foreign_key: :child_process_id
+
+    alias parent parent_operation
     has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
@@ -32,6 +34,22 @@ module RailsWorkflow
 
     def self.statuses_array
       (NOT_STARTED..ROLLBACK).to_a
+    end
+
+    # TODO do we need to raise some errors if all operations
+    # are completed but process status is incomplete?
+    def incomplete?
+      incomplete_statuses.include?(status) &&
+        incompleted_operations.size.zero?
+    end
+
+    def can_start?
+      status == Status::NOT_STARTED && !operations.empty?
+    end
+
+    def complete
+      self.status = Status::DONE
+      save
     end
   end
 end

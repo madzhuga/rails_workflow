@@ -14,7 +14,7 @@ module RailsWorkflow
         # so we just can run operation. If you need to gather some other
         # information - feel free to redefine operation start logic but
         # try to gather all your custom logic in operation build method.
-        # operation start can be usefull if you need to send some notifications
+        # operation start can be useful if you need to send some notifications
         # to external systems that operation is tarted etc...
         def start
           can_start? ? starting : waiting
@@ -34,7 +34,7 @@ module RailsWorkflow
 
         # This method allows you to add requirements for operation to start.
         # For example some operation can't start because of some process
-        # or overal system conditions.
+        # or overall system conditions.
         # By default any operation can start :)
         def can_start?
           status == Operation::NOT_STARTED
@@ -53,7 +53,7 @@ module RailsWorkflow
           status = nil
           self.class.transaction(requires_new: true) do
             begin
-              child_process.start if child_process.present?
+              child_process_runner.start if child_process.present?
               status = execute
             rescue ActiveRecord::Rollback
               status = nil
@@ -122,6 +122,10 @@ module RailsWorkflow
 
         def error_manager
           config.error_manager
+        end
+
+        def child_process_runner
+          @child_process_runner ||= config.process_runner.new(child_process)
         end
 
         def config

@@ -13,6 +13,7 @@ require 'rails_workflow/db/mysql'
 require_relative './error_manager'
 require_relative './process_builder'
 require_relative './operation_builder'
+require_relative './process_runner'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -49,6 +50,7 @@ module RailsWorkflow
       @default_process_template_type = 'RailsWorkflow::ProcessTemplate'
       @default_assignment_by = %i[group role]
       @default_sql_dialect = 'pg'
+      @default_process_runner = 'RailsWorkflow::ProcessRunner'
     end
 
     def sql_dialect
@@ -123,6 +125,11 @@ module RailsWorkflow
     attr_writer :operation_builder
     def operation_builder
       (@operation_builder || @default_operation_builder).constantize
+    end
+
+    attr_writer :process_runner
+    def process_runner
+      (@process_runner || @default_process_runner).constantize
     end
   end
 end

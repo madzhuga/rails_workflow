@@ -7,6 +7,7 @@ module RailsWorkflow
   RSpec.describe Operation, type: :model do
     it_behaves_like 'Status'
 
+    # TODO: move to separate spec for OperationBuilder
     context 'Default Builder' do
       let(:template) do
         create :operation_template,
@@ -17,14 +18,16 @@ module RailsWorkflow
       let(:manager) { ProcessManager.new(process) }
       let(:process) { create :process }
 
-      let(:operation) { OperationBuilder.new(process, template).create_operation }
+      let(:operation) do
+        OperationBuilder.new(process, template).create_operation
+      end
 
       before :each do
         allow_any_instance_of(RailsWorkflow::Process)
           .to receive(:manager).and_return(manager)
       end
 
-      it 'sould fill title and async from template' do
+      it 'should fill title and async from template' do
         expect(operation.title).to eq template.title
         expect(operation.async).to eq template.async
         expect(operation.is_background).to eq template.is_background
@@ -34,8 +37,9 @@ module RailsWorkflow
         it 'from template' do
           operation = create :operation, status: Status::ERROR
 
-          operation_with_dependencies = OperationBuilder
-            .new(process, template, [operation]).create_operation
+          operation_with_dependencies = OperationBuilder.new(
+            process, template, [operation]
+          ).create_operation
 
           dependencies = [
             {
@@ -77,7 +81,9 @@ module RailsWorkflow
       it 'should build child process' do
         parent_template = create :parent_operation_template
 
-        parent_operation = OperationBuilder.new(process, parent_template, [operation]).create_operation
+        parent_operation = OperationBuilder.new(
+          process, parent_template, [operation]
+        ).create_operation
 
         expect(parent_operation.child_process)
           .to be_a_kind_of RailsWorkflow::Process
@@ -88,6 +94,7 @@ module RailsWorkflow
       end
     end
 
+    # TODO: move to separate spec for OperationAssignment
     context 'Operation Assignment' do
       let(:operation) { create :operation }
       let(:other_user) { create :user, email: 'other@user.com' }
@@ -167,6 +174,7 @@ module RailsWorkflow
       end
     end
 
+    # TODO: move to separate spec for Operation Runner
     context 'Operation Runner' do
       let(:operation) { create :operation_with_context }
       let(:process) { create :process }
@@ -181,7 +189,7 @@ module RailsWorkflow
         allow_any_instance_of(RailsWorkflow::Process)
           .to receive(:can_start?).and_return(true)
 
-        allow_any_instance_of(RailsWorkflow::Process)
+        allow_any_instance_of(RailsWorkflow::ProcessRunner)
           .to receive(:can_complete?).and_return(false)
 
         parent_operation = create :operation
@@ -192,6 +200,7 @@ module RailsWorkflow
 
         expect(parent_operation.status).to eq Status::IN_PROGRESS
         parent_operation.child_process.reload
+
         expect(parent_operation.child_process.status).to eq Status::IN_PROGRESS
       end
 

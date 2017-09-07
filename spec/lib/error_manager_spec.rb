@@ -120,13 +120,19 @@ module RailsWorkflow
 
     context 'when process manager fails to start process' do
       let(:process_manager) { RailsWorkflow::ProcessManager.new(process) }
+      let(:process_runner) { RailsWorkflow::ProcessRunner.new(process) }
       let(:error) { process.workflow_errors.first }
       let(:error_target) { nil }
       let(:error_parent) { process }
       let(:error_parent_type) { RailsWorkflow::Process }
 
       let(:failing_method_call) { process_manager.start_process }
-      before { raise_error process, :start }
+      before do
+        allow(RailsWorkflow::ProcessRunner).to receive(:new)
+          .and_return(process_runner)
+
+        raise_error process_runner, :start
+      end
 
       it_behaves_like 'workflow failed'
     end

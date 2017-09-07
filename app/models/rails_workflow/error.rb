@@ -9,6 +9,11 @@ module RailsWorkflow
 
     delegate :data, to: :context
 
+    # def initialize(*args)
+    #   binding.pry
+    #   super(*args)
+    # end
+
     # TODO move to error manager
     def retry
       update_attribute(:resolved, true)
