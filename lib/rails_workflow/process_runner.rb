@@ -21,7 +21,7 @@ module RailsWorkflow
 
       process.update_attribute(:status, Status::IN_PROGRESS)
       # TODO: replace with OperationRunner
-      operations.where(status: Status::NOT_STARTED).map(&:start)
+      operation_runner.start(operations.where(status: Status::NOT_STARTED))
     end
 
     # Process can be completed if all sync operations is complete
@@ -29,29 +29,30 @@ module RailsWorkflow
       incomplete? && workflow_errors.unresolved.size.zero?
     end
 
-    # Returns set or operation that not yet completed.
-    # Operation complete in DONE, SKIPPED, CANCELED, etc many other statuses
-    def incompleted_operations
-      operations.reject(&:completed?)
-    end
-
-    # When we complete operation, we need to check if we need to build some
-    # new operations. We need to calculate operations, depends on completed
-    # one and detect ones we can build.
-    # TODO: replace with dependency resolver
-    def operation_complete(operation)
-      process.build_dependencies operation
-    end
-
     def complete_parent_operation
       parent_operation.complete if parent_operation.present?
     end
 
+    # TODO: change to try_complete
     def complete
       return unless can_complete?
 
       process.complete
       complete_parent_operation
+    end
+
+    def operation_completed(operation)
+      # TODO: replace with dependency resolver
+      process.build_dependencies operation
+      complete
+    end
+
+    def operation_runner
+      config.operation_runner
+    end
+
+    def config
+      RailsWorkflow.config
     end
   end
 end

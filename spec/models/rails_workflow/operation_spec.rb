@@ -6,6 +6,7 @@ require_relative '../../concerns/status_spec.rb'
 module RailsWorkflow
   RSpec.describe Operation, type: :model do
     it_behaves_like 'Status'
+    let(:operation_runner) { OperationRunner }
 
     # TODO: move to separate spec for OperationBuilder
     context 'Default Builder' do
@@ -181,7 +182,7 @@ module RailsWorkflow
 
       it 'should be set to WAITING if can not start' do
         allow(operation).to receive(:can_start?).and_return(false)
-        operation.start
+        operation_runner.new(operation).start
         expect(operation.status).to eq Status::WAITING
       end
 
@@ -196,7 +197,7 @@ module RailsWorkflow
 
         parent_operation.child_process = process
         parent_operation.save
-        parent_operation.start
+        operation_runner.new(parent_operation).start
 
         expect(parent_operation.status).to eq Status::IN_PROGRESS
         parent_operation.child_process.reload
@@ -210,24 +211,32 @@ module RailsWorkflow
     context 'complete operation ' do
       before :each do
         @manager = ProcessManager.new
+        @process = RailsWorkflow::Process.new
+
+        allow(@process).to receive(:build_dependencies)
+
+        # TODO: REWORK
         allow_any_instance_of(Operation)
           .to receive(:manager).and_return(@manager)
+
+        allow_any_instance_of(Operation)
+          .to receive(:process).and_return(@process)
       end
 
       it 'should change state to DONE on complete' do
-        expect(@manager).to receive(:operation_completed)
+        # expect(@manager).to receive(:operation_completed)
         subject.complete
         expect(subject.status).to eq Status::DONE
       end
 
       it 'should change state to SKIP on skip' do
-        expect(@manager).to receive(:operation_completed)
+        # expect(@manager).to receive(:operation_completed)
         subject.skip
         expect(subject.status).to eq Status::SKIPPED
       end
 
       it 'should change state to DONE on complete' do
-        expect(@manager).to receive(:operation_completed)
+        # expect(@manager).to receive(:operation_completed)
         subject.cancel
         expect(subject.status).to eq Status::CANCELED
       end

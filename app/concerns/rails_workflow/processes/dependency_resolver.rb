@@ -31,10 +31,11 @@ module RailsWorkflow
           end
 
           new_operations.each do |new_operation|
-            if incomplete_statuses.include?(status)
-              operations << new_operation
-              new_operation.start
-            end
+            next unless incomplete_statuses.include?(status)
+            operations << new_operation
+            # TODO: Move out from here - it should not start operations here
+            # It only should build them.
+            operation_runner.new(new_operation).start
           end
         rescue => exception
           error_manager.handle(
@@ -52,6 +53,10 @@ module RailsWorkflow
 
         def config
           RailsWorkflow.config
+        end
+
+        def operation_runner
+          config.operation_runner
         end
 
         def operation_builder

@@ -38,11 +38,6 @@ module RailsWorkflow
       error_manager.handle(exception, parent: process)
     end
 
-    def operation_completed(operation)
-      process_runner.operation_complete operation
-      process_complete
-    end
-
     def complete_process
       process_runner.complete
     end

@@ -11,7 +11,15 @@ module RailsWorkflow
       operation_id = args[0]
 
       operation = Operation.find operation_id
-      operation.execute_in_transaction
+      operation_runner.new(operation).execute_in_transaction
+    end
+
+    def config
+      RailsWorkflow.config
+    end
+
+    def operation_runner
+      config.operation_runner
     end
   end
 end

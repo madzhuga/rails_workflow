@@ -6,8 +6,6 @@ module RailsWorkflow
   # with operation context etc.
   class Operation < ActiveRecord::Base
     include OperationStatus
-
-    include Operations::DefaultRunner
     include Operations::Dependencies
     include Operations::Assignments
 
@@ -21,6 +19,7 @@ module RailsWorkflow
     delegate :data, to: :context
     delegate :role, to: :template
     delegate :group, to: :template
+    delegate :start, :complete, :skip, :cancel, to: :runner
 
     scope :with_child_process, -> { where.not(child_process: nil) }
     scope :incompleted, -> { where(status: user_ready_statuses) }
@@ -47,10 +46,40 @@ module RailsWorkflow
       assignment && assignment == user
     end
 
+    def execute
+      true
+    end
+
+    # This method allows you to add requirements for operation to start.
+    # For example some operation can't start because of some process
+    # or overall system conditions.
+    # By default any operation can start :)
+    def can_start?
+      status == Operation::NOT_STARTED
+    end
+
+    def completed?
+      completed_statuses.include? status
+    end
+
+    def can_complete?
+      # TODO: cover by specs
+      child_process.nil? ||
+        child_process.status == Status::DONE
+    end
+
     def can_be_continued_by?(user, current_operation)
       waiting? &&
         assigned_to?(user) &&
         (current_operation.nil? || current_operation != self)
+    end
+
+    def config
+      RailsWorkflow.config
+    end
+
+    def runner
+      @runner ||= config.operation_runner.new(self)
     end
   end
 end

@@ -10,6 +10,7 @@ module RailsWorkflow
     let(:template) { prepare_template }
 
     let(:process) { described_class.create_process template.id, msg: 'Test' }
+    let(:operation_runner) { RailsWorkflow::OperationRunner }
 
     context 'build process' do
       it 'should create new process' do
@@ -42,10 +43,11 @@ module RailsWorkflow
 
     context 'start process' do
       context 'start process (in progres)' do
+        # TODO: rework
         before :each do
           allow_any_instance_of(RailsWorkflow::ProcessManager)
             .to receive(:complete_process)
-          allow_any_instance_of(RailsWorkflow::Operation).to receive(:complete)
+          allow_any_instance_of(RailsWorkflow::OperationRunner).to receive(:complete)
           process_manager = RailsWorkflow::ProcessManager.new process
           process_manager.start_process
         end
@@ -69,13 +71,13 @@ module RailsWorkflow
           allow_any_instance_of(RailsWorkflow::OperationTemplate)
             .to receive(:resolve_dependency).and_return(false)
           manager.start_process
-          process.operations.first.complete
+          operation_runner.new(process.operations.first).complete
           expect(process.operations.size).to eq 1
         end
 
         it 'should not be created when dependencies is not sutisfied' do
           manager.start_process
-          process.operations.first.complete
+          operation_runner.new(process.operations.first).complete
           expect(process.operations.size).to eq 2
         end
       end
@@ -83,13 +85,13 @@ module RailsWorkflow
       context 'after first operation done' do
         before do
           manager.start_process
-          process.operations.first.complete
+          operation_runner.new(process.operations.first).complete
         end
 
         %i[complete skip cancel].each do |method_name|
           new_method = <<-METHOD
             it 'should complete process if last operation #{method_name}' do
-              process.operations.last.#{method_name}
+              operation_runner.new(process.operations.last).#{method_name}
               expect(process.status).to eq Process::DONE
             end
           METHOD

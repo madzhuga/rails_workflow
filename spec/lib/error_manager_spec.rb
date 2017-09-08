@@ -7,6 +7,7 @@ module RailsWorkflow
     let(:process_template) { create :process_template }
     let(:process) { create(:process, template: process_template) }
     let(:operation) { create :operation, process: process }
+    let(:operation_runner) { OperationRunner.new(operation) }
     let(:test_message) { 'Test message' }
 
     let(:error) { operation.workflow_errors.first }
@@ -60,7 +61,7 @@ module RailsWorkflow
     context 'when operation fails to start waiting' do
       let(:error_target) { nil }
       before { raise_error operation, :update_attribute }
-      let(:failing_method_call) { operation.waiting }
+      let(:failing_method_call) { operation_runner.waiting }
 
       it_behaves_like 'workflow failed'
     end
@@ -68,8 +69,8 @@ module RailsWorkflow
     # TODO: cover other errors in execute_in_transitions
     context 'when operation execution fails' do
       let(:error_method) { 'execute_in_transaction' }
-      before { raise_error operation, :execute }
-      let(:failing_method_call) { operation.execute_in_transaction }
+      before { raise_error(operation, :execute) }
+      let(:failing_method_call) { operation_runner.execute_in_transaction }
 
       it_behaves_like 'workflow failed'
     end

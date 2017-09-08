@@ -14,9 +14,12 @@ require_relative './error_manager'
 require_relative './process_builder'
 require_relative './operation_builder'
 require_relative './process_runner'
+require_relative './operation_runner'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
+  # Engine configuration. Allows to set default or custom classes
+  # and other engine settings.
   class Config
     include Singleton
 
@@ -24,20 +27,7 @@ module RailsWorkflow
     attr_accessor :activejob_enabled
 
     def initialize
-      @default_operation_types = {
-        default: {
-          title: 'Default Operation',
-          class: 'RailsWorkflow::Operation'
-        },
-        user_role: {
-          title: 'Operation for User By Role',
-          class: 'RailsWorkflow::UserByRoleOperation'
-        },
-        user_group: {
-          title: 'Operation by User Group',
-          class: 'RailsWorkflow::UserByGroupOperation'
-        }
-      }
+      init_default_operation_types
       @default_import_preprocessor =
         'RailsWorkflow::DefaultImporterPreprocessor'
 
@@ -51,6 +41,7 @@ module RailsWorkflow
       @default_assignment_by = %i[group role]
       @default_sql_dialect = 'pg'
       @default_process_runner = 'RailsWorkflow::ProcessRunner'
+      @default_operation_runner = 'RailsWorkflow::OperationRunner'
     end
 
     def sql_dialect
@@ -130,6 +121,24 @@ module RailsWorkflow
     attr_writer :process_runner
     def process_runner
       (@process_runner || @default_process_runner).constantize
+    end
+
+    attr_writer :operation_runner
+    def operation_runner
+      (@operation_runner || @default_operation_runner).constantize
+    end
+
+    private
+
+    def init_default_operation_types
+      @default_operation_types = {
+        default:    { title: 'Default Operation',
+                      class: 'RailsWorkflow::Operation' },
+        user_role:  { title: 'Operation for User By Role',
+                      class: 'RailsWorkflow::UserByRoleOperation' },
+        user_group: { title: 'Operation by User Group',
+                      class: 'RailsWorkflow::UserByGroupOperation' }
+      }
     end
   end
 end

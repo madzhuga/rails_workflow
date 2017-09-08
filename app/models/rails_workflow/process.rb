@@ -43,6 +43,12 @@ module RailsWorkflow
         incompleted_operations.size.zero?
     end
 
+    # Returns set or operation that not yet completed.
+    # Operation complete in DONE, SKIPPED, CANCELED, etc many other statuses
+    def incompleted_operations
+      operations.reject(&:completed?)
+    end
+
     def can_start?
       status == Status::NOT_STARTED && !operations.empty?
     end
