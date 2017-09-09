@@ -9,48 +9,54 @@ module RailsWorkflow
 
     delegate :data, to: :context
 
-    # def initialize(*args)
-    #   binding.pry
-    #   super(*args)
-    # end
+    # TODO: move to process
+    def can_restart_process(process)
+      process.workflow_errors
+             .unresolved.where.not(id: id).count.zero?
+    end
 
     # TODO: move to error manager
+    # TODO: check specs
     def retry
       update_attribute(:resolved, true)
 
-      target = data[:target]
-      method = data[:method]
-      args = data[:args]
+      target.send(data[:method], *data[:args])
 
-      target.send(method, *args)
+      reset_operation_status
 
-      operation = parent if parent.is_a? RailsWorkflow::Operation
+      try_restart_process
+    end
 
-      process = if operation
-                  operation.process
-                elsif target.is_a? RailsWorkflow::Process
-                  target
-                elsif parent.is_a? RailsWorkflow::Process
-                  parent
-                end
+    # TODO: check if it's covered by tests
+    def reset_operation_status
+      retunr unless operation && operation.reload.status == Status::ERROR
 
-      if operation.present?
-        operation.reload
-        if operation.status == Status::ERROR
-          operation.update_attribute(:status, Status::NOT_STARTED)
-        end
-      end
+      operation.update_attribute(:status, Status::NOT_STARTED)
+    end
 
+    def target
+      data[:target]
+    end
+
+    def operation
+      parent if parent.is_a? RailsWorkflow::Operation
+    end
+
+    def try_restart_process
       return unless process.present? && can_restart_process(process)
 
       process.update_attribute(:status, Status::IN_PROGRESS)
       process.start
     end
 
-    # TODO: move to process
-    def can_restart_process(process)
-      process.workflow_errors
-             .unresolved.where.not(id: id).count.zero?
+    def process
+      if operation
+        operation.process
+      elsif target.is_a? RailsWorkflow::Process
+        target
+      elsif parent.is_a? RailsWorkflow::Process
+        parent
+      end
     end
   end
 end
