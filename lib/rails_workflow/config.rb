@@ -15,6 +15,7 @@ require_relative './process_builder'
 require_relative './operation_builder'
 require_relative './process_runner'
 require_relative './operation_runner'
+require_relative './dependency_resolver'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -42,7 +43,10 @@ module RailsWorkflow
       @default_sql_dialect = 'pg'
       @default_process_runner = 'RailsWorkflow::ProcessRunner'
       @default_operation_runner = 'RailsWorkflow::OperationRunner'
+      @default_dependency_resolver = 'RailsWorkflow::DependencyResolver'
     end
+
+    # TODO: rework defaults
 
     def sql_dialect
       case @sql_dialect || @default_sql_dialect
@@ -126,6 +130,11 @@ module RailsWorkflow
     attr_writer :operation_runner
     def operation_runner
       (@operation_runner || @default_operation_runner).constantize
+    end
+
+    attr_writer :dependency_resolver
+    def dependency_resolver
+      (@dependency_resolver || @default_dependency_resolver).constantize
     end
 
     private

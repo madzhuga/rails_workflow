@@ -109,12 +109,15 @@ module RailsWorkflow
       let(:error) { process.workflow_errors.first }
       let(:error_target) { process }
       let(:error_parent) { process }
-      let(:error_method) { 'build_dependencies' }
+      let(:error_method) { 'build_new_operations' }
       let(:error_parent_type) { RailsWorkflow::Process }
       let(:error_args) { [operation] }
+      let(:dependency_resolver) { DependencyResolver.new(process) }
 
-      before { raise_error process, :matched_templates }
-      let(:failing_method_call) { process.build_dependencies(operation) }
+      before { raise_error dependency_resolver, :matched_templates }
+      let(:failing_method_call) do
+        dependency_resolver.build_new_operations(operation)
+      end
 
       it_behaves_like 'workflow failed'
     end

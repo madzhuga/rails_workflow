@@ -212,8 +212,11 @@ module RailsWorkflow
       before :each do
         @manager = ProcessManager.new
         @process = RailsWorkflow::Process.new
+        @dependency_resolver = DependencyResolver.new(@process)
 
-        allow(@process).to receive(:build_dependencies)
+        allow(@dependency_resolver).to receive(:build_new_operations)
+        allow(DependencyResolver).to receive(:new)
+          .and_return(@dependency_resolver)
 
         # TODO: REWORK
         allow_any_instance_of(Operation)

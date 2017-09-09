@@ -42,13 +42,27 @@ module RailsWorkflow
     end
 
     def operation_completed(operation)
-      # TODO: replace with dependency resolver
-      process.build_dependencies operation
+      build_new_operations(operation)
       complete
+    end
+
+    private
+
+    def build_new_operations(operation)
+      new_operations = dependency_resolver.build_new_operations(operation)
+
+      return unless new_operations
+
+      operations.concat(new_operations)
+      operation_runner.start(new_operations)
     end
 
     def operation_runner
       config.operation_runner
+    end
+
+    def dependency_resolver
+      @dependency_resolver ||= config.dependency_resolver.new(process)
     end
 
     def config

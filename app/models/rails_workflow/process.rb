@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module RailsWorkflow
+  # Process stores service information including links to process template,
+  # all operations, parent operation, context etc.
   class Process < ActiveRecord::Base
     include Status
-    include Processes::DependencyResolver
 
     belongs_to :template, class_name: 'RailsWorkflow::ProcessTemplate'
     has_many :operations, class_name: 'RailsWorkflow::Operation'
