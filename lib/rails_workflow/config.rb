@@ -29,9 +29,11 @@ module RailsWorkflow
 
     def initialize
       init_default_operation_types
+      # TODO: rework
+      @default_assignment_by = %i[group role]
+
       @default_import_preprocessor =
         'RailsWorkflow::DefaultImporterPreprocessor'
-
       @default_operation_template_type = 'RailsWorkflow::OperationTemplate'
       @default_process_manager = 'RailsWorkflow::ProcessManager'
       @default_process_builder = 'RailsWorkflow::ProcessBuilder'
@@ -39,7 +41,7 @@ module RailsWorkflow
       @default_error_manager = 'RailsWorkflow::ErrorManager'
       @default_process_class = 'RailsWorkflow::Process'
       @default_process_template_type = 'RailsWorkflow::ProcessTemplate'
-      @default_assignment_by = %i[group role]
+
       @default_sql_dialect = 'pg'
       @default_process_runner = 'RailsWorkflow::ProcessRunner'
       @default_operation_runner = 'RailsWorkflow::OperationRunner'
@@ -48,6 +50,7 @@ module RailsWorkflow
 
     # TODO: rework defaults
 
+    attr_writer :sql_dialect
     def sql_dialect
       case @sql_dialect || @default_sql_dialect
       when 'pg'
@@ -57,18 +60,16 @@ module RailsWorkflow
       end
     end
 
-    attr_writer :sql_dialect
-
+    attr_writer :assignment_by
     def assignment_by
       @assignment_by || @default_assignment_by
     end
-
-    attr_writer :assignment_by
 
     def operation_types
       @default_operation_types.merge(@operation_types || {})
     end
 
+    # TODO: fix
     def operation_template_klass=(value)
       @operation_template_type = value
     end
@@ -106,36 +107,16 @@ module RailsWorkflow
       @process_template_type || @default_process_template_type
     end
 
-    attr_writer :error_manager
-
-    def error_manager
-      (@error_manager || @default_error_manager).constantize
-    end
-
-    attr_writer :process_builder
-    def process_builder
-      (@process_builder || @default_process_builder).constantize
-    end
-
-    attr_writer :operation_builder
-    def operation_builder
-      (@operation_builder || @default_operation_builder).constantize
-    end
-
-    attr_writer :process_runner
-    def process_runner
-      (@process_runner || @default_process_runner).constantize
-    end
-
-    attr_writer :operation_runner
-    def operation_runner
-      (@operation_runner || @default_operation_runner).constantize
-    end
-
-    attr_writer :dependency_resolver
-    def dependency_resolver
-      (@dependency_resolver || @default_dependency_resolver).constantize
-    end
+    %i[dependency_resolver operation_runner process_runner
+      operation_builder process_builder error_manager]
+      .each do |key|
+        instance_eval { attr_writer key }
+        class_eval <<-METHOD
+          def #{key}
+            (@#{key} || @default_#{key}).constantize
+          end
+        METHOD
+      end
 
     private
 
