@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module RailsWorkflow
-  # Default error manager. Can be changed in configuration.
-  # Manages errors processing
-  class ErrorManager
+  # Default error builder. Can be changed in configuration.
+  # Manages errors building
+  class ErrorBuilder
     attr_accessor :exception, :context
 
     def self.handle(exception, context)

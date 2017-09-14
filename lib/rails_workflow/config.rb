@@ -10,12 +10,14 @@ require 'draper'
 require 'sidekiq'
 require 'active_model_serializers'
 require 'rails_workflow/db/mysql'
-require_relative './error_manager'
+require_relative './error_builder'
+require_relative './error_resolver'
 require_relative './process_builder'
 require_relative './operation_builder'
 require_relative './process_runner'
 require_relative './operation_runner'
 require_relative './dependency_resolver'
+require_relative './process_manager'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -38,7 +40,8 @@ module RailsWorkflow
       @default_process_manager = 'RailsWorkflow::ProcessManager'
       @default_process_builder = 'RailsWorkflow::ProcessBuilder'
       @default_operation_builder = 'RailsWorkflow::OperationBuilder'
-      @default_error_manager = 'RailsWorkflow::ErrorManager'
+      @default_error_builder = 'RailsWorkflow::ErrorBuilder'
+      @default_error_resolver = 'RailsWorkflow::ErrorResolver'
       @default_process_class = 'RailsWorkflow::Process'
       @default_process_template_type = 'RailsWorkflow::ProcessTemplate'
 
@@ -108,7 +111,7 @@ module RailsWorkflow
     end
 
     %i[dependency_resolver operation_runner process_runner
-      operation_builder process_builder error_manager]
+      operation_builder process_builder error_builder error_resolver]
       .each do |key|
         instance_eval { attr_writer key }
         class_eval <<-METHOD

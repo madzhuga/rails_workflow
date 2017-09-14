@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'prepare_template'
+require_relative '../support/rails_workflow/prepare_template'
 
 module RailsWorkflow
   RSpec.describe ProcessManager do

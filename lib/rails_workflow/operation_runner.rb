@@ -21,7 +21,7 @@ module RailsWorkflow
     def start
       can_start? ? starting : waiting
     rescue => exception
-      error_manager.handle(exception, parent: operation)
+      error_builder.handle(exception, parent: operation)
     end
 
     def starting
@@ -38,7 +38,7 @@ module RailsWorkflow
       update_attribute(:status, Status::WAITING)
       start_waiting if respond_to? :start_waiting
     rescue => exception
-      error_manager.handle(exception, parent: operation)
+      error_builder.handle(exception, parent: operation)
     end
 
     # TODO: refactor this mess
@@ -67,15 +67,11 @@ module RailsWorkflow
       # In case of rollback exception we do nothing -
       # this may be caused by usual validations
     rescue => exception
-      error_manager.handle(
+      error_builder.handle(
         exception,
-        parent: operation, target: operation, method: :execute_in_transaction
+        parent: operation, target: :operation_runner, method: :execute_in_transaction
       )
     end
-
-    # def execute
-    #   true
-    # end
 
     def complete(to_status = Status::DONE)
       if can_complete?
@@ -89,9 +85,9 @@ module RailsWorkflow
         process_runner.operation_completed(operation)
       end
     rescue => exception
-      error_manager.handle(
+      error_builder.handle(
         exception,
-        parent: operation, target: operation, method: :complete, args: [to_status]
+        parent: operation, target: :operation_runner, method: :complete, args: [to_status]
       )
     end
 
@@ -107,8 +103,8 @@ module RailsWorkflow
 
     private
 
-    def error_manager
-      config.error_manager
+    def error_builder
+      config.error_builder
     end
 
     def child_process_runner

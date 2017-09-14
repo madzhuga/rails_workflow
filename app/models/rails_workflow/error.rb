@@ -8,30 +8,10 @@ module RailsWorkflow
     scope :unresolved, -> { where('resolved is null or resolved = false') }
 
     delegate :data, to: :context
+    delegate :retry, to: :error_resolver
 
-    # TODO: move to process
     def can_restart_process(process)
-      process.workflow_errors
-             .unresolved.where.not(id: id).count.zero?
-    end
-
-    # TODO: move to error manager
-    # TODO: check specs
-    def retry
-      update_attribute(:resolved, true)
-
-      target.send(data[:method], *data[:args])
-
-      reset_operation_status
-
-      try_restart_process
-    end
-
-    # TODO: check if it's covered by tests
-    def reset_operation_status
-      retunr unless operation && operation.reload.status == Status::ERROR
-
-      operation.update_attribute(:status, Status::NOT_STARTED)
+      process.workflow_errors.unresolved.where.not(id: id).count.zero?
     end
 
     def target
@@ -42,13 +22,6 @@ module RailsWorkflow
       parent if parent.is_a? RailsWorkflow::Operation
     end
 
-    def try_restart_process
-      return unless process.present? && can_restart_process(process)
-
-      process.update_attribute(:status, Status::IN_PROGRESS)
-      process.start
-    end
-
     def process
       if operation
         operation.process
@@ -57,6 +30,14 @@ module RailsWorkflow
       elsif parent.is_a? RailsWorkflow::Process
         parent
       end
+    end
+
+    def config
+      RailsWorkflow.config
+    end
+
+    def error_resolver
+      @error_resolver ||= config.error_resolver.new(self)
     end
   end
 end

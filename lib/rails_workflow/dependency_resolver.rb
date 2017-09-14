@@ -33,15 +33,15 @@ module RailsWorkflow
     private
 
     def handle_exception(exception, operation)
-      error_manager.handle(
+      error_builder.handle(
         exception,
         parent: process, target: process, method: :build_new_operations,
         args: [operation]
       )
     end
 
-    def error_manager
-      config.error_manager
+    def error_builder
+      config.error_builder
     end
 
     def config

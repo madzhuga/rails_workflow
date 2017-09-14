@@ -35,15 +35,15 @@ module RailsWorkflow
     def start_process
       process_runner.start
     rescue => exception
-      error_manager.handle(exception, parent: process)
+      error_builder.handle(exception, parent: process)
     end
 
     def complete_process
       process_runner.complete
     end
 
-    def error_manager
-      config.error_manager
+    def error_builder
+      config.error_builder
     end
 
     def process_builder

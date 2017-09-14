@@ -1,5 +1,5 @@
 ## 0.4.0
-    * Error management improvements (added ErrorManager, can be configured)
+    * Error management improvements (added ErrorBuilder, can be configured)
 ## 0.3.9
     * added Active Job API support instead of hard-coded sidekiq.
 ## 0.3.7

@@ -42,8 +42,8 @@ module RailsWorkflow
       ).create_operation
     end
 
-    def error_manager
-      config.error_manager
+    def error_builder
+      config.error_builder
     end
 
     def config

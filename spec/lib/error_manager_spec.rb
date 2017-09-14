@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 module RailsWorkflow
-  RSpec.describe ErrorManager do
+  RSpec.describe ErrorBuilder do
+
+    # TODO: add process builder failures check
     let(:process_template) { create :process_template }
     let(:process) { create(:process, template: process_template) }
     let(:operation) { create :operation, process: process }
@@ -33,7 +35,6 @@ module RailsWorkflow
       it { expect(process.reload.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error_parent.workflow_errors.count).to eq 1 }
-      # TODO: replace with RailsWorkflow::Status::ERROR
       it { expect(error_parent.status).to eq RailsWorkflow::Status::ERROR }
 
       it { expect(error.message).to eq test_message }
@@ -69,6 +70,7 @@ module RailsWorkflow
     # TODO: cover other errors in execute_in_transitions
     context 'when operation execution fails' do
       let(:error_method) { 'execute_in_transaction' }
+      let(:error_target) { 'operation_runner' }
       before { raise_error(operation, :execute) }
       let(:failing_method_call) { operation_runner.execute_in_transaction }
 
@@ -77,6 +79,7 @@ module RailsWorkflow
 
     context 'when operation completion fails' do
       let(:error_method) { 'complete' }
+      let(:error_target) { 'operation_runner' }
       let(:error_args) { [RailsWorkflow::Status::DONE] }
 
       before { raise_error operation, :update_attributes }
@@ -105,7 +108,7 @@ module RailsWorkflow
       it_behaves_like 'workflow failed'
     end
 
-    context 'when operation build fails' do
+    context 'when new operations build fails' do
       let(:error) { process.workflow_errors.first }
       let(:error_target) { process }
       let(:error_parent) { process }

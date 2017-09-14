@@ -76,15 +76,15 @@ module RailsWorkflow
 
     def handle_exception(exception)
       # TODO: check retry works using those params
-      error_manager.handle(
+      error_builder.handle(
         exception,
         parent: process, target: process.template, method: :build_operation,
         args: [process, template, completed_dependencies]
       )
     end
 
-    def error_manager
-      config.error_manager
+    def error_builder
+      config.error_builder
     end
 
     # TODO: move config
