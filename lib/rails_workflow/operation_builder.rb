@@ -14,12 +14,12 @@ module RailsWorkflow
     end
 
     def create_operation
-      build_operation!.tap { |operation| process.operations << operation }
+      create_operation!.tap { |operation| process.operations << operation }
     rescue => exception
       handle_exception(exception)
     end
 
-    def build_operation!
+    def create_operation!
       operation = operation_class.create(prepared_attributes) do |op|
         op.context = build_context(op, completed_dependencies)
         # Can add OperationTemplate#after_operation_create callback
@@ -67,6 +67,7 @@ module RailsWorkflow
       dependencies.first.try(:context).try(:data)
     end
 
+    # TODO: move to ContextBuilder
     def build_context(operation, dependencies)
       RailsWorkflow::Context.new(
         parent: operation,
@@ -78,7 +79,7 @@ module RailsWorkflow
       # TODO: check retry works using those params
       error_builder.handle(
         exception,
-        parent: process, target: process.template, method: :build_operation,
+        parent: process, target: process.template, method: :create_operation,
         args: [process, template, completed_dependencies]
       )
     end

@@ -22,7 +22,7 @@ module RailsWorkflow
     delegate :start, :complete, :skip, :cancel, to: :runner
 
     scope :with_child_process, -> { where.not(child_process: nil) }
-    scope :incompleted, -> { where(status: user_ready_statuses) }
+    scope :uncompleted, -> { where(status: user_ready_statuses) }
 
     def instruction
       template.instruction
@@ -55,7 +55,7 @@ module RailsWorkflow
     # or overall system conditions.
     # By default any operation can start :)
     def can_start?
-      status == Operation::NOT_STARTED
+      status.in? [Status::NOT_STARTED, Status::IN_PROGRESS]
     end
 
     def completed?

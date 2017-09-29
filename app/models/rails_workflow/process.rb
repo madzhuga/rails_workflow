@@ -38,15 +38,15 @@ module RailsWorkflow
     end
 
     # TODO: do we need to raise some errors if all operations
-    # are completed but process status is incomplete?
-    def incomplete?
-      incomplete_statuses.include?(status) &&
-        incompleted_operations.size.zero?
+    # are completed but process status is uncompleted?
+    def uncompleted?
+      uncompleted_statuses.include?(status) &&
+        uncompleted_operations.size.zero?
     end
 
     # Returns set or operation that not yet completed.
     # Operation complete in DONE, SKIPPED, CANCELED, etc many other statuses
-    def incompleted_operations
+    def uncompleted_operations
       operations.reject(&:completed?)
     end
 

@@ -59,6 +59,7 @@ GEM
     bootstrap-rails-engine (3.1.1.0)
       railties (>= 3.0)
     builder (3.2.2)
+    byebug (9.0.6)
     capybara (2.6.2)
       addressable
       mime-types (>= 1.16)
@@ -115,6 +116,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.1)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -220,6 +224,7 @@ DEPENDENCIES
   jquery-ui-rails
   pg
   pry
+  pry-byebug
   rails_workflow!
   rspec-rails
   sinatra
@@ -227,4 +232,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.14.2
+   1.15.4

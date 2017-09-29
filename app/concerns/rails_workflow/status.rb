@@ -31,7 +31,7 @@ module RailsWorkflow
     end
 
     included do
-      def incomplete_statuses
+      def uncompleted_statuses
         [NOT_STARTED, IN_PROGRESS, WAITING]
       end
 

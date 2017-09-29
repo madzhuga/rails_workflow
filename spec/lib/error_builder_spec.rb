@@ -4,8 +4,7 @@ require 'rails_helper'
 
 module RailsWorkflow
   RSpec.describe ErrorBuilder do
-
-    # TODO: add process builder failures check
+    # TODO: add process builder failures tests
     let(:process_template) { create :process_template }
     let(:process) { create(:process, template: process_template) }
     let(:operation) { create :operation, process: process }
@@ -52,17 +51,19 @@ module RailsWorkflow
     end
 
     context 'when operation fails to start' do
-      let(:error_target) { nil }
+      let(:error_target) { 'operation_runner' }
       before { raise_error operation, :can_start? }
       let(:failing_method_call) { operation.start }
+      let(:error_method) { 'start' }
 
       it_behaves_like 'workflow failed'
     end
 
     context 'when operation fails to start waiting' do
-      let(:error_target) { nil }
+      let(:error_target) { 'operation_runner' }
       before { raise_error operation, :update_attribute }
       let(:failing_method_call) { operation_runner.waiting }
+      let(:error_method) { 'waiting' }
 
       it_behaves_like 'workflow failed'
     end
@@ -77,30 +78,19 @@ module RailsWorkflow
       it_behaves_like 'workflow failed'
     end
 
-    context 'when operation completion fails' do
-      let(:error_method) { 'complete' }
-      let(:error_target) { 'operation_runner' }
-      let(:error_args) { [RailsWorkflow::Status::DONE] }
-
-      before { raise_error operation, :update_attributes }
-      let(:failing_method_call) { operation.complete }
-
-      it_behaves_like 'workflow failed'
-    end
-
     context 'when operation build fails' do
       let(:operation_template) { create :operation_template }
       let(:error) { process.workflow_errors.first }
       let(:error_target) { process_template }
       let(:error_parent) { process }
       let(:error_parent_type) { RailsWorkflow::Process }
-      let(:error_method) { 'build_operation' }
+      let(:error_method) { 'create_operation' }
       let(:error_args) { [process, operation_template, []] }
       let(:operation_builder) do
         OperationBuilder.new(process, operation_template)
       end
 
-      before { raise_error operation_builder, :build_operation! }
+      before { raise_error operation_builder, :create_operation! }
       let(:failing_method_call) do
         operation_builder.create_operation
       end

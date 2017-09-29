@@ -19,7 +19,7 @@ module RailsWorkflow
 
       @open_user_operations = OperationDecorator
                               .decorate_collection(
-                                RailsWorkflow::Operation.incompleted
+                                RailsWorkflow::Operation.uncompleted
                                     .unassigned.includes(:template)
                                     .limit(20)
                               )

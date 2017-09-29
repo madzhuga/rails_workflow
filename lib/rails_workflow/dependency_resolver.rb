@@ -10,7 +10,7 @@ module RailsWorkflow
   class DependencyResolver
     attr_accessor :process
 
-    delegate :template, :operations, :incomplete_statuses, to: :process
+    delegate :template, :operations, :uncompleted_statuses, to: :process
 
     def initialize(process)
       @process = process

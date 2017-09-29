@@ -2,14 +2,14 @@
 
 # TODO: add spec
 module RailsWorkflow
-  #= DefaultRunner
+  #= ProcessRunner
   #
   # This module contains logic of process start, stop, cancel etc.
   #
   class ProcessRunner
     attr_reader :process
 
-    delegate :incomplete?, :can_start?, :operations,
+    delegate :uncompleted?, :can_start?, :operations,
              :workflow_errors, :parent_operation, to: :process
 
     def initialize(process)
@@ -26,7 +26,7 @@ module RailsWorkflow
 
     # Process can be completed if all sync operations is complete
     def can_complete?
-      incomplete? && workflow_errors.unresolved.size.zero?
+      uncompleted? && workflow_errors.unresolved.size.zero?
     end
 
     def complete_parent_operation

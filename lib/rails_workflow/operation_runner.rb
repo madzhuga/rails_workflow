@@ -21,7 +21,10 @@ module RailsWorkflow
     def start
       can_start? ? starting : waiting
     rescue => exception
-      error_builder.handle(exception, parent: operation)
+      error_builder.handle(
+        exception,
+        parent: operation, target: :operation_runner, method: :start
+      )
     end
 
     def starting
@@ -38,7 +41,12 @@ module RailsWorkflow
       update_attribute(:status, Status::WAITING)
       start_waiting if respond_to? :start_waiting
     rescue => exception
-      error_builder.handle(exception, parent: operation)
+      error_builder.handle(
+        exception,
+        parent: operation,
+        target: :operation_runner,
+        method: :waiting
+      )
     end
 
     # TODO: refactor this mess
@@ -69,26 +77,19 @@ module RailsWorkflow
     rescue => exception
       error_builder.handle(
         exception,
-        parent: operation, target: :operation_runner, method: :execute_in_transaction
+        parent: operation, target: :operation_runner,
+        method: :execute_in_transaction
       )
     end
 
     def complete(to_status = Status::DONE)
-      if can_complete?
+      return unless can_complete?
 
-        # before_complete if to_status.blank? && respond_to?(:before_complete)
-
-        update_attributes(
-          status: to_status,
-          completed_at: Time.zone.now
-        )
-        process_runner.operation_completed(operation)
-      end
-    rescue => exception
-      error_builder.handle(
-        exception,
-        parent: operation, target: :operation_runner, method: :complete, args: [to_status]
+      update_attributes(
+        status: to_status,
+        completed_at: Time.zone.now
       )
+      process_runner.operation_completed(operation)
     end
 
     def cancel
