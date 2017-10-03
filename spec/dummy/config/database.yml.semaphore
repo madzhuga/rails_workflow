@@ -1,8 +1,8 @@
 defaults: &defaults
   adapter: postgresql
   encoding: unicode
-  username: postgres
-  password: postgres
+  username: runner
+  password: semaphoredb
   host: localhost
   port: 5432
 
