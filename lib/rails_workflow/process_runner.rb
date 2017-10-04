@@ -25,7 +25,7 @@ module RailsWorkflow
     end
 
     # Process can be completed if all sync operations is complete
-    def can_complete?
+    def completable?
       uncompleted? && workflow_errors.unresolved.size.zero?
     end
 
@@ -35,7 +35,7 @@ module RailsWorkflow
 
     # TODO: change to try_complete
     def complete
-      return unless can_complete?
+      return unless completable?
 
       process.complete
       complete_parent_operation

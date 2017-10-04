@@ -62,16 +62,20 @@ module RailsWorkflow
       completed_statuses.include? status
     end
 
-    def can_complete?
-      # TODO: cover by specs
-      child_process.nil? ||
-        child_process.status == Status::DONE
+    def completable?
+      child_process_done?
     end
 
     def can_be_continued_by?(user, current_operation)
       waiting? &&
         assigned_to?(user) &&
         (current_operation.nil? || current_operation != self)
+    end
+
+    private
+
+    def child_process_done?
+      child_process.nil? || child_process.status == Status::DONE
     end
 
     def config

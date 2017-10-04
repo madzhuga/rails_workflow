@@ -8,6 +8,28 @@ module RailsWorkflow
     it_behaves_like 'Status'
     let(:operation_runner) { OperationRunner }
 
+    context '#completable?' do
+      describe 'no child process' do
+        it { expect(subject).to be_completable }
+      end
+
+      describe 'completed child process' do
+        before do
+          subject.child_process = Process.create(status: Status::DONE)
+        end
+
+        it { expect(subject).to be_completable }
+      end
+
+      describe 'non-completed child process' do
+        before do
+          subject.child_process = Process.create(status: Status::WAITING)
+        end
+
+        it { expect(subject).not_to be_completable }
+      end
+    end
+
     # TODO: move to separate spec for OperationBuilder
     context 'Default Builder' do
       let(:template) do
@@ -191,7 +213,7 @@ module RailsWorkflow
           .to receive(:can_start?).and_return(true)
 
         allow_any_instance_of(RailsWorkflow::ProcessRunner)
-          .to receive(:can_complete?).and_return(false)
+          .to receive(:completable?).and_return(false)
 
         parent_operation = create :operation
 
@@ -204,8 +226,6 @@ module RailsWorkflow
 
         expect(parent_operation.child_process.status).to eq Status::IN_PROGRESS
       end
-
-      it 'should not complete if child process is in progress'
     end
 
     context 'complete operation ' do

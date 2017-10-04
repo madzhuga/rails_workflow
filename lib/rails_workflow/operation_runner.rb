@@ -4,7 +4,7 @@ module RailsWorkflow
   # Workflow::OperationRunner responsible for operation execution
   class OperationRunner
     attr_accessor :operation
-    delegate :can_start?, :completed?, :can_complete?, :update_attribute,
+    delegate :can_start?, :completed?, :completable?, :update_attribute,
              :update_attributes, :is_background, :child_process, :context,
              to: :operation
 
@@ -83,7 +83,7 @@ module RailsWorkflow
     end
 
     def complete(to_status = Status::DONE)
-      return unless can_complete?
+      return unless completable?
 
       update_attributes(
         status: to_status,
