@@ -37,8 +37,6 @@ module RailsWorkflow
       (NOT_STARTED..ROLLBACK).to_a
     end
 
-    # TODO: do we need to raise some errors if all operations
-    # are completed but process status is uncompleted?
     def uncompleted?
       uncompleted_statuses.include?(status) &&
         uncompleted_operations.size.zero?
@@ -51,7 +49,12 @@ module RailsWorkflow
     end
 
     def can_start?
-      [Status::NOT_STARTED, Status::IN_PROGRESS].include?(status) && !operations.empty?
+      [Status::NOT_STARTED, Status::IN_PROGRESS]
+        .include?(status) && !operations.empty?
+    end
+
+    def unresolved_errors
+      workflow_errors.unresolved.where.not(id: id)
     end
 
     def complete

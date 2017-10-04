@@ -6,7 +6,7 @@ module RailsWorkflow
   class ErrorResolver
     attr_accessor :error
     delegate :update_attribute, :target, :operation, :process,
-             :data, :can_restart_process, to: :error
+             :data, :can_restart_process?, to: :error
 
     def self.retry(error)
       new(error).retry
@@ -29,14 +29,6 @@ module RailsWorkflow
       fix_status(subject.parent) if subject.parent.present?
     end
 
-    # TODO: check if it's covered by tests
-    # TODO: check if it is redundant
-    # def reset_operation_status
-    #   return unless operation && operation.reload.status == Status::ERROR
-    #
-    #   operation.update_attribute(:status, Status::NOT_STARTED)
-    # end
-
     def prepared_target
       return operation_runner if target == 'operation_runner'
       return operation_builder if target == 'operation_builder'
@@ -45,14 +37,12 @@ module RailsWorkflow
       target
     end
 
-    # TODO: cover by spec
     def try_restart_process
       return unless process.present?
       process.update_attribute(:status, Status::IN_PROGRESS)
-      # TODO: rename to can_restart_process?
-      # TODO replace runner with manager?
+
       process.reload
-      process_runner.start if can_restart_process(process)
+      process_runner.start if can_restart_process?
     end
 
     def config

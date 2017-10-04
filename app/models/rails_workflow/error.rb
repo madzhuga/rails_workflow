@@ -10,8 +10,8 @@ module RailsWorkflow
     delegate :data, to: :context
     delegate :retry, to: :error_resolver
 
-    def can_restart_process(process)
-      process.workflow_errors.unresolved.where.not(id: id).count.zero?
+    def can_restart_process?
+      process.unresolved_errors.count.zero?
     end
 
     def target

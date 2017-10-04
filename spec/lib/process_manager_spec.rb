@@ -43,7 +43,6 @@ module RailsWorkflow
 
     context 'start process' do
       context 'start process (in progres)' do
-        # TODO: rework
         before :each do
           allow_any_instance_of(RailsWorkflow::ProcessManager)
             .to receive(:complete_process)

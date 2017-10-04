@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: check if we really need all those
 require 'singleton'
 require 'guid'
 require 'bootstrap-rails-engine'
@@ -29,7 +28,7 @@ module RailsWorkflow
     attr_accessor :operation_types
     attr_accessor :activejob_enabled
 
-    def initialize
+    def initialize # rubocop: disable Metrics/MethodLength
       init_default_operation_types
       # TODO: rework
       @default_assignment_by = %i[group role]

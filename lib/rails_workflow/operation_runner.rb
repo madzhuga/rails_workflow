@@ -49,42 +49,20 @@ module RailsWorkflow
       )
     end
 
-    # TODO: refactor this mess
     def execute_in_transaction
-      status = nil
-      operation.class.transaction(requires_new: true) do
-        begin
-          child_process_runner.start if child_process.present?
-          status = if operation.respond_to?(:execute)
-                     operation.execute
-                   else
-                     true
-                   end
-        rescue ActiveRecord::Rollback
-          status = nil
-        end
-
-        raise ActiveRecord::Rollback unless status
-      end
-
-      if status
-        context.save
+      with_transaction do
+        child_process_runner.start if child_process.present?
+        operation.execute if operation.respond_to?(:execute)
         complete
       end
-    rescue ActiveRecord::Rollback => exception
-      # In case of rollback exception we do nothing -
-      # this may be caused by usual validations
     rescue => exception
-      error_builder.handle(
-        exception,
-        parent: operation, target: :operation_runner,
-        method: :execute_in_transaction
-      )
+      handle_exception(exception)
     end
 
     def complete(to_status = Status::DONE)
       return unless completable?
 
+      context&.save
       update_attributes(
         status: to_status,
         completed_at: Time.zone.now
@@ -93,12 +71,10 @@ module RailsWorkflow
     end
 
     def cancel
-      # before_cancel if respond_to? :before_cancel
       complete Status::CANCELED
     end
 
     def skip
-      # before_cancel if respond_to? :before_skip
       complete Status::SKIPPED
     end
 
@@ -106,6 +82,20 @@ module RailsWorkflow
 
     def error_builder
       config.error_builder
+    end
+
+    def handle_exception(exception)
+      error_builder.handle(
+        exception,
+        parent: operation, target: :operation_runner,
+        method: :execute_in_transaction
+      )
+    end
+
+    def with_transaction
+      operation.class.transaction(requires_new: true) do
+        yield
+      end
     end
 
     def child_process_runner
