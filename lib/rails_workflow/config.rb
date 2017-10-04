@@ -110,8 +110,13 @@ module RailsWorkflow
       @process_template_type || @default_process_template_type
     end
 
+    def process_manager
+      # Todo add custom managers support
+      ProcessManager
+    end
+
     %i[dependency_resolver operation_runner process_runner
-      operation_builder process_builder error_builder error_resolver]
+       operation_builder process_builder error_builder error_resolver]
       .each do |key|
         instance_eval { attr_writer key }
         class_eval <<-METHOD

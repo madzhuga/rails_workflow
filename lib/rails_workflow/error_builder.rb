@@ -47,6 +47,8 @@ module RailsWorkflow
     end
 
     def process_parent(subject)
+      return if subject.nil?
+
       subject.status = Status::ERROR
       subject.save
       process_parent(subject.parent) if subject.parent.present?

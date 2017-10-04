@@ -16,7 +16,7 @@ module RailsWorkflow
     let(:error_target) { operation }
     let(:error_args) { nil }
     let(:error_parent_type) { RailsWorkflow::Operation }
-    let(:error_method) { nil }
+    let(:error_method) { 'start_process' }
 
     shared_context 'workflow failed' do
       specify do
@@ -81,7 +81,7 @@ module RailsWorkflow
     context 'when operation build fails' do
       let(:operation_template) { create :operation_template }
       let(:error) { process.workflow_errors.first }
-      let(:error_target) { process_template }
+      let(:error_target) { 'operation_builder' }
       let(:error_parent) { process }
       let(:error_parent_type) { RailsWorkflow::Process }
       let(:error_method) { 'create_operation' }
@@ -100,7 +100,7 @@ module RailsWorkflow
 
     context 'when new operations build fails' do
       let(:error) { process.workflow_errors.first }
-      let(:error_target) { process }
+      let(:error_target) { 'dependency_resolver' }
       let(:error_parent) { process }
       let(:error_method) { 'build_new_operations' }
       let(:error_parent_type) { RailsWorkflow::Process }
@@ -119,7 +119,7 @@ module RailsWorkflow
       let(:process_manager) { RailsWorkflow::ProcessManager.new(process) }
       let(:process_runner) { RailsWorkflow::ProcessRunner.new(process) }
       let(:error) { process.workflow_errors.first }
-      let(:error_target) { nil }
+      let(:error_target) { 'process_manager' }
       let(:error_parent) { process }
       let(:error_parent_type) { RailsWorkflow::Process }
 

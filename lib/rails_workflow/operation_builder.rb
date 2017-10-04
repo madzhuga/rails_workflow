@@ -79,7 +79,7 @@ module RailsWorkflow
       # TODO: check retry works using those params
       error_builder.handle(
         exception,
-        parent: process, target: process.template, method: :create_operation,
+        parent: process, target: :operation_builder, method: :create_operation,
         args: [process, template, completed_dependencies]
       )
     end

@@ -51,7 +51,7 @@ module RailsWorkflow
     end
 
     def can_start?
-      status == Status::NOT_STARTED && !operations.empty?
+      [Status::NOT_STARTED, Status::IN_PROGRESS].include?(status) && !operations.empty?
     end
 
     def complete

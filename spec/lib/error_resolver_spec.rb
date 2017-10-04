@@ -8,7 +8,13 @@ module RailsWorkflow
     include PrepareTemplate
 
     let(:template) { prepare_template }
-    let(:process) { ProcessManager.create_process template.id, msg: 'Test' }
+    let(:process_manager) do
+      ProcessManager.new(
+        template_id: template.id, context: { msg: 'Test' }
+      )
+    end
+
+    let(:process) { process_manager.create_process }
     let(:process_runner) { RailsWorkflow::ProcessRunner.new(process) }
 
     context 'operation fails' do
@@ -16,19 +22,11 @@ module RailsWorkflow
       let(:error) { operation.workflow_errors.first }
       let(:error_resolver) { described_class.new(error) }
 
-      before do
-        allow(Operation).to receive(:find).and_call_original
-        allow(Operation).to receive(:find)
-          .with(operation.id).and_return(operation)
-      end
-
       context 'to start' do
         before do
-          allow(operation).to receive(:execute) { raise 'Some error' }
-          process_runner.start
-          process.reload
-
-          allow(operation).to receive(:execute) { true }
+          with_failing_instance(Operation, :execute) do
+            process_runner.start
+          end
         end
 
         it 'set proper process status after retry' do
@@ -46,14 +44,12 @@ module RailsWorkflow
 
       context 'to wait' do
         before do
-          allow(operation).to receive(:update_attribute) { raise 'Some error' }
-          allow(operation).to receive(:can_start?).and_return(false)
-          allow(Operation).to receive(:new).and_return(operation)
+          allow_any_instance_of(Operation)
+            .to receive(:can_start?).and_return(false)
 
-          process_runner.start
-          process.reload
-
-          allow(operation).to receive(:update_attribute).and_return(true)
+          with_failing_instance(Operation, :update_attribute) do
+            process_runner.start
+          end
         end
 
         it 'set proper process status' do
@@ -71,14 +67,9 @@ module RailsWorkflow
 
       context 'execution fails' do
         before do
-          allow(operation).to receive(:execute) { raise 'Some error' }
-          allow(Operation).to receive(:new).and_return(operation)
-
-          process_runner.start
-          process.reload
-
-          allow(Operation).to receive(:new).and_call_original
-          allow(operation).to receive(:execute).and_return(true)
+          with_failing_instance(Operation, :execute) do
+            process_runner.start
+          end
         end
 
         it 'set proper process status' do
@@ -96,17 +87,96 @@ module RailsWorkflow
     end
 
     context 'operation building fails' do
-      context 'when operation build fails' do
-        pending
-      end
+      let(:operation) { process.operations.first }
+      let(:error) { process.workflow_errors.first }
+      let(:error_resolver) { described_class.new(error) }
 
-      context 'when new operations build fails' do
-        pending
+      context 'when operation build fails' do
+        before do
+          with_failing(Operation, :create) do
+            process_runner.start
+          end
+        end
+
+        it 'set proper process status' do
+          expect { error_resolver.retry }
+            .to change { process.reload.status }
+            .from(Status::ERROR).to(Status::DONE)
+        end
+
+        it 'set proper operation status' do
+          expect { error_resolver.retry }
+            .to change { process.reload.operations&.first&.status }
+            .to(Status::DONE)
+        end
       end
     end
 
-    context 'when process manager fails to start process' do
-      pending
+    context 'process runner fails to start' do
+      let(:error) { Error.first }
+      let(:error_resolver) { described_class.new(error) }
+
+      context 'when operation build fails' do
+        before do
+          with_failing_instance(ProcessRunner, :start) do
+            process_manager.create_process
+            process_manager.start_process
+          end
+        end
+
+        it 'set proper process status' do
+          expect { error_resolver.retry }
+            .to change { Process.first.status }
+            .from(Status::ERROR).to(Status::DONE)
+        end
+
+        it 'creates and completes operations' do
+          expect { error_resolver.retry }
+            .to change { Process.first.operations.count }
+            .from(1).to(2)
+        end
+      end
+    end
+
+    context 'dependency resolver' do
+      let(:operation) { process.operations.first }
+      let(:error) { process.workflow_errors.first }
+      let(:error_resolver) { described_class.new(error) }
+
+      context 'when operation build fails' do
+        before do
+          with_failing_instance(DependencyResolver, :matched_templates) do
+            process_runner.start
+          end
+        end
+
+        it 'set proper process status' do
+          expect { error_resolver.retry }
+            .to change { Process.first.status }
+            .from(Status::ERROR).to(Status::DONE)
+        end
+
+        it 'set proper operation status' do
+          expect { error_resolver.retry }
+            .to change { Process.first.operations.count }
+            .from(1).to(2)
+        end
+      end
+    end
+
+    def with_failing_instance(target_class, method)
+      allow_any_instance_of(target_class)
+        .to receive(method) { raise 'Some error' }
+
+      yield
+
+      allow_any_instance_of(target_class).to receive(method).and_call_original
+    end
+
+    def with_failing(target, method)
+      allow(target).to receive(method) { raise 'Some error' }
+      yield
+      allow(target).to receive(method).and_call_original
     end
   end
 end

@@ -35,8 +35,8 @@ module RailsWorkflow
     def handle_exception(exception, operation)
       error_builder.handle(
         exception,
-        parent: process, target: process, method: :build_new_operations,
-        args: [operation]
+        parent: process, target: :dependency_resolver,
+        method: :build_new_operations, args: [operation]
       )
     end
 
