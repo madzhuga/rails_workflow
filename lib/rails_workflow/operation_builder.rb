@@ -76,7 +76,6 @@ module RailsWorkflow
     end
 
     def handle_exception(exception)
-      # TODO: check retry works using those params
       error_builder.handle(
         exception,
         parent: process, target: :operation_builder, method: :create_operation,
