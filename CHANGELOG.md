@@ -1,5 +1,10 @@
 ## 0.4.0
-    * Error management improvements (added ErrorBuilder, can be configured)
+    * General code improvements - split bulders, runners, resolvers and other
+      models from application records.
+    * Removed OperationErrorJob (errors no longer processed in separate
+      background job)
+    * Removed pg from gem dependencies
+    * Added Rubocop
 ## 0.3.9
     * added Active Job API support instead of hard-coded sidekiq.
 ## 0.3.7
