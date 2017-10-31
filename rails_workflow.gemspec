@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'guid'
   s.add_runtime_dependency 'active_model_serializers'
   s.add_runtime_dependency 'jquery-rails'
-  s.add_runtime_dependency 'pg'
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'factory_girl_rails'

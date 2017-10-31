@@ -7,7 +7,6 @@ PATH
       draper
       guid
       jquery-rails
-      pg
       rails (~> 4.1, >= 4.1.0)
       sidekiq
       slim-rails
@@ -170,11 +169,11 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    sidekiq (4.2.7)
+    sidekiq (5.0.4)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
-      redis (~> 3.2, >= 3.2.1)
+      redis (~> 3.3, >= 3.3.3)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
