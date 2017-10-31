@@ -1,3 +1,5 @@
+## 0.4.1
+    * Too long index names issue in non-Postgres databases fix
 ## 0.4.0
     * General code improvements - split bulders, runners, resolvers and other
       models from application records.
