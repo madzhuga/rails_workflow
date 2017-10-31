@@ -25,15 +25,15 @@ class CreateWorkflowProcesses < ActiveRecord::Migration
 
   def create_indexes
     [
-      [:rails_workflow_contexts, %i[parent_id parent_type]],
-      [:rails_workflow_errors, %i[parent_id parent_type]],
-      %i[rails_workflow_operation_templates process_template_id],
-      %i[rails_workflow_operation_templates uuid],
-      %i[rails_workflow_process_templates uuid],
-      %i[rails_workflow_operations process_id],
-      %i[rails_workflow_operations template_id]
+      [:rails_workflow_contexts, %i[parent_id parent_type], :rw_context_parents],
+      [:rails_workflow_errors, %i[parent_id parent_type], :rw_error_parents],
+      %i[rails_workflow_operation_templates process_template_id rw_ot_to_pt],
+      %i[rails_workflow_operation_templates uuid rw_ot_uuids],
+      %i[rails_workflow_process_templates uuid rw_pt_uuids],
+      %i[rails_workflow_operations process_id rw_o_process_ids],
+      %i[rails_workflow_operations template_id rw_o_template_ids]
     ].each do |idx|
-      add_index idx[0], idx[1] unless index_exists? idx[0], idx[1]
+      add_index idx[0], idx[1], name: idx[2] unless index_exists? idx[0], idx[1]
     end
   end
 
