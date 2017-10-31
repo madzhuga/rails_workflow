@@ -51,7 +51,7 @@ module RailsWorkflow
     def build_new_operations(operation)
       new_operations = dependency_resolver.build_new_operations(operation)
 
-      return unless new_operations
+      return if new_operations.blank?
 
       operations.concat(new_operations)
       operation_runner.start(new_operations)

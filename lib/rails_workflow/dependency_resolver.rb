@@ -25,7 +25,7 @@ module RailsWorkflow
             process, operation_template, completed_dependencies
           ).create_operation
         end
-      end
+      end.compact
     rescue => exception
       handle_exception(exception, operation)
     end
