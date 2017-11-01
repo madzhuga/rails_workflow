@@ -38,7 +38,7 @@ module RailsWorkflow
     end
 
     def form
-      '_form'.prepend(object.kind)
+      '_form'.dup.prepend(object.kind)
     end
 
     def assignment
