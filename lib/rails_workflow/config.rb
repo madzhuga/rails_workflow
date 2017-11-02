@@ -128,9 +128,13 @@ module RailsWorkflow
     private
 
     def init_default_operation_types
+      # TODO: it should allow user_role and user_group operations
+      # only if user responds to necessary methods.
       @default_operation_types = {
         default:    { title: 'Default Operation',
                       class: 'RailsWorkflow::Operation' },
+        user:       { title: 'User Operation',
+                      class: 'RailsWorkflow::UserOperation' },
         user_role:  { title: 'Operation for User By Role',
                       class: 'RailsWorkflow::UserByRoleOperation' },
         user_group: { title: 'Operation by User Group',
