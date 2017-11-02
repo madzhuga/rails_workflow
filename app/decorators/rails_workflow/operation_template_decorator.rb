@@ -42,14 +42,14 @@ module RailsWorkflow
     end
 
     def assignment
-      [assignment_by_role, assignemt_by_group].compact.join(', ')
+      [assignment_by_role, assignment_by_group].compact.join(', ')
     end
 
     def assignment_by_role
       User.role_text(object.role) if object.role
     end
 
-    def assignemt_by_group
+    def assignment_by_group
       User.group_text(object.group) if object.group
     end
 

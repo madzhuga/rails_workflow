@@ -8,11 +8,19 @@ module RailsWorkflow
     def assigned_to
       object.assignment.try(:email) || begin
         [
-          ::User.role_text(object.role),
-          ::User.group_text(object.group)
+          assignment_by_role, assignment_by_group, 'Not assigned' # TODO: fix with localization
         ].compact.join(', ')
       end
     end
+
+    def assignment_by_role
+      User.role_text(object.role) if object.role
+    end
+
+    def assignment_by_group
+      User.group_text(object.group) if object.group
+    end
+
 
     def created_at
       object.created_at.strftime('%m/%d/%Y %H:%M')
