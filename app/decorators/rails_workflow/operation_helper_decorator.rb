@@ -14,13 +14,12 @@ module RailsWorkflow
     end
 
     def assignment_by_role
-      User.role_text(object.role) if object.role
+      ::User.role_text(object.role) if object.role
     end
 
     def assignment_by_group
-      User.group_text(object.group) if object.group
+      ::User.group_text(object.group) if object.group
     end
-
 
     def created_at
       object.created_at.strftime('%m/%d/%Y %H:%M')
