@@ -7,7 +7,7 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-        belongs_to :assignment, polymorphic: true
+        belongs_to :assignment, polymorphic: true, required: false
         scope :for_user, ->(user) {
           keys = RailsWorkflow.config.assignment_by.select { |k| user.respond_to? k }
 

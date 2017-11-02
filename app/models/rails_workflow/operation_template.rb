@@ -8,7 +8,7 @@ module RailsWorkflow
     include OperationTemplates::Assignments
 
     belongs_to :process_template, class_name: 'RailsWorkflow::ProcessTemplate'
-    belongs_to :child_process, class_name: 'RailsWorkflow::ProcessTemplate'
+    belongs_to :child_process, class_name: 'RailsWorkflow::ProcessTemplate', required: false
 
     scope :other_operations, ->(process_template_id, operation_template_id) {
       where(process_template_id: process_template_id)
