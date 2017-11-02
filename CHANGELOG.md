@@ -1,12 +1,15 @@
+## 0.4.2
+    * Fix rails dependencies (now can be used with Rails 5 applications)
+    * Fix operation template decorator (failed if user model has no groups and roles)
 ## 0.4.1
-    * Too long index names issue in non-Postgres databases fix
+  * Too long index names issue in non-Postgres databases fix
 ## 0.4.0
-    * General code improvements - split bulders, runners, resolvers and other
-      models from application records.
-    * Removed OperationErrorJob (errors no longer processed in separate
-      background job)
-    * Removed pg from gem dependencies
-    * Added Rubocop
+  * General code improvements - split bulders, runners, resolvers and other
+    models from application records.
+  * Removed OperationErrorJob (errors no longer processed in separate
+    background job)
+  * Removed pg from gem dependencies
+  * Added Rubocop
 ## 0.3.9
     * added Active Job API support instead of hard-coded sidekiq.
 ## 0.3.7
