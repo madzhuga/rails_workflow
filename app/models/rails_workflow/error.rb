@@ -3,7 +3,7 @@
 module RailsWorkflow
   # Stores error information
   class Error < ActiveRecord::Base
-    belongs_to :parent, polymorphic: true
+    belongs_to :parent, polymorphic: true, required: false
     has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
     scope :unresolved, -> { where('resolved is null or resolved = false') }
 

@@ -6,7 +6,7 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
-        belongs_to :assignment, polymorphic: true
+        belongs_to :assignment, polymorphic: true, required: false
 
         scope :by_role, ->(role) { joins(:template).where(rails_workflow_operation_templates: { role: role }) }
         scope :by_group, ->(group) { joins(:template).where(rails_workflow_operation_templates: { group: group }) }
