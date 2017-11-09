@@ -28,6 +28,10 @@ module RailsWorkflow
       template.instruction
     end
 
+    def tag
+      read_attribute(:tag) || template.tag
+    end
+
     def manager
       @manager ||= process.manager
     end

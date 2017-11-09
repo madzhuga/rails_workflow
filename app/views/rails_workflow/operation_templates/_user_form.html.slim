@@ -28,6 +28,11 @@
   .col-sm-10
     = f.text_field :partial_name, class: "form-control", placeholder: "Default"
 
+.form-group
+  = f.label :tag, "Operation Tag", class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :tag, class: "form-control"
+
 
 .form-group
   = f.label :child_process, class: "control-label col-sm-2"
@@ -51,4 +56,3 @@
       | Run in background
       br
       br
-

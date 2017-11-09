@@ -3,7 +3,7 @@
 module RailsWorkflow
   class OperationHelperDecorator < Decorator
     include StatusDecorator
-    delegate :id, :title, :instruction, :complete
+    delegate :id, :title, :tag, :instruction, :complete, :data
 
     def assigned_to
       object.assignment.try(:email) || begin

@@ -44,6 +44,7 @@ module RailsWorkflow
           operation_template: [
             :kind,
             :type,
+            :tag,
             :instruction,
             :title, :source,
             :child_process_id,
