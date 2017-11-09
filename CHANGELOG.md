@@ -1,6 +1,9 @@
+## 0.4.3
+  * Tag field added to operation template view
+  * Misc bug fixes
 ## 0.4.2
-    * Fix rails dependencies (now can be used with Rails 5 applications)
-    * Fix operation template decorator (failed if user model has no groups and roles)
+  * Fix rails dependencies (now can be used with Rails 5 applications)
+  * Fix operation template decorator (failed if user model has no groups and roles)
 ## 0.4.1
   * Too long index names issue in non-Postgres databases fix
 ## 0.4.0
