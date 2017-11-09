@@ -8,7 +8,7 @@ module RailsWorkflow
     def assigned_to
       object.assignment.try(:email) || begin
         [
-          assignment_by_role, assignment_by_group, 'Not assigned' # TODO: fix with localization
+          assignment_by_role, assignment_by_group
         ].compact.join(', ')
       end
     end
