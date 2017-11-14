@@ -1,3 +1,5 @@
+## 0.4.4
+  * Process, operation and error context improvement (save context after operation saved)
 ## 0.4.3
   * Tag field added to operation template view
   * Misc bug fixes
