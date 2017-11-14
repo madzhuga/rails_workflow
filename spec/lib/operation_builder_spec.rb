@@ -51,6 +51,31 @@ module RailsWorkflow
       end
     end
 
+    context 'operation context data' do
+      it { expect(operation.data).to eq(msg: 'Test message') } # from factory
+
+      context 'custom' do
+        before do
+          new_class = Class.new(RailsWorkflow::OperationTemplate) do
+            def after_operation_create(new_operation)
+              new_operation.data[:new_key] = 'abc'
+            end
+          end
+          stub_const('NewTemplateClass', new_class)
+        end
+
+        let(:operation_template) do
+          create :operation_template,
+                 type: 'NewTemplateClass',
+                 operation_class: 'RailsWorkflow::UserByGroupOperation'
+        end
+
+        let(:template) { operation_template.becomes(NewTemplateClass) }
+
+        it { expect(operation.data).to include(new_key: 'abc') }
+      end
+    end
+
     context 'should build child process' do
       let(:parent_template) { create :parent_operation_template }
 

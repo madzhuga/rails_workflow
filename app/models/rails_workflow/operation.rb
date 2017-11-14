@@ -8,12 +8,12 @@ module RailsWorkflow
     include OperationStatus
     include Operations::Dependencies
     include Operations::Assignments
+    include HasContext
 
     belongs_to :process, class_name: 'RailsWorkflow::Process'
     alias parent process
     belongs_to :template, class_name: 'RailsWorkflow::OperationTemplate'
     belongs_to :child_process, class_name: 'RailsWorkflow::Process', required: false
-    has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
     delegate :data, to: :context

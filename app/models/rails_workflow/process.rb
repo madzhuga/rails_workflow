@@ -5,6 +5,7 @@ module RailsWorkflow
   # all operations, parent operation, context etc.
   class Process < ActiveRecord::Base
     include Status
+    include HasContext
 
     belongs_to :template, class_name: 'RailsWorkflow::ProcessTemplate'
     has_many :operations, class_name: 'RailsWorkflow::Operation'
@@ -13,7 +14,6 @@ module RailsWorkflow
             foreign_key: :child_process_id
 
     alias parent parent_operation
-    has_one :context, class_name: 'RailsWorkflow::Context', as: :parent
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
     delegate :data, to: :context

@@ -20,14 +20,21 @@ module RailsWorkflow
     end
 
     def create_operation!
-      operation = operation_class.create(prepared_attributes) do |op|
-        op.context = build_context(op, completed_dependencies)
-        # Can add OperationTemplate#after_operation_create callback
-        template.after_operation_create(op) if template.respond_to?(:after_operation_create)
+      operation = operation_class.create(prepared_attributes) do |new_operation|
+        new_operation.context = build_context(
+          new_operation, completed_dependencies
+        )
+
+        after_operation_create(new_operation)
       end
 
       build_child_process(operation)
       operation
+    end
+
+    def after_operation_create(operation)
+      return unless template.respond_to?(:after_operation_create)
+      template.after_operation_create(operation)
     end
 
     def prepared_dependencies

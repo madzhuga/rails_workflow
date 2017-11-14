@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_workflow (0.4.2)
+    rails_workflow (0.4.3)
       active_model_serializers
       bootstrap-rails-engine
       draper

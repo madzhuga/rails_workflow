@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :operation_template, class: 'RailsWorkflow::OperationTemplate' do
     title 'Operation Template'
     kind 'default'
+    type nil
     is_background true
     association :process_template, factory: :process_template
 
