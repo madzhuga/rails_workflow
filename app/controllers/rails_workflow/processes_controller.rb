@@ -6,7 +6,7 @@ module RailsWorkflow
     respond_to :html
     before_action :set_process, only: %i[show edit update destroy]
 
-    before_filter do
+    before_action do
       @processes_section_active = true
     end
 

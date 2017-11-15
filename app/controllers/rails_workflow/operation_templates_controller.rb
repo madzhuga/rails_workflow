@@ -7,7 +7,7 @@ module RailsWorkflow
     before_action :set_process_template
     respond_to :html
 
-    before_filter do
+    before_action do
       @config_section_active = true
     end
 

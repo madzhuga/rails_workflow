@@ -10,7 +10,7 @@ module RailsWorkflow
     before_action :set_operation,
                   only: %i[show edit pickup continue update destroy]
 
-    before_filter do
+    before_action do
       if @process.present?
         @processes_section_active = true
       else

@@ -7,7 +7,7 @@ module RailsWorkflow
 
     before_action :set_process_template, only: %i[show edit update destroy]
 
-    before_filter do
+    before_action do
       @config_section_active = true
     end
 
