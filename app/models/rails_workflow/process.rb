@@ -9,6 +9,8 @@ module RailsWorkflow
 
     belongs_to :template, class_name: 'RailsWorkflow::ProcessTemplate'
     has_many :operations, class_name: 'RailsWorkflow::Operation'
+    delegate :events, to: :operations, allow_nil: true
+
     has_one :parent_operation,
             class_name: 'RailsWorkflow::Operation',
             foreign_key: :child_process_id
@@ -39,13 +41,13 @@ module RailsWorkflow
 
     def uncompleted?
       uncompleted_statuses.include?(status) &&
-        uncompleted_operations.size.zero?
+        uncompleted_operations.reject(&:async).size.zero?
     end
 
     # Returns set or operation that not yet completed.
     # Operation complete in DONE, SKIPPED, CANCELED, etc many other statuses
     def uncompleted_operations
-      operations.reject(&:completed?)
+      operations(true).reject(&:completed?)
     end
 
     def can_start?

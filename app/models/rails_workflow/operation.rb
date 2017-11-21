@@ -7,22 +7,32 @@ module RailsWorkflow
   class Operation < ActiveRecord::Base
     include OperationStatus
     include Operations::Dependencies
+    # TODO: move to UserOperation
     include Operations::Assignments
     include HasContext
 
     belongs_to :process, class_name: 'RailsWorkflow::Process'
     alias parent process
     belongs_to :template, class_name: 'RailsWorkflow::OperationTemplate'
-    belongs_to :child_process, class_name: 'RailsWorkflow::Process', required: false
+    belongs_to :child_process,
+               class_name: 'RailsWorkflow::Process', required: false
     has_many :workflow_errors, class_name: 'RailsWorkflow::Error', as: :parent
 
     delegate :data, to: :context
-    delegate :role, to: :template
-    delegate :group, to: :template
+    delegate :role, :multiple?, :group, to: :template
     delegate :start, :complete, :skip, :cancel, to: :runner
 
     scope :with_child_process, -> { where.not(child_process: nil) }
     scope :uncompleted, -> { where(status: user_ready_statuses) }
+    scope :events, lambda {
+      joins(:template)
+        .where(rails_workflow_operation_templates: { kind: 'event' })
+    }
+
+    scope :without_events, lambda {
+      joins(:template)
+        .where.not(rails_workflow_operation_templates: { kind: 'event' })
+    }
 
     def instruction
       template.instruction

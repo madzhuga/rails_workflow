@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative '../support/rails_workflow/prepare_template'
+require_relative '../support/contexts/process_template'
 
 module RailsWorkflow
   RSpec.describe ErrorResolver do
-    include PrepareTemplate
+    include_context 'process template'
 
     let(:template) { prepare_template }
     let(:process_manager) do

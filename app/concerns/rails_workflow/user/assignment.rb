@@ -6,6 +6,7 @@ module RailsWorkflow
       extend ActiveSupport::Concern
 
       included do
+        # TODO: change Operation to UserOperation
         has_many :operations, class_name: 'RailsWorkflow::Operation', as: :assignment
       end
 

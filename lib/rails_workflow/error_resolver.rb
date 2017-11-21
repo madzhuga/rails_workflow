@@ -38,7 +38,7 @@ module RailsWorkflow
     end
 
     def try_restart_process
-      return unless process.present?
+      return if process.nil? || process.status == Status::DONE
       process.update_attribute(:status, Status::IN_PROGRESS)
 
       process.reload

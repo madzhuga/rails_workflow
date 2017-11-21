@@ -52,6 +52,7 @@ module RailsWorkflow
       attributes.with_indifferent_access
                 .slice(:title, :async, :is_background)
                 .merge(template: template,
+                       tag: template.tag,
                        process: process,
                        status: Operation::NOT_STARTED,
                        manager: process.manager,

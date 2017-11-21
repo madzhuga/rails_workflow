@@ -5,7 +5,10 @@ module RailsWorkflow
     include OperationStatus
     include RailsWorkflow::Uuid
     include OperationTemplates::Dependencies
+    # TODO: move to separate UserOperationTemplate
     include OperationTemplates::Assignments
+
+    serialize :source, JSON
 
     belongs_to :process_template, class_name: 'RailsWorkflow::ProcessTemplate'
     belongs_to :child_process, class_name: 'RailsWorkflow::ProcessTemplate', required: false
@@ -18,6 +21,17 @@ module RailsWorkflow
     def other_operations
       OperationTemplate.other_operations(process_template_id, id)
     end
+
+    def multiple=(value)
+      self.source ||= {}
+      source[:multiple] = value == 'true'
+    end
+
+    def multiple?
+      (source || {})['multiple'] == true
+    end
+
+    alias multiple multiple?
 
     class << self
       def types

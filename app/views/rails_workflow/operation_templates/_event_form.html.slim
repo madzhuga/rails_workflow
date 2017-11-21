@@ -1,0 +1,43 @@
+- if @operation_template.errors.any?
+  #error_explanation
+    h2 = "#{pluralize(@operation_template.errors.count, "error")} prohibited this wf_operation_template from being saved:"
+    ul
+      - @operation_template.errors.full_messages.each do |message|
+        li = message
+
+= hidden_field_tag 'operation_template[kind]', @operation_template.kind
+
+.form-group
+  = f.label :title, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :title, class: "form-control"
+
+
+.form-group
+  = f.label :operation_class, class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :operation_class, class: "form-control", placeholder: f.object.default_class
+
+.form-group
+  = f.label :type, "Template Class", class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :type, class: "form-control", placeholder: f.object.default_type
+
+.form-group
+  = f.label :partial_name, "Context Partial", class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :partial_name, class: "form-control", placeholder: "Default"
+
+.form-group
+  = f.label :tag, "Event Tag", class: "control-label col-sm-2"
+  .col-sm-10
+    = f.text_field :tag, class: "form-control"
+
+.form-group
+  .col-sm-2
+  .col-sm-10
+    .checkbox
+      label
+        = f.check_box :multiple, {}, 'true', 'false'
+        strong
+          = 'Multiple'

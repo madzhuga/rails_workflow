@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PrepareTemplate
+RSpec.shared_context 'process template' do
   def prepare_template_operations(template)
     operation = create :operation_template, process_template: template
 

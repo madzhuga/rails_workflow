@@ -17,6 +17,7 @@ require_relative './process_runner'
 require_relative './operation_runner'
 require_relative './dependency_resolver'
 require_relative './process_manager'
+require_relative './event_manager'
 require 'rails_workflow/db/pg'
 
 module RailsWorkflow
@@ -133,6 +134,8 @@ module RailsWorkflow
       @default_operation_types = {
         default:    { title: 'Default Operation',
                       class: 'RailsWorkflow::Operation' },
+        event:      { title: 'Event',
+                      class: 'RailsWorkflow::EventOperation' },
         user:       { title: 'User Operation',
                       class: 'RailsWorkflow::UserOperation' },
         user_role:  { title: 'Operation for User By Role',

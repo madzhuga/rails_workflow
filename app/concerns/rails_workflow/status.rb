@@ -28,6 +28,10 @@ module RailsWorkflow
           ['error', ERROR]
         ].assoc(status).last
       end
+
+      def uncompleted_statuses
+        [NOT_STARTED, IN_PROGRESS, WAITING]
+      end
     end
 
     included do
