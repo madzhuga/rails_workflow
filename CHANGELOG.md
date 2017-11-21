@@ -1,3 +1,5 @@
+## 0.7.0
+  * Events support
 ## 0.4.4
   * Process, operation and error context improvement (save context after operation saved)
 ## 0.4.3
