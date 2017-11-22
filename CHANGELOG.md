@@ -1,3 +1,5 @@
+## 0.7.1
+  * STI bug in events manager fix
 ## 0.7.0
   * Events support
 ## 0.4.4

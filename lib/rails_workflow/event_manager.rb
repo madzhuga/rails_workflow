@@ -42,7 +42,7 @@ module RailsWorkflow
     end
 
     def event_operations
-      EventOperation.where(tag: @tag, status: Status::WAITING).all
+      Operation.events.where(tag: @tag, status: Status::WAITING).all
     end
 
     # TODO: refactor all operation_builder, and other configuration methods
