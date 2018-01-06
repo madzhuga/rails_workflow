@@ -33,6 +33,9 @@ Engine has UI to configure process templates and manage existing processes.
 ### Documentation
 You can find tutorials and documentation [here](https://github.com/madzhuga/rails_workflow/wiki)
 
+### Help and support
+Please [contact me](mailto:maxim,madzhuga@gmail.com) if you have any questions or need any customization 
+
 ## Installation
 
 Add to your application's Gemfile:
@@ -68,6 +71,3 @@ RailsWorkflow.setup do |config|
   config.sql_dialect= 'mysql'
 end
 ```
-
-### Help and support
-Feel free to contact me if you have some questions or need some help.
