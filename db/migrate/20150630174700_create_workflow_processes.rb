@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateWorkflowProcesses < ActiveRecord::Migration
+class CreateWorkflowProcesses < ActiveRecord::Migration[4.2]
   def change
     create_tables
     create_columns

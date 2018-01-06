@@ -19,6 +19,7 @@ end
 
 group :test do
   gem 'devise'
+  gem 'rails-controller-testing'
 end
 
 group :test, :development do

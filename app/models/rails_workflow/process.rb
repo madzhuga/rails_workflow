@@ -47,7 +47,7 @@ module RailsWorkflow
     # Returns set or operation that not yet completed.
     # Operation complete in DONE, SKIPPED, CANCELED, etc many other statuses
     def uncompleted_operations
-      operations(true).reject(&:completed?)
+      operations.reject(&:completed?)
     end
 
     def can_start?

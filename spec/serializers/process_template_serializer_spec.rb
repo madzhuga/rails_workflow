@@ -12,9 +12,12 @@ module RailsWorkflow
         process_template.operations << parent_operation_template
         process_template.save
 
-        check = ProcessTemplateSerializer.new(process_template).as_json['process_template']
+        check = ProcessTemplateSerializer.new(process_template).as_json
         child_process_uuid = check[:operations].first[:child_process]
-        expect(check[:child_processes].map { |pt| pt[:uuid] }).to include(child_process_uuid)
+        expect(
+          check[:child_processes]
+            .map { |pt| pt[:uuid] }
+        ).to include(child_process_uuid)
       end
 
       it 'should not fail if no child processes' do
@@ -24,7 +27,7 @@ module RailsWorkflow
         process_template.operations << operation_template
         process_template.save
 
-        check = ProcessTemplateSerializer.new(process_template).as_json['process_template']
+        check = ProcessTemplateSerializer.new(process_template).as_json
         expect(check[:child_processes]).to be_blank
       end
     end

@@ -21,35 +21,33 @@ module RailsWorkflow
       skip('Add a hash of attributes invalid for your model')
     end
 
-    let(:valid_session) { {} }
-
     describe 'GET index' do
       it 'assigns all processes as @processes' do
-        process = Process.create! valid_attributes
-        get :index, {}, valid_session
+        process = RailsWorkflow::Process.create! valid_attributes
+        get :index
         expect(assigns(:processes)).to eq([process])
       end
     end
 
     describe 'GET show' do
       it 'assigns the requested process as @process' do
-        process = Process.create! valid_attributes
-        get :show, { id: process.to_param }, valid_session
+        process = RailsWorkflow::Process.create! valid_attributes
+        get :show, params: { id: process.to_param }
         expect(assigns(:process)).to eq(process)
       end
     end
 
     describe 'GET new' do
       it 'assigns a new process as @process' do
-        get :new, {}, valid_session, use_route: :workflow
+        get :new
         expect(assigns(:process)).to be_a_new(Process)
       end
     end
 
     describe 'GET edit' do
       it 'assigns the requested process as @process' do
-        process = Process.create! valid_attributes
-        get :edit, { id: process.to_param }, valid_session
+        process = RailsWorkflow::Process.create! valid_attributes
+        get :edit, params: { id: process.to_param }
         expect(assigns(:process)).to eq(process)
       end
     end
@@ -58,30 +56,30 @@ module RailsWorkflow
       describe 'with valid params' do
         it 'creates a new WfProcess' do
           expect do
-            post :create, { process: valid_attributes }, valid_session
+            post :create, params: { process: valid_attributes }
           end.to change(RailsWorkflow::Process, :count).by(1)
         end
 
         it 'assigns a newly created process as @process' do
-          post :create, { process: valid_attributes }, valid_session
+          post :create, params: { process: valid_attributes }
           expect(assigns(:process)).to be_a(Process)
           expect(assigns(:process)).to be_persisted
         end
 
         it 'redirects to the created process' do
-          post :create, { process: valid_attributes }, valid_session
+          post :create, params: { process: valid_attributes }
           expect(response).to redirect_to(Process.last)
         end
       end
 
       describe 'with invalid params' do
         it 'assigns a newly created but unsaved process as @process' do
-          post :create, { process: invalid_attributes }, valid_session
+          post :create, params: { process: invalid_attributes }
           expect(assigns(:process)).to be_a_new(Process)
         end
 
         it "re-renders the 'new' template" do
-          post :create, { process: invalid_attributes }, valid_session
+          post :create, params: { process: invalid_attributes }
           expect(response).to render_template('new')
         end
       end
@@ -95,20 +93,26 @@ module RailsWorkflow
 
         it 'updates the requested process' do
           process = Process.create! valid_attributes
-          put :update, { id: process.to_param, process: new_attributes }, valid_session
+          put :update, params: { id: process.to_param, process: new_attributes }
           process.reload
           skip('Add assertions for updated state')
         end
 
         it 'assigns the requested process as @process' do
           process = Process.create! valid_attributes
-          put :update, { id: process.to_param, process: valid_attributes }, valid_session
+          put :update, params: {
+            id: process.to_param,
+            process: valid_attributes
+          }
           expect(assigns(:process)).to eq(process)
         end
 
         it 'redirects to the process' do
           process = Process.create! valid_attributes
-          put :update, { id: process.to_param, process: valid_attributes }, valid_session
+          put :update, params: {
+            id: process.to_param,
+            process: valid_attributes
+          }
           expect(response).to redirect_to(processes_path)
         end
       end
@@ -116,13 +120,19 @@ module RailsWorkflow
       describe 'with invalid params' do
         it 'assigns the process as @process' do
           process = Process.create! valid_attributes
-          put :update, { id: process.to_param, process: invalid_attributes }, valid_session
+          put :update, params: {
+            id: process.to_param,
+            process: invalid_attributes
+          }
           expect(assigns(:process)).to eq(process)
         end
 
         it "re-renders the 'edit' template" do
           process = Process.create! valid_attributes
-          put :update, { id: process.to_param, process: invalid_attributes }, valid_session
+          put :update, params: {
+            id: process.to_param,
+            process: invalid_attributes
+          }
           expect(response).to render_template('edit')
         end
       end
