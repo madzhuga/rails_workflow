@@ -5,7 +5,6 @@ module RailsWorkflow
   # skip, postpone, cancel, complete operations.
   class OperationsController < ApplicationController
     layout 'rails_workflow/application'
-    respond_to :html
 
     before_action :set_operation,
                   only: %i[show edit pickup continue update destroy]
@@ -29,8 +28,6 @@ module RailsWorkflow
       @operations = OperationDecorator.decorate_collection(
         parent.try(:operations) || Operation.waiting.order(created_at: :desc)
       )
-
-      respond_with @operations
     end
 
     def update
