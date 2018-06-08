@@ -50,7 +50,7 @@ module RailsWorkflow
       return if subject.nil?
 
       subject.status = Status::ERROR
-      subject.save
+      subject.save!
       process_parent(subject.parent) if subject.parent.present?
     end
   end

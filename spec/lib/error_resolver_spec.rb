@@ -140,7 +140,7 @@ module RailsWorkflow
 
     context 'dependency resolver' do
       let(:operation) { process.operations.first }
-      let(:error) { process.workflow_errors.first }
+      let(:error) { RailsWorkflow::Error.first }
       let(:error_resolver) { described_class.new(error) }
 
       context 'when operation build fails' do

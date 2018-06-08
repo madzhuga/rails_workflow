@@ -25,7 +25,7 @@ module RailsWorkflow
 
     def fix_status(subject)
       subject.status = Status::IN_PROGRESS
-      subject.save
+      subject.save!
       fix_status(subject.parent) if subject.parent.present?
     end
 
