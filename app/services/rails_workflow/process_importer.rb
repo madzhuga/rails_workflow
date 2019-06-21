@@ -8,21 +8,25 @@ module RailsWorkflow
       @json = json
     end
 
+    def template_json
+      @json['process_template']
+    end
+
     def process
       process = ProcessTemplate
-                .where(uuid: @json['uuid']).first_or_create!
+                .where(uuid: template_json['uuid']).first_or_create!
 
-      @json['child_processes'] && @json['child_processes'].each do |child_process|
+      template_json['child_processes'] && template_json['child_processes'].each do |child_process|
         ProcessImporter.new('process_template' => child_process).process
       end
 
-      process.attributes = @json.except('operations', 'child_processes')
+      process.attributes = template_json.except('operations', 'child_processes')
       process.save
 
       operations = []
       ids_to_delete = process.operations.pluck(:id)
 
-      @json['operations'].each do |operation_json|
+      template_json['operations'].each do |operation_json|
         operation = process
                     .operations.where(uuid: operation_json['uuid']).first_or_create!
 
